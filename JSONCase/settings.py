@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'devson.apps.DevsonConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -70,14 +71,25 @@ TEMPLATES = [
 WSGI_APPLICATION = 'JSONCase.wsgi.application'
 
 
-# Database
+# Databases
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 
 DATABASES = {
+        #'ENGINE': 'django.db.backends.sqlite3',
+        #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    #'default': {
+    #    'ENGINE': 'django.db.backends.sqlite3',
+    #    'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    #},
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'devson',
+        'USER': 'postgres',
+        'PASSWORD': 'dans123',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
+    
 }
 
 
