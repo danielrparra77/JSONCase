@@ -3,8 +3,11 @@ from __future__ import unicode_literals
 from django.db import models
 
 class Proyecto(models.Model):
-    N_NombreProyecto = models.CharField(max_length=200)
+    K_NombreProyecto = models.CharField(max_length=200)
+    K_UsuarioCreo = models.CharField(max_length=200)
     V_FechaCreacion = models.DateTimeField('date published')
+    class Meta:
+        unique_together = (('K_NombreProyecto', 'K_UsuarioCreo'),)
 
 class TipoObjeto(models.Model):
     N_TipoObjeto = models.CharField(max_length=200)
