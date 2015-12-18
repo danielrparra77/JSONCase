@@ -8,6 +8,12 @@ from datetime import datetime
 def index(request):
     return render(request, 'devson/index.html')
 
+def registro(request):
+    return render(request, 'devson/registro.html')
+
+def desarrolladores(request):
+    return render(request, 'devson/desarrolladores.html')
+
 def cliente(request):
     """
         En esta vista ya se debe saber que cliente fue el que se conecto coonociendo su usuario

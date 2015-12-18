@@ -80,6 +80,7 @@ p, li
 section#registro
 {
     height: 380px;
+    text-align: center;
 }
 
 footer#page_footer
@@ -148,17 +149,17 @@ footer#page_footer
     padding-right: 70px;
 }
 
-/**.formu input:required:valid{
+.email:required:valid{
     background: #FFFFFF url(images/bb.png) no-repeat 90% center;
     box-shadow: 0 0 5px #5ED053;
     border-color: #20921F;
 }
 
-.formu input:required:invalid{
+.email:required:invalid{
     background: #FFFFFF url(images/bm.png) no-repeat 90% center;
     box-shadow: 0 0 5px #D45252;
     border-color: #B03535;
-}**/
+}
 
 .formu button{
     width: 220px;
@@ -189,4 +190,36 @@ button.submit:active{
     border: 1px solid #20911A;
     box-shadow: 0 0 10px 5px #000000 inset;
     -moz-box-shadow: 0 0 10px 5px #434343 inset;
+}
+
+.ocul{
+    background: #D45252;
+    border-radius: 5px;
+    color: #FFFFFF;
+    margin-left: 8px;
+    padding: 1px 6px;
+    z-index: 999;
+    position: absolute;
+    display: none;
+}
+
+.ocul:before{
+    content: "\25C0";
+    color: #D45252;
+    position: absolute;
+    top: 1px;
+    left: -1px;
+}
+
+.email:focus + .ocul{
+    display: inline;
+    
+}
+
+.email:required:valid + .ocul{
+    background: #28912F;
+}
+
+.email:required:invalid + .ocul:before{
+    color: #28921F;
 }

@@ -20,6 +20,8 @@ from . import views
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^cliente/$', views.cliente, name='cliente'),
+    url(r'^registro/$', views.registro, name='registro'),
+    url(r'^desarrolladores/$', views.desarrolladores, name='desarrolladores'),
     url(r'^(?P<usuario>[^/]+)/nuevoproyecto/$', views.nuevoproyecto, name='nuevoproyecto'),
 ]
 

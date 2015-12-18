@@ -17,18 +17,18 @@ and open the template in the editor.
     <body>
         <header id="page_header">
             <h1><img src="{% static 'devson/images/devson.png' %}" width="160" height="120">Bienvenido a la herramienta CASE DEVSON</h1>
-            <h2>Inicie la sesi&oacute;n aqu&iacute;</h2>
         </header>
         <div id="header">
             <ul class="nav">
-                <li><a href="#">Registro</a></li>
+                <li><a href="{% url 'devson:registro' %}">Registro</a></li>
                 <li><a href="#">Manual de usuario</a></li>
             </ul>  
             <ul class="nav2">
-                <li><a href="#">Acerca de los desarrolladores</a></li>
+                <li><a href="{% url 'devson:desarrolladores' %}">Acerca de los desarrolladores</a></li>
             </ul>
         </div>
         <section id="registro">
+            <h2>Inicie la sesi&oacute;n aqu&iacute;</h2>
             <form class="formu" action="{% url 'devson:cliente' %}" method="post">
                 {% csrf_token %}
                 <ul>

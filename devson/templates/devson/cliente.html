@@ -4,18 +4,38 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
+{% load staticfiles %}
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>DEVSON</title>
         <meta charset="windows-1252">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link type="image/x-icon" rel="shortcut icon" href="{% static 'devson/images/devsoni.ico' %}">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" type="text/css" href="{% static 'devson/css/style.css' %}" />	
     </head>
     <body>
-        Bienvenido a la herramienta CASE DEVSON
-        <form action="{% url 'devson:nuevoproyecto' usuario %}" method="post">
-            {% csrf_token %}
-            <input type="hidden" name="NombreProyecto" value="">
-            <input type="submit" value="Nuevo Proyecto" />
-        </form>
+        <header id="page_header">
+            <h1><img src="{% static 'devson/images/devson.png' %}" width="160" height="120">Bienvenido a la herramienta CASE DEVSON</h1>
+        </header>
+        <div id="header">
+            <ul class="nav2">
+                <li><a href="{% url 'devson:index' %}">Cerrar Sesi&oacute;n</a></li>
+            </ul>
+        </div>        
+        <section id="registro">
+            <form action="{% url 'devson:nuevoproyecto' usuario %}" method="post">
+                {% csrf_token %}
+                <ul>
+                    <li><input type="hidden" name="NombreProyecto" value=""></li>
+                    <li>
+                        <button class="submit" type="submit" value="Nuevo Proyecto">Nuevo Proyecto</button>
+                    </li>
+                </ul>
+            </form>
+        </section>
+        <footer id="page_footer">
+            <p>&copy; 2016 Derechos Reservados.</p>
+        </footer>
     </body>
 </html>
