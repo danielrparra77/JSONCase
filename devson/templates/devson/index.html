@@ -30,6 +30,7 @@ and open the template in the editor.
         </div>
         <section id="registro">
             <form class="formu" action="{% url 'devson:cliente' %}" method="post">
+                {% csrf_token %}
                 <ul>
                     <li>
                         <label>Nombre: </label><input type="text" placeholder="Ingrese su usuario" required>
