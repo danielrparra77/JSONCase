@@ -4,6 +4,7 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
+{% load staticfiles %}
 <html>
     <head>
         <title>TODO supply a title</title>
@@ -11,9 +12,15 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script  src="js/jquery-2.1.4.min.js"></script>
         <script  src="js/bootstrap.min.js"></script>
+        <script  src="js/formcontrol.js"></script>
     </head>
     <body>
         <canvas id="diseno" width="500" height="300" ></canvas>
-        <div>TODO write content</div>
+        <div>TODO write content</div> 
+        <div id="Botonesmapa">
+            <a onclick="insertarobject('Uporden')"><img alt="Up" id="Up" src="{% static 'devson/images/devson.png' %}"></a>
+            <a onclick="insertarobject('Rightorden')"><img alt="Right" id="Right" src="Images/Right.png"></a>                
+            <a onclick="insertarobject('Leftorden')"><img alt="Left" id="Left" src="Images/Left.png"></a>
+        </div>
     </body>
 </html>
