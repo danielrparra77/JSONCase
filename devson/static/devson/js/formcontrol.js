@@ -5,3 +5,6 @@
  */
 
 
+function insertarobject(x){
+    return '';
+}

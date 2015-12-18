@@ -10,17 +10,17 @@ and open the template in the editor.
         <title>TODO supply a title</title>
         <meta charset="windows-1252">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script  src="js/jquery-2.1.4.min.js"></script>
-        <script  src="js/bootstrap.min.js"></script>
-        <script  src="js/formcontrol.js"></script>
+        <script  src="{% static 'devson/js/jquery-2.1.4.min.js' %}"></script>
+        <script  src="{% static 'devson/js/bootstrap.min.js' %}"></script>
+        <script  src="{% static 'devson/js/formcontrol.js' %}"></script>
     </head>
     <body>
         <canvas id="diseno" width="500" height="300" ></canvas>
         <div>TODO write content</div> 
         <div id="Botonesmapa">
-            <a onclick="insertarobject('Uporden')"><img alt="Up" id="Up" src="{% static 'devson/images/devson.png' %}"></a>
-            <a onclick="insertarobject('Rightorden')"><img alt="Right" id="Right" src="Images/Right.png"></a>                
-            <a onclick="insertarobject('Leftorden')"><img alt="Left" id="Left" src="Images/Left.png"></a>
+            <a onclick="insertarobject('nodo')"><img alt="Nodo" id="Up" src="{% static 'devson/images/proyecto/nodo.png' %}"></a>
+            <a onclick="insertarobject('hoja')"><img alt="Hoja" id="Right" src="{% static 'devson/images/proyecto/hoja.png' %}"></a>                
+            <a onclick="insertarobject('relacion')"><img alt="Relacion" id="Right" src="{% static 'devson/images/proyecto/Relacion.png' %}"></a>
         </div>
     </body>
 </html>
