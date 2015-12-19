@@ -29,13 +29,16 @@ and open the template in the editor.
             <a onclick="insertarobject('Relacion')"><img alt="Relacion" src="{% static 'devson/images/proyecto/Relacion.png' %}"></a>
         </div>
         <div id="containment-wrapper">
+            <div id="draggable3" class="ui-widget-content">
+                <span class="nombrenodo">nuevonodo</span>
+            </div>
         </div>
         <script type="text/javascript">
         
         
         jsPlumb.ready(function() {
             jsPlumb.draggable($(".ui-widget-content"));
-
+            agregarpuntosdefinanodo("draggable3");
             jsPlumb.setContainer($("#containment-wrapper"));
             $('#containment-wrapper').click(function(e){
                 //falta revisar como obtener las coordenadas correctas del evento
@@ -48,8 +51,8 @@ and open the template in the editor.
 		  'top': e.pageY,
 		  'left': e.pageX
 		});
-                newDiv.appendTo("#containment-wrapper");
-                 jsPlumb.draggable($('#' + String("nodo"+idnodocreado)));
+                newDiv.draggable()
+                .appendTo("#containment-wrapper");
    //             newDiv.animate({ left: x+'px',top: y+'px' });
     //            newImg = $("<img>", {
     //                "class": "imagenFondo",
@@ -61,7 +64,20 @@ and open the template in the editor.
                     "class": "nombrenodo",
                 }).html('nuevonodo');
                 nombrenodo.appendTo(newDiv);
-                
+
+                jsPlumb.makeTarget(newState, {
+		  anchor: 'Continuous'
+		});
+		
+		jsPlumb.makeSource(connect, {
+		  parent: newState,
+		  anchor: 'Continuous'
+		});		
+		
+		jsPlumb.draggable(newState, {
+		  containment: 'parent'
+		});
+                    
                 agregarpuntosdefinanodo("nodo"+idnodocreado);
                 objetoseleccionado='';
                 idnodocreado=idnodocreado+1;
@@ -82,7 +98,7 @@ and open the template in the editor.
                     };
 
                     jsPlumb.addEndpoint(String(idnodo), { 
-                      anchor:"Top"
+                      anchor:"Right"
                     }, common);   
                     jsPlumb.draggable(String(idnodo), {
                         //x.draggable({
