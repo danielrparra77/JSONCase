@@ -5,22 +5,63 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 {% load staticfiles %}
+
+<!doctype html>
 <html>
     <head>
         <title>TODO supply a title</title>
         <meta charset="windows-1252">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script  src="{% static 'devson/js/jquery-2.1.4.min.js' %}"></script>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+        <link rel="stylesheet" href="{% static 'devson/css/styleproyecto.css' %}">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
         <script  src="{% static 'devson/js/bootstrap.min.js' %}"></script>
         <script  src="{% static 'devson/js/formcontrol.js' %}"></script>
+        <script  src="{% static 'devson/js/jquery.jsPlumb-1.6.4-min.js' %}"></script>
     </head>
     <body>
-        <canvas id="diseno" width="500" height="300" ></canvas>
-        <div>TODO write content</div> 
+        <div>Proyecto: nombre del proyecto</div>
         <div id="Botonesmapa">
-            <a onclick="insertarobject('nodo')"><img alt="Nodo" id="Up" src="{% static 'devson/images/proyecto/nodo.png' %}"></a>
-            <a onclick="insertarobject('hoja')"><img alt="Hoja" id="Right" src="{% static 'devson/images/proyecto/hoja.png' %}"></a>                
-            <a onclick="insertarobject('relacion')"><img alt="Relacion" id="Right" src="{% static 'devson/images/proyecto/Relacion.png' %}"></a>
+            <a onclick="insertarobject('Nodo')"><img alt="Nodo" src="{% static 'devson/images/proyecto/Nodo.png' %}"></a>
+            <a onclick="insertarobject('Hoja')"><img alt="Hoja" src="{% static 'devson/images/proyecto/Hoja.png' %}"></a>                
+            <a onclick="insertarobject('Relacion')"><img alt="Relacion" src="{% static 'devson/images/proyecto/Relacion.png' %}"></a>
         </div>
+        <div id="containment-wrapper">
+            <div id="draggable3" class="ui-widget-content">
+                <img class="imagenFondo" src="{% static 'devson/images/proyecto/Nodo.png' %}">
+                <span class="nombrenodo">nuevonodo</span>
+            </div>
+            <div id="draggable4" class="ui-widget-content">
+                <img class="imagenFondo" src="{% static 'devson/images/proyecto/Nodo.png' %}">
+                <span class="nombr  enodo">nuevonodo</span>
+            </div>
+        </div>
+        <script>
+        jsPlumb.draggable($(".ui-widget-content"));
+            
+            function agregarpuntosdefinanodo(idnodo){
+                jsPlumb.draggable($("#"+String(idnodo)));
+                jsPlumb.ready(function() { 
+                    jsPlumb.setContainer($("#containment-wrapper"));
+
+                    var common = {
+                      isSource:true,
+                      isTarget:true,
+                      connector:"Straight",
+                      endpoint:"Rectangle",
+                      paintStyle:{ fillStyle:"white", outlineColor:"blue", outlineWidth:1 },
+                      hoverPaintStyle:{ fillStyle:"lightblue" },
+                      connectorStyle:{ strokeStyle:"blue", lineWidth:1 },
+                      connectorHoverStyle:{ lineWidth:2 }
+                    };
+
+                    jsPlumb.addEndpoint(String(idnodo), { 
+                      anchor:"Right"
+                    }, common);
+                });   
+            }
+    </script> 
     </body>
 </html>
