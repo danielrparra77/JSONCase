@@ -1,0 +1,162 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="windows-1252">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+        <link type="image/x-icon" rel="shortcut icon" href="{% static 'devson/images/devsoni.ico' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'devson/css/estilo.css' %}"/>
+        <script src="{% static 'devson/js/jquery-2.1.4.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'devson/js/cambiarPestana.js' %}"></script>
+        <title>Propiedades</title>
+    </head>
+    <body onload="cambiarPestanna(pestanas, pestana1);">
+        <script type="text/javascript" src="jquery-2.1.4.min.js"></script>
+        <div class="contenedor">
+            <div id="pestanas">
+                <ul id=lista>
+                    <li id="pestana1"><a onclick='cambiarPestanna(pestanas, pestana1)'>Objeto Compuesto</a></li>
+                    <li id="pestana2"><a onclick='cambiarPestanna(pestanas, pestana2)'>Objeto Simple</a></li>
+                    <li id="pestana3"><a onclick='cambiarPestanna(pestanas, pestana3)'>Relaci&oacute;n</a></li>
+                    <li id="pestana4"><a onclick='cambiarPestanna(pestanas, pestana4)'>Texto</a></li>
+                </ul>
+            </div>
+            <div id="contenidopestanas">
+                <div id="cpestana1">
+                    <form class="formul" name='tipocompuesto' method="post">
+                        {% csrf_token %}
+                        <ul>
+                            <li>
+                                <label>Grosor L&iacute;nea: </label><select name="grosor" id="grosor" onclick="colorl()">
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </li>
+                            <li>
+                                <label>Color L&iacute;nea: </label><input id="colorli" type="color" onchange="colorl()">
+                            </li>
+                            <li>
+                                <label>Color: </label><input id="colorre" type="color" onchange="colorr()">
+                            </li>
+                            <li>
+                                <label id="ejem1"></label>
+                            </li>
+                            <li><button class="submit" type="submit" onclick="">Guardar Cambios</button></li>
+                        </ul>
+                    </form>
+                </div>
+                <div id="cpestana2">
+                    <form class="formul" name='tiposimple' method="post">
+                        {% csrf_token %}
+                        <ul>
+                            <li>
+                                <label>Grosor L&iacute;nea: </label><select name="grosors" id="grosors" onclick="colorls()">
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </li>
+                            <li>
+                                <label>Color L&iacute;nea: </label><input id="colorlis" type="color" onchange="colorls()">
+                            </li>
+                            <li>
+                                <label>Color: </label><input id="colorres" type="color" onchange="colorrs()">
+                            </li>
+                            <li>
+                                <label id="ejem2"></label>
+                            </li>
+                            <li><button class="submit" type="submit" onclick="">Guardar Cambios</button></li>
+                        </ul>
+                    </form>
+                </div>
+                <div id="cpestana3">
+                    <form class="formul" name='tipolinea' method="post">
+                        {% csrf_token %}
+                        <ul>
+                            <li>
+                                <label>Grosor L&iacute;nea: </label><select name="grosorl" id="grosorl" onclick="colorll()">
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </li>
+                            <li>
+                                <label>Color L&iacute;nea: </label><input id="colorlil" type="color" onchange="colorll()">
+                            </li>
+                            <li>
+                                <label id="ejem3"></label>
+                            </li>
+                            <li><button class="submit" type="submit" onclick="">Guardar Cambios</button></li>
+                        </ul>
+                    </form>
+                </div>
+                <div id="cpestana4">
+                    <form class="formul" name='tipoTexto' method="post">
+                        {% csrf_token %}
+                        <ul>
+                            <li>
+                                <label>Fuente: </label><select name="fuente" id="fuente" onclick="letra()">
+                                    <option value="arial">Arial</option>
+                                    <option value="times new roman">Times New Roman</option>
+                                    <option value="comic sans ms">Comic Sans MS</option>
+                                    <option value="courier new">Courier New</option>
+                                    <option value="verdana">Verdana</option>
+                                    <option value="garamond">Garamond</option>
+                                </select>
+                            </li>
+                            <li>
+                                <label>Tama�o: </label><select name="tamano" id="tamano" onclick="tamanol()">
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                    <option value="13">|3</option>
+                                    <option value="14">14</option>
+                                    <option value="15">15</option>
+                                    <option value="16">16</option>
+                                    <option value="17">17</option>
+                                    <option value="18">18</option>
+                                    <option value="19">19</option>
+                                    <option value="20">20</option>
+                                </select>
+                            </li>
+                            <li>
+                                <label>Color: </label><input id="colort" type="color" onchange="color()">
+                            </li>
+                            <li>
+                                <h3 id="texto">Ejemplo</h3>
+                            </li>
+                            <li><button class="submit" type="submit" onclick="">Guardar Cambios</button></li>
+                        </ul>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

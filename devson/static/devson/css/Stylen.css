@@ -1,0 +1,106 @@
+body
+{
+    width: auto;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 0px;
+    margin: 30px auto;
+}
+
+p
+{
+    margin:0 0 20px 0;
+}
+
+p, li
+{
+    line-height:20px;
+}
+
+.formu{
+    margin: auto;
+    width: 455px;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.inputImagen{
+    width: 220px;
+    margin-top: 3px;
+    display: inline-block;
+    padding: 5px 8px;
+    border: 1px solid #434343;
+    box-shadow: 0 0 3px #EEE, 0 10px 15px #EEE inset;
+    border-radius: 2px;
+    -moz-transition: padding .25s;
+    -webkit-transition: padding .25;
+    -o-transition: padding .25;
+}
+
+.inputImagen:focus{
+    background: #FFFFFF;
+    border: 1px solid #555;
+    box-shadow: 0 0 3px #EEE;
+    padding-right: 70px;
+}
+
+button{
+    width: 220px;
+    display: inline-block;
+    padding: 5px 8px;
+    height: 30px;
+}
+
+button.submit{
+    background: #000000;
+    border: 1px solid #509111;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    box-shadow: inset 0 1px 0 0 #434343;
+    color: white;
+    padding: 6px 20px;
+    text-align: center;
+    text-shadow: 0 -1px 0 #396715;
+}
+
+button.submit:hover{
+    opacity: .85;
+    cursor: pointer;
+}
+
+button.submit:active{
+    border: 1px solid #20911A;
+    box-shadow: 0 0 10px 5px #000000 inset;
+    -moz-box-shadow: 0 0 10px 5px #434343 inset;
+}
+
+
+label{
+    display: inline-block;
+    padding: 5px 8px;
+    height: 30px;
+}
+
+.botonInputFileModificado {
+    width: 220px;
+    height: 30px;
+    margin-left: 115px;
+    background: #000000;
+    border: 1px solid #509111;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    box-shadow: inset 0 1px 0 0 #434343;
+    color: white;
+    text-align: center;
+    text-shadow: 0 -1px 0 #396715;
+}
+
+.botonInputFileModificado:hover {   
+    opacity: .85;
+    cursor: pointer;
+}
+
+.inputImagenOculto {
+    opacity: 0;
+    position: absolute;
+    margin-left: -125px;
+}

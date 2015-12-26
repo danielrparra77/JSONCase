@@ -1,0 +1,182 @@
+body
+{
+    width: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 0px;
+    margin: 10px;
+}
+
+.contenedor{
+    width: 650px;
+    margin: auto;
+    background: #FFFFFF;
+    color: #FFFFFF;
+    padding: 20px 15px 50px 50px;
+    border-radius: 10px;
+}
+
+.contenedor .titulo{
+    font-size: 3ex;
+    font-weight: bold;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+#pestanas {
+    float: top;
+    font-size: 2.5ex;
+}
+
+#pestanas ul{
+    margin-left: -40px;    
+}
+
+#pestanas li{
+    list-style-type: none;
+    float: left;
+    text-align: center;
+    margin: 0px 2px -2px -0px;
+    background: #000000;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border: 2px solid #FFFFFF;
+    border-bottom: #434343;
+    padding: 0px 20px 0px 20px;
+}
+
+#pestanas a:link{
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+#contenidopestanas{
+    clear: both;  
+    background: #FFFFFF;
+    padding: 20px 20px 20px 20px;
+    border-radius: 5px;
+    border-top-left-radius: 0px;
+    border: 2px solid #000000;
+    width: 575px;
+    color: #000000;
+}
+
+.formul{
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.formul ul{
+    list-style: none;
+    padding: 0;
+}
+
+.formul li{
+    padding: 20px;
+    position: relative;
+}
+
+.formul li:first-child, .formul li:last-child{
+    border-bottom: 1px solid #FFFFFF;
+}
+
+.formul label{
+    width: 150px;
+    margin-top: 3px;
+    display: inline-block;
+    padding: 5px 8px;
+    text-align: left;
+}
+
+.formul input{
+    width: 220px;
+    margin-top: 3px;
+    display: inline-block;
+    padding: 5px 8px;
+    border: 1px solid #434343;
+    box-shadow: 0 0 3px #EEE, 0 10px 15px #EEE inset;
+    border-radius: 2px;
+    -moz-transition: padding .25s;
+    -webkit-transition: padding .25;
+    -o-transition: padding .25;
+}
+
+.formul input:focus{
+    background: #FFFFFF;
+    border: 1px solid #555;
+    box-shadow: 0 0 3px #EEE;
+    padding-right: 70px;
+}
+
+.formul button{
+    width: 220px;
+    display: inline-block;
+    padding: 5px 8px;
+    height: 30px;
+}
+
+button.submit{
+    background: #000000;
+    border: 1px solid #509111;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    box-shadow: inset 0 1px 0 0 #434343;
+    color: white;
+    padding: 6px 20px;
+    text-align: center;
+    text-shadow: 0 -1px 0 #396715;
+}
+
+button.submit:hover{
+    opacity: .85;
+    cursor: pointer;
+}
+
+.formul select{
+    width: 220px;
+    margin-top: 3px;
+    display: inline-block;
+    padding: 5px 8px;
+    border: 1px solid #434343;
+    box-shadow: 0 0 3px #EEE, 0 10px 15px #EEE inset;
+    border-radius: 2px;
+    -moz-transition: padding .25s;
+    -webkit-transition: padding .25;
+    -o-transition: padding .25;
+    text-align: center;
+}
+
+.formul select option{
+    text-align: center;
+}
+
+.formul select:focus{
+    background: #FFFFFF;
+    border: 1px solid #555;
+    box-shadow: 0 0 3px #EEE;
+    padding-right: 70px;
+}
+
+#ejem1{
+    width: 50px;
+    height: 50px;
+    background: #000000;
+    padding: 5px;
+    margin: 5px;
+}
+
+#ejem2{
+    width: 50px;
+    height: 50px;
+    background: #000000;
+    padding: 5px;
+    margin: 5px;
+}
+
+#ejem3{
+    width: 50px;
+    height: 1px;
+    background: #000000;
+    padding: 5px;
+    margin: 5px;
+    align-items: center;
+}

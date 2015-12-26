@@ -1,0 +1,29 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Guardar Proyecto</title>
+        <meta charset="windows-1252">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+        <link type="image/x-icon" rel="shortcut icon" href="{% static 'devson/images/devsoni.ico' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'devson/css/style.css' %}"/>
+        <link rel="stylesheet" type="text/css" href="{% static 'devson/css/stylen.css' %}"/>
+        <script  type=text/javascript src="{% static 'devson/js/nventana.js' %}"></script>
+    </head>
+    <body>
+        <form class="formu" method="POST">
+            {% csrf_token %}
+            <div>
+                <p align="center"><b>Guardar en la base de datos</b></p> 
+                <button class="submit">Guardar en BD</button>
+            </div>
+            <hr>
+            <div>
+                <p align="center"><b>Guardar en el equipo</b></p>
+                <button class="submit">Guardar en PC</button>       
+            </div>
+        </form>
+    </body>
+</html>

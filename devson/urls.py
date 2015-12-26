@@ -23,5 +23,8 @@ urlpatterns = [
     url(r'^registro/$', views.registro, name='registro'),
     url(r'^desarrolladores/$', views.desarrolladores, name='desarrolladores'),
     url(r'^(?P<usuario>[^/]+)/nuevoproyecto/$', views.nuevoproyecto, name='nuevoproyecto'),
+    url(r'^abrir/$', views.abrir, name='abrir'),
+    url(r'^guardar/$', views.guardar, name='guardar'),
+    url(r'^propiedades/$', views.propiedades, name='propiedades'),
 ]
 

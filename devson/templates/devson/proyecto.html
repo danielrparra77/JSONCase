@@ -1,93 +1,168 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 {% load staticfiles %}
-
-<!doctype html>
+<!DOCTYPE html>
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>DEVSON</title>
         <meta charset="windows-1252">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link type="image/x-icon" rel="shortcut icon" href="{% static 'devson/images/devsoni.ico' %}">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" type="text/css" href="{% static 'devson/css/styleproyecto.css' %}" />	
         <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-        <link rel="stylesheet" href="{% static 'devson/css/styleproyecto.css' %}">
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
         <script  src="{% static 'devson/js/bootstrap.min.js' %}"></script>
         <script  src="{% static 'devson/js/formcontrol.js' %}"></script>
         <script  src="{% static 'devson/js/jquery.jsPlumb-1.6.4-min.js' %}"></script>
+        <script  src="{% static 'devson/js/jquery-2.1.4.min.js' %}"></script>
+        <script  src="{% static 'devson/js/jquery-scrollto.js' %}"></script>
+        <script  src="{% static 'devson/js/jsPlumb-2.0.5.js' %}"></script>
+        <script  src="{% static 'devson/js/jsPlumb-2.0.5-min.js' %}"></script>
+        <script  src="{% static 'devson/js/nventana.js' %}"></script>
+        <link rel="stylesheet" type="text/css" href="{% static 'devson/css/style.css' %}" />
+        <link rel="stylesheet" type="text/css" href="{% static 'devson/css/style2.css' %}" />
     </head>
     <body>
-        <div>Proyecto: nombre del proyecto</div>
-        <div id="Botonesmapa">
-            <a onclick="insertarobject('Nodo')"><img alt="Nodo" src="{% static 'devson/images/proyecto/Nodo.png' %}"></a>
-            <a onclick="insertarobject('Hoja')"><img alt="Hoja" src="{% static 'devson/images/proyecto/Hoja.png' %}"></a>                
-            <a onclick="insertarobject('Relacion')"><img alt="Relacion" src="{% static 'devson/images/proyecto/Relacion.png' %}"></a>
+        <header id="page_header">
+            <h1><img src="{% static 'devson/images/devson.png' %}" width="80" height="40">Bienvenido a la herramienta CASE DEVSON</h1>
+        </header>
+        <div id="header1">
+            <ul class="nav">
+                <li>
+                    <a href="#">Archivo</a>
+                    <ul>
+                        <li><a href="#">Nuevo</a></li>
+                        <li><a onclick="abrirventana('{% url 'devson:abrir' %}')">Abrir</a></li>
+                        <li><a onclick="abrirventanag('{% url 'devson:guardar' %}')">Guardar</a></li>
+                        <li><a href="#">Exportar como</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">Edici&oacute;n</a>
+                    <ul>
+                        <li><a href="#">Deshacer</a></li>
+                        <li><a href="#">Rehacer</a></li>
+                        <li><a href="#">Cortar</a></li>
+                        <li><a href="#">Copiar</a></li>
+                        <li><a href="#">Pegar</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">Formato</a>
+                    <ul>
+                        <li><a onclick="abrirventanap('{% url 'devson:propiedades' %}')">Objeto simple</a></li>
+                        <li><a onclick="abrirventanap('{% url 'devson:propiedades' %}')">Objeto compuesto</a></li>
+                        <li><a onclick="abrirventanap('{% url 'devson:propiedades' %}')">Relaci&oacute;n</a></li>
+                        <li><a onclick="abrirventanap('{% url 'devson:propiedades' %}')">Texto</a></li>
+                    </ul>                
+                </li>
+                <li>
+                    <a href="#">Datos</a>
+                    <ul>
+                        <li><a href="#">Objeto simple</a></li>
+                        <li><a href="#">Objeto compuesto</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">Ayuda</a>
+                    <ul>
+                        <li><a href="#">Manual de usuario</a></li>
+                    </ul>
+                </li>
+            </ul>  
+            <ul class="nav2">
+                <li><a href="{% url 'devson:index' %}">Cerrar Sesi&oacute;n</a></li>
+            </ul>
         </div>
-        <div id="containment-wrapper">
-        </div>
+        <br>
+        <section id="proyec">
+            <div><p align="center"><b>Proyeto: </b>Nombre de proyecto</p></div> 
+            <hr>
+        </section>
+        <section id="canvas">
+            <div id="containment-wrapper"></div>   
+        </section>
+        <section id="paleta">
+            <p align=center><b>Elementos</b></p>
+            <hr>
+            <div id="header3">
+                <ul class="nav3">
+                    <li>
+                        <a onclick="insertarobject('Nodo')">
+                            <img src="{% static 'devson/images/proyecto/Nodo.png' %}">
+                        </a>
+                        <ul>
+                            <li>Insertar un objeto compuesto</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a onclick="insertarobject('Hoja')">
+                            <img src="{% static 'devson/images/proyecto/Hoja.png' %}">
+                        </a>
+                        <ul>
+                            <li>Insertar un objeto simple</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </section>
+        <footer id="page_footer">
+            <p>&copy; 2016 Derechos Reservados.</p>
+        </footer>
         <script type="text/javascript">
-        
-        
-        jsPlumb.ready(function() {
-            jsPlumb.draggable($(".ui-widget-content"));
+            jsPlumb.ready(function () {
+                jsPlumb.draggable($(".ui-widget-content"));
 
-            jsPlumb.setContainer($("#containment-wrapper"));
-            $('#containment-wrapper').click(function(e){
-                //falta revisar como obtener las coordenadas correctas del evento
-                if (String(objetoseleccionado)=='Nodo' || String(objetoseleccionado)=='Hoja'){
-                newDiv = $("<div/>", {
-                    "class": "ui-widget-content",
-                     "id": String("nodo"+idnodocreado),
+                jsPlumb.setContainer($("#containment-wrapper"));
+                $('#containment-wrapper').click(function (e) {
+                    //falta revisar como obtener las coordenadas correctas del evento
+                    if (String(objetoseleccionado) == 'Nodo' || String(objetoseleccionado) == 'Hoja') {
+                        newDiv = $("<div/>", {
+                            "class": "ui-widget-content",
+                            "id": String("nodo" + idnodocreado),
+                        });
+                        newDiv.css({
+                            'top': e.pageY,
+                            'left': e.pageX
+                        });
+                        newDiv.appendTo("#containment-wrapper");
+                        jsPlumb.draggable($('#' + String("nodo" + idnodocreado)));
+                        //             newDiv.animate({ left: x+'px',top: y+'px' });
+                        //            newImg = $("<img>", {
+                        //                "class": "imagenFondo",
+                        //                "src": "{% static 'devson/images/proyecto/"+String(objetoseleccionado)+".png' %}",
+                        //            });
+                        //            newImg.appendTo(newDiv);
+                        nombrenodo = $("<span>", {
+                            "class": "nombrenodo",
+                        }).html('nuevonodo');
+                        nombrenodo.appendTo(newDiv);
+
+                        agregarpuntosdefinanodo("nodo" + idnodocreado);
+                        objetoseleccionado = '';
+                        idnodocreado = idnodocreado + 1;
+                    }
                 });
-                newDiv.css({
-		  'top': e.pageY,
-		  'left': e.pageX
-		});
-                newDiv.appendTo("#containment-wrapper");
-                 jsPlumb.draggable($('#' + String("nodo"+idnodocreado)));
-   //             newDiv.animate({ left: x+'px',top: y+'px' });
-    //            newImg = $("<img>", {
-    //                "class": "imagenFondo",
-    //                "src": "{% static 'devson/images/proyecto/"+String(objetoseleccionado)+".png' %}",
-    //            });
-    //            newImg.appendTo(newDiv);
 
-                nombrenodo = $("<span>", {
-                    "class": "nombrenodo",
-                }).html('nuevonodo');
-                nombrenodo.appendTo(newDiv);
-                
-                agregarpuntosdefinanodo("nodo"+idnodocreado);
-                objetoseleccionado='';
-                idnodocreado=idnodocreado+1;
-            }
-        });
-            
-            function agregarpuntosdefinanodo(idnodo){
-
+                function agregarpuntosdefinanodo(idnodo) {
                     var common = {
-                      isSource:true,
-                      isTarget:true,
-                      connector:"Straight",
-                      endpoint:"Rectangle",
-                      paintStyle:{ fillStyle:"white", outlineColor:"blue", outlineWidth:1 },
-                      hoverPaintStyle:{ fillStyle:"lightblue" },
-                      connectorStyle:{ strokeStyle:"blue", lineWidth:1 },
-                      connectorHoverStyle:{ lineWidth:2 }
+                        isSource: true,
+                        isTarget: true,
+                        connector: "Straight",
+                        endpoint: "Rectangle",
+                        paintStyle: {fillStyle: "white", outlineColor: "blue", outlineWidth: 1},
+                        hoverPaintStyle: {fillStyle: "lightblue"},
+                        connectorStyle: {strokeStyle: "blue", lineWidth: 1},
+                        connectorHoverStyle: {lineWidth: 2}
                     };
-
-                    jsPlumb.addEndpoint(String(idnodo), { 
-                      anchor:"Top"
-                    }, common);   
+                    jsPlumb.addEndpoint(String(idnodo), {
+                        anchor: "Top"
+                    }, common);
                     jsPlumb.draggable(String(idnodo), {
                         //x.draggable({
                         containment: '#containment-wrapper',
-                        drop: function (event, ui) {	
+                        drop: function (event, ui) {
                             jsPlumb.repaintEverything();
                         },
                         drag: function (e, ui) {
@@ -95,8 +170,8 @@ and open the template in the editor.
                         }
                     });
                     //jsPlumb.draggable($("#"+String(idnodo)));
-            }
-        });
-    </script> 
+                }
+            });
+        </script>
     </body>
 </html>

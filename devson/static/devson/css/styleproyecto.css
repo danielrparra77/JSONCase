@@ -19,8 +19,8 @@ and open the template in the editor.
     background-color:graytext;
 }
 #containment-wrapper {
-    width: 95%;
-    height:350px;
+    width: 97%;
+    height: 451px;
     border:2px solid #ccc;
     padding: 10px;
     overflow: scroll;

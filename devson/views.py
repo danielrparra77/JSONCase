@@ -14,6 +14,15 @@ def registro(request):
 def desarrolladores(request):
     return render(request, 'devson/desarrolladores.html')
 
+def abrir(request):
+    return render(request, 'devson/abrir.html')
+
+def guardar(request):
+    return render(request, 'devson/guardar.html')
+
+def propiedades(request):
+    return render(request, 'devson/propiedades.html')
+
 def cliente(request):
     """
         En esta vista ya se debe saber que cliente fue el que se conecto coonociendo su usuario

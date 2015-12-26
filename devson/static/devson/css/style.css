@@ -1,3 +1,58 @@
+body
+{
+    width: auto;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 0px;
+    margin: 30px auto;
+}
+
+.al 
+{
+    width: auto;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 0px;
+    margin: 35px auto;
+}
+
+p
+{
+    margin:0 0 20px 0;
+}
+
+p, li
+{
+    line-height:20px;
+}
+
+ul, ol{
+    list-style: none;
+}
+
+#header1{
+    margin: auto;
+    width: 100%;
+    height: 40px;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #000000;
+    z-index: 1;
+}
+
+#header2{
+    margin: auto;
+    width: 100%;
+    height: 40px;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #000000;
+}
+
+#header3{
+    margin: auto;
+    width: 100%;
+    height: 60px;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #FFFFFF;
+}
+
 #header{
     margin: auto;
     width: 860px;
@@ -6,11 +61,81 @@
     background-color: #000000;
 }
 
-ul, ol{
-    list-style: none;
+.nav{
+    display: block;
+    width: auto;
+    background: #000000;
+    position: relative;     
 }
 
 .nav li a{
+    background-color: #000000;
+    color: #FFFFFF;
+    text-decoration: none;
+    line-height: 20px;
+    padding: 10px 15px;
+    display: block;
+    position: relative;
+    text-align: center;
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -ms-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
+}
+
+.nav li a{
+    background-color: #000000;
+    color: #FFFFFF;
+    text-decoration: none;
+    padding: 10px 15px;
+    display: inline-block;
+}
+
+.nav li a:hover{
+    background-color: #434343;
+}
+
+.nav > li{
+    float: left;
+}
+
+.nav > li{
+    display: table-cell;
+    float: left;
+}
+
+.nav li ul{
+    display: none;
+    position: absolute;
+    min-width: 140px;
+    background: #000000;
+    /**left: 0;**/
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -ms-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;     
+}
+
+.nav li:hover > ul{
+    display: inline-block;
+    position: absolute;
+    min-width: 140px;
+}
+
+.nav li ul li{
+    position: relative;
+    min-width: 140px;
+}
+
+.nav li ul li ul{
+    right: -140px;
+    top: 0px;
+    min-width: 140px;
+}
+
+.nav2 li a{
     background-color: #000000;
     color: #FFFFFF;
     text-decoration: none;
@@ -22,8 +147,16 @@ ul, ol{
     background-color: #000000;
     color: #FFFFFF;
     text-decoration: none;
+    line-height: 20px;
     padding: 10px 15px;
-    display: inline-block;
+    display: block;
+    position: relative;
+    text-align: center;
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -ms-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
 }
 
 .nav2 > li{
@@ -34,53 +167,64 @@ ul, ol{
     background-color: #434343;
 }
 
-.nav li a:hover{
-    background-color: #434343;
+.nav3{
+    display: block;
+    width: auto;
+    background: #FFFFFF;
+    position: relative;     
 }
 
-.nav > li{
+.nav3 li a{
+    background-color: #FFFFFF;
+    color: #000000;
+    text-decoration: none;
+    padding: 2px 5px;
+    display: block;
+    position: relative;
+    text-align: center;
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -ms-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
+}
+
+.nav3 li a:hover{
+    background-color: #FFFFFF;
+}
+
+.nav3 > li{
+    display: table-cell;
     float: left;
 }
 
-.nav li ul{
+.nav3 li ul{
     display: none;
+    position: absolute;
+    background: #FFFFFF;
+    left: 0;
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -ms-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease; 
+}
+
+.nav3 li:hover > ul{
+    display: inline-block;
     position: absolute;
     min-width: 140px;
 }
 
-.nav li:hover > ul{
-    display: inline-block;
-}
-
-.nav li ul li{
+.nav3 li ul li{
     position: relative;
+    min-width: 140px;
 }
 
-.nav li ul li ul{
+.nav3 li ul li ul{
     right: -140px;
     top: 0px;
-}
-
-body
-{
-    width: auto;
-    font-family: Arial, Helvetica, sans-serif;
-    padding: 0px;
-    margin: 30px auto;
-}
-
-p
-{
-    margin:0 0 20px 0;
-}
-p, li
-{
-    line-height:20px;
-}
-section#registro
-{
-    height: 380px;
-    text-align: center;
+    min-width: 140px;
 }
 
 footer#page_footer
@@ -95,6 +239,85 @@ footer#page_footer
     clear: both;
     width: auto;
     display: block;
+    text-align: center;
+}
+
+footer#page_footer
+{
+    clear: both;
+    width: 100%;
+    display: block;
+    text-align: center;
+}
+
+footer#page_footer nav ul li
+{
+    margin: 0 20px 0 0;
+    padding: 4px; 
+    background: #FF9999;    
+}
+
+#page_header nav a
+{
+    padding: 4px;
+    background: #FF9999;
+}
+
+header#page_header nav ul, #page_footer nav ul
+{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#page_header nav ul li
+{
+    margin: 0 20px 0 0;
+    display: inline-block;
+}
+
+#page_header nav ul li
+{
+    list-style: none;
+    background-color: #000000;
+    color: #FFFFFF;
+    width: 500px;
+    text-decoration: none;
+    padding: 10px 15px;
+    display: block;
+}
+
+#page_header nav > li{
+    float: left;
+}
+
+section#canvas
+{
+    float: left;
+    width: 59%;
+    height: 475px;
+    border: 1px solid #000000;
+}
+
+section#paleta
+{
+    float: left;
+    width: 20%;
+    height: 475px;
+    border: 1px solid #000000;
+}
+
+section#proyec
+{
+    float: left;
+    width: 20%;
+    height: 475px;
+    border: 1px solid #000000;
+}
+
+section#registro
+{
+    height: 380px;
     text-align: center;
 }
 
@@ -121,12 +344,20 @@ footer#page_footer
     border-bottom: 1px solid #FFFFFF;
 }
 
-.formu label{
+.lab{
     width: 150px;
     margin-top: 3px;
     display: inline-block;
     padding: 5px 8px;
     text-align: left;
+}
+
+.boton label{
+    width: 150px;
+    margin-top: 3px;
+    display: inline-block;
+    padding: 5px 8px;
+    text-align: center;
 }
 
 .formu input{
@@ -213,7 +444,7 @@ button.submit:active{
 
 .email:focus + .ocul{
     display: inline;
-    
+
 }
 
 .email:required:valid + .ocul{
