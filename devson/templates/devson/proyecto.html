@@ -126,22 +126,26 @@
                     connectorHoverStyle: {lineWidth: 2}
                 };
         jsPlumb.ready(function () {
-                jsPlumb.draggable($(".ui-widget-content"));
-
+                //jsPlumb.draggable($(".ui-widget-content"), {containment:"parent"});
+                //$('.ui-widget-content').draggable({
+                //    containment: 'parent'
+                //});
                 jsPlumb.setContainer($("#containment-wrapper"));
                 $('#containment-wrapper').click(function (e) {
                     //falta revisar como obtener las coordenadas correctas del evento
                     if (String(objetoseleccionado) == 'Nodo' || String(objetoseleccionado) == 'Hoja') {
+                        var x = e.pageX-$(this).position().left;
+                        var y = e.pageY-$(this).position().top
                         newDiv = $("<div/>", {
                             "class": "ui-widget-content",
                             "id": String("nodo" + idnodocreado),
                         });
                         newDiv.css({
-                            'top': e.pageY,
-                            'left': e.pageX
+                            'top': y,
+                            'left': x
                         });
                         newDiv.appendTo("#containment-wrapper");
-                        jsPlumb.draggable($('#' + String("nodo" + idnodocreado)));
+                        jsPlumb.draggable($('#' + String("nodo" + idnodocreado)), {containment:"#containment-wrapper"});
                         //             newDiv.animate({ left: x+'px',top: y+'px' });
                         //            newImg = $("<img>", {
                         //                "class": "imagenFondo",
@@ -170,7 +174,7 @@
                             nombrenodo.appendTo(newDiv);
                             agregarpuntosdefinanodo(("nodo" + idnodocreado),false);
                         }
-                        agregarnodo(("nodo" + idnodocreado),e.pageY,e.pageX);
+                        agregarnodo(("nodo" + idnodocreado),y,x);
                         objetoseleccionado = '';
                         idnodocreado = idnodocreado + 1;
                     }
