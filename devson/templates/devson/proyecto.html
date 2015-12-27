@@ -135,7 +135,7 @@
                     //falta revisar como obtener las coordenadas correctas del evento
                     if (String(objetoseleccionado) == 'Nodo' || String(objetoseleccionado) == 'Hoja') {
                         var x = e.pageX-$(this).position().left;
-                        var y = e.pageY-$(this).position().top
+                        var y = e.pageY-$(this).position().top;
                         newDiv = $("<div/>", {
                             "class": "ui-widget-content",
                             "id": String("nodo" + idnodocreado),
