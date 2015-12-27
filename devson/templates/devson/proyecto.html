@@ -12,14 +12,15 @@
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-        <script  src="{% static 'devson/js/bootstrap.min.js' %}"></script>
-        <script  src="{% static 'devson/js/formcontrol.js' %}"></script>
-        <script  src="{% static 'devson/js/jquery.jsPlumb-1.6.4-min.js' %}"></script>
-        <script  src="{% static 'devson/js/jquery-2.1.4.min.js' %}"></script>
-        <script  src="{% static 'devson/js/jquery-scrollto.js' %}"></script>
-        <script  src="{% static 'devson/js/jsPlumb-2.0.5.js' %}"></script>
-        <script  src="{% static 'devson/js/jsPlumb-2.0.5-min.js' %}"></script>
-        <script  src="{% static 'devson/js/nventana.js' %}"></script>
+        {% block js %}
+            <script  src="{% static 'devson/js/bootstrap.min.js' %}"></script>
+            <script  src="{% static 'devson/js/formcontrol.js' %}"></script>
+            <script  src="{% static 'devson/js/jquery.jsPlumb-1.6.4-min.js' %}"></script>
+            <script  src="{% static 'devson/js/jquery-scrollto.js' %}"></script>
+            <script  src="{% static 'devson/js/jsPlumb-2.0.5.js' %}"></script>
+            <script  src="{% static 'devson/js/jsPlumb-2.0.5-min.js' %}"></script>
+            <script  src="{% static 'devson/js/nventana.js' %}"></script>
+        {% endblock %}
         <link rel="stylesheet" type="text/css" href="{% static 'devson/css/style.css' %}" />
         <link rel="stylesheet" type="text/css" href="{% static 'devson/css/style2.css' %}" />
     </head>
@@ -111,7 +112,20 @@
             <p>&copy; 2016 Derechos Reservados.</p>
         </footer>
         <script type="text/javascript">
-            jsPlumb.ready(function () {
+        var common = {
+                    isSource: false,
+                    isTarget: false,
+                    connector: "Straight",
+                    endpoint: "Rectangle",
+                    paintStyle: {fillStyle: "white", outlineColor: "blue", outlineWidth: 1},
+                    hoverPaintStyle: {fillStyle: "lightblue"},
+                    connectorStyle: {strokeStyle: "blue", lineWidth: 1},
+                    connectorOverlays:[ 
+                        ["Arrow" , { width:12, length:12}]
+                    ],
+                    connectorHoverStyle: {lineWidth: 2}
+                };
+        jsPlumb.ready(function () {
                 jsPlumb.draggable($(".ui-widget-content"));
 
                 jsPlumb.setContainer($("#containment-wrapper"));
@@ -134,31 +148,69 @@
                         //                "src": "{% static 'devson/images/proyecto/"+String(objetoseleccionado)+".png' %}",
                         //            });
                         //            newImg.appendTo(newDiv);
-                        nombrenodo = $("<span>", {
-                            "class": "nombrenodo",
-                        }).html('nuevonodo');
-                        nombrenodo.appendTo(newDiv);
-
-                        agregarpuntosdefinanodo("nodo" + idnodocreado);
+                        if (String(objetoseleccionado) == 'Nodo'){
+                            nombrenodo = $("<span>", {
+                                "class": "nombrenodo",
+                            }).html('object');
+                            nombrenodo.appendTo(newDiv);
+                            botonagregarhijo = $("<div>", {
+                                "class": "button_add",
+                            }).html('Agregar Hijo');
+                            botonagregarhijo.appendTo(newDiv);
+                            botonquitarhijo = $("<span>", {
+                                "class": "button_remove",
+                            }).html('Quitar Hijo');
+                            botonquitarhijo.appendTo(newDiv);
+                            agregarpuntosdefinanodo(("nodo" + idnodocreado),true);
+                        }
+                        else{
+                            nombrenodo = $("<span>", {
+                                "class": "nombrenodo",
+                            }).html('no hay tipo');
+                            nombrenodo.appendTo(newDiv);
+                            agregarpuntosdefinanodo(("nodo" + idnodocreado),false);
+                        }
+                        agregarnodo(("nodo" + idnodocreado),e.pageY,e.pageX);
                         objetoseleccionado = '';
                         idnodocreado = idnodocreado + 1;
                     }
                 });
+                
+                //Evento de conexion detectada para registrar quien es el padre y el hijo unidos
+                jsPlumb.bind("connection", function(e) {
+                    unirpadreahijo(e.sourceId,e.targetId);
+                });
+                
+                //Cuando un nodo quiere tener un hijo
+                $( document ).on( "click", ".button_add", function(){
+                //$(".button_add").live("click", function () {
+                    var parentnodeid = $(this).parent().attr("id");
+                    agregarpuntosdefinanodo(parentnodeid,true);
+                });
 
-                function agregarpuntosdefinanodo(idnodo) {
-                    var common = {
-                        isSource: true,
-                        isTarget: true,
-                        connector: "Straight",
-                        endpoint: "Rectangle",
-                        paintStyle: {fillStyle: "white", outlineColor: "blue", outlineWidth: 1},
-                        hoverPaintStyle: {fillStyle: "lightblue"},
-                        connectorStyle: {strokeStyle: "blue", lineWidth: 1},
-                        connectorHoverStyle: {lineWidth: 2}
-                    };
+                //Remove anchor 
+                $(".button_remove").live("click", function () {
+
+                    var parentnode = $(this).parent();
+                    //get list of current endpoints
+                    var endpoints = jsPlumb.getEndpoints(parentnode);
+                    //remove last one
+                    if (endpoints.length > 2) {
+                        jsPlumb.deleteEndpoint(endpoints[endpoints.length-1]);
+                    }
+                });
+                
+                
+                //Se debe definir si el enddpoint a agregar de un nodo es de un padre o un hijo
+                function agregarpuntosdefinanodo(idnodo,espadre) {
+                    var endpoint = common;
+                    if (espadre)
+                        endpoint.isSource=true;
+                    else
+                        endpoint.isTarget=true;
                     jsPlumb.addEndpoint(String(idnodo), {
-                        anchor: "Top"
-                    }, common);
+                        anchor:"AutoDefault"
+                    }, endpoint);
                     jsPlumb.draggable(String(idnodo), {
                         //x.draggable({
                         containment: '#containment-wrapper',

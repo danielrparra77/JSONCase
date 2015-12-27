@@ -16,7 +16,10 @@ and open the template in the editor.
     color: black;
     float: left;
     margin: 0 10px 10px 0;
-    background-color:graytext;
+}
+.ui-widget-content:hover { 
+    box-shadow: 2px 2px 19px #AAAAAA;
+    cursor: pointer;
 }
 #containment-wrapper {
     width: 97%;
@@ -26,6 +29,12 @@ and open the template in the editor.
     overflow: scroll;
 }
 .nombrenodo {
-    position: absolute;
+    text-align: center;
     left: 0;
+}
+
+.button_add, .button_remove {
+    background-color: deepskyblue;
+    text-align: center;
+    border: 1px solid;
 }
