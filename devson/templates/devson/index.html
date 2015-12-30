@@ -29,16 +29,16 @@ and open the template in the editor.
         </div>
         <section id="registro">
             <h2>Inicie la sesi&oacute;n aqu&iacute;</h2>
-            <form class="formu" action="{% url 'devson:cliente' %}" method="post">
+            <form class="formu" id="formulario" action="" method="post">
                 {% csrf_token %}
                 <ul>
                     <li>
-                        <label>Nombre: </label><input type="text" placeholder="Ingrese su usuario" required>
+                        <label>Nombre: </label><input type="text" placeholder="Ingrese su usuario" name="username" required>
                     </li>
                     <li>
-                        <label>Contrase&ntilde;a: </label><input type="password" placeholder="Ingrese su contrase&ntilde;a" required>
+                        <label>Contrase&ntilde;a: </label><input type="password"  name="password" placeholder="Ingrese su contrase&ntilde;a" required>
                     </li>   
-                    <li><button class="submit" type="submit" value="cliente">Ingresar</button></li>
+                    <li><button class="submit" type="submit">Ingresar</button></li>
                 </ul>
             </form>
         </section>

@@ -1,9 +1,4 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 {% load staticfiles %}
 <html>
     <head>
@@ -20,33 +15,37 @@ and open the template in the editor.
         </header>
         <div id="header">
             <ul class="nav2">
-                <li><a href="{% url 'devson:index' %}">Volver</a></li>
+                <li><a href="{% url 'devson:login' %}">Volver</a></li>
             </ul>
         </div>
         <section id="registro" style="overflow:scroll;height:395px;">
             <h2>Complete los siguientes datos para registrarse</h2>
-            <form class="formu" id="formulario" action="" method="post">
+            <form method="post" action="" class="formu" role="form">
                 {% csrf_token %}
                 <ul>
+                    {% if form.errors %}
+                        <li>Verifique sus datos</li>
+                    {% endif %}
                     <li>
-                        <label class="lab">Nombre Completo: </label><input type="text" name="first_name"placeholder="Ingrese su nombre" required>
+                        <label class="lab">Nombre Completo: </label>{{form.first_name}}
                     </li>
                     <li>
-                        <label class="lab">Nombre: </label><input type="text" id="username" placeholder="Ingrese su usuario" required>
+                        <label class="lab">Nombre: </label>{{form.username}}
                     </li>
                     <li>
-                        <label class="lab">Contrase&ntilde;a: </label><input id="password1" type="password" placeholder="Ingrese su contrase&ntilde;a" required>
+                        <label class="lab">Contrase&ntilde;a: </label>{{form.password1}}
                     </li>  
                     <li>
-                        <label class="lab">Vueva a escribir su contrase&ntilde;a: </label><input id="password2" type="password" placeholder="Ingrese su contrase&ntilde;a" required>
-                    </li> 
+                        <label class="lab">Vueva a escribir su contrase&ntilde;a: </label>{{form.password2}}
+                    </li>                    
                     <li>
-                        <label class="lab">E-mail: </label><input class="email" id="email" type="email" placeholder="Ingrese su e-mail" required><span class="ocul">Formato adecuado algo@algo.com</span>
+                        <label class="lab">E-mail: </label>{{form.email}}<span class="ocul">Formato adecuado algo@algo.com</span>
                     </li>
                     <li>
-                        <label class="lab">Ocupaci&oacute;n: </label><input type="text" id="last_name" placeholder="Ingrese su ocupaci&oacute;n" required>
+                        <label class="lab">Ocupaci&oacute;n: </label>{{form.last_name}}
                     </li>
                     <li><button class="submit" type="submit">Guardar Registro</button></li>
+                    <li>&#191Ya est&aacute; registrado&#63; <a href="{% url 'devson:login' %}">Inicia Sesi&oacute;n</a></li>
                 </ul>
             </form>
         </section>
@@ -55,4 +54,3 @@ and open the template in the editor.
         </footer>
     </body>
 </html>
-

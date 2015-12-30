@@ -18,7 +18,8 @@ from django.conf.urls import  url
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
+    #url(r'^$', views.index, name='index'),
+    url(r'^$', views.LoginView.as_view(), name='login'),
     url(r'^cliente/$', views.cliente, name='cliente'),
     url(r'^registro/$', views.registro, name='registro'),
     url(r'^desarrolladores/$', views.desarrolladores, name='desarrolladores'),
@@ -26,5 +27,13 @@ urlpatterns = [
     url(r'^abrir/$', views.abrir, name='abrir'),
     url(r'^guardar/$', views.guardar, name='guardar'),
     url(r'^propiedades/$', views.propiedades, name='propiedades'),
+    
+    
+    # sessions
+    #url(r'^login/$', views.LoginView.as_view(), name='login'),
+    url(r'^logout/$', views.LogoutView.as_view(), name='logout'),
+    # register
+    url(r'^register/$', views.RegisterView.as_view(), name='register'),
+    url(r'^register/success/$', views.RegisterSuccessView.as_view(), name='register-success'),
 ]
 
