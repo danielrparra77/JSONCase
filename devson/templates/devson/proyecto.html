@@ -7,11 +7,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link type="image/x-icon" rel="shortcut icon" href="{% static 'devson/images/devsoni.ico' %}">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="{% static 'devson/css/styleproyecto.css' %}" />	
         <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
-        <script src="http://localhost:8010/socket.io/socket.io.js"></script>
+        <!--<script src="http://localhost:8010/socket.io/socket.io.js"></script>-->
         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
         {% block js %}
             <script  src="{% static 'devson/js/bootstrap.min.js' %}"></script>
@@ -26,6 +27,31 @@
         <link rel="stylesheet" type="text/css" href="{% static 'devson/css/style2.css' %}" />
     </head>
     <body>
+        <div class="container">
+        <!-- Modal  en el que se van a editar las caracteristicas de los nodos-->
+        <div class="modal fade" id="myModal" role="dialog">
+          <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Propiedades del nodo</h4>
+              </div>
+              <div class="modal-body">
+                <input type="hidden" id="idnodoeditando" value=""/>
+                <p>Tipo:</p><input type="text" id="tipo"/>
+                <p>Valor:</p><input type="text" id="valor"/>
+              </div>
+              <div class="modal-footer">
+                <button type="button" id="enviar" name="enviar" class="btn btn-default" data-dismiss="modal">Aceptar</button>
+                <button type="button" id="cancelar" name="cancelar" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        </div>
         <header id="page_header">
             <h1><img src="{% static 'devson/images/devson.png' %}" width="80" height="40">Bienvenido a la herramienta CASE DEVSON</h1>
         </header>
@@ -120,6 +146,7 @@
         <footer id="page_footer">
             <p>&copy; 2016 Derechos Reservados.</p>
         </footer>
+        
         <script type="text/javascript">
         var common = {
                     isSource: false,
@@ -192,22 +219,8 @@
                 $( document ).on( "click", ".ui-widget-content", function(){
                     if (String(objetoseleccionado) == 'Propiedades') {
                         idnodo = $(this).attr("id");
-                        var idframe = "frame"+idnodo;
-                        //Creando el Iframe que editara las caracteristicas del nodo
-                        alert('se esta editando un nodo '+idnodo);
-                        if ( !document.getElementById(idframe)) {
-                            ifrm = document.createElement("IFRAME");
-                            ifrm.setAttribute("src", "http://localhost:8000/devson/usuario/nuevoproyecto/propiedadesnodo/"+idnodo+"/");
-                            ifrm.setAttribute("id", idframe);
-                            ifrm.style.width = 400+"px";
-                            ifrm.style.height = 600+"px";
-                            //fin de la creacion del iframe
-                            document.body.appendChild(ifrm);
-                        }
-                        else
-                            mostrarIframe(idframe);
-                        objetoseleccionado = '';
-                        enviarpropiedades(idnodo);
+                        mostrarmodal(idnodo);
+                        $("#myModal").modal();
                     }
                 });
                 //Evento de conexion detectada para registrar quien es el padre y el hijo unidos

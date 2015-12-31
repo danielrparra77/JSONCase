@@ -40,39 +40,64 @@ function unirpadreahijo(idpadre,idhijo){
             nodo.idhijos.push(idhijo);
         } });
 }
-
-//Uso de Sockets para comunicarse con otras paginas como los casos de los iframe
-
-var socket = io.connect('http://localhost:8010/');
-      
-socket.on('connect', function(){
-    console.log("connect");
-});
-
-socket.on('enviar propiedades actualizadas a cliente', function(node) {
-    var it = 0;
-    nodoscreados.forEach(function(nodo) {
-        if (nodo.idnodo==node.idnodo){
-            alert("he recibido propieades "+node+"tipo: "+node.tiponodo+" valor: "+node.valor);
-            nodo = node;
-            nodoscreados[it] = node;
-        }
-        it++;
-    });
-    mostrarIframe("frame"+node.idnodo);
-});
-
-socket.on('cancelar iframe', function(idnodo){
-    mostrarIframe("frame"+idnodo);
-});
-
-function enviarpropiedades(idnodo){
+//En esta funcion se preparara al modal informandole de los datos actuales del nodo
+function mostrarmodal(idnodo){
     nodoscreados.forEach(function(nodo) {
         if (nodo.idnodo==idnodo){
-            socket.emit('enviar propiedades nodo', nodo);
+            $(function(){
+                $('#idnodoeditando').val(idnodo);
+                $('#tipo').val(nodo.tiponodo);
+                $('#valor').val(nodo.valor);
+            });
         } 
     });
 }
+
+$(document).ready(function(){
+    $("#enviar").click(function(){
+        var idnodo = $('#idnodoeditando').val();
+        //alert("enviando "+idnodo);
+        nodoscreados.forEach(function(nodo) {
+            if (nodo.idnodo==idnodo){
+                nodo.tiponodo = $('#tipo').val();
+                nodo.valor = $('#valor').val();
+            } 
+        });          
+    });
+});
+
+//Uso de Sockets para comunicarse con otras paginas como los casos de los iframe
+
+//var socket = io.connect('http://localhost:8010/');
+//      
+//socket.on('connect', function(){
+//    console.log("connect");
+//});
+//
+//socket.on('enviar propiedades actualizadas a cliente', function(node) {
+//    var it = 0;
+//    nodoscreados.forEach(function(nodo) {
+//        if (nodo.idnodo==node.idnodo){
+//            alert("he recibido propieades "+node+"tipo: "+node.tiponodo+" valor: "+node.valor);
+//            nodo = node;
+//            nodoscreados[it] = node;
+//        }
+//        it++;
+//    });
+//    mostrarIframe("frame"+node.idnodo);
+//});
+//
+//socket.on('cancelar iframe', function(idnodo){
+//    mostrarIframe("frame"+idnodo);
+//});
+//
+//function enviarpropiedades(idnodo){
+//    nodoscreados.forEach(function(nodo) {
+//        if (nodo.idnodo==idnodo){
+//            socket.emit('enviar propiedades nodo', nodo);
+//        } 
+//    });
+//}
 
 //$(function() {
   //$( "#draggable" ).draggable({ cursor: "move", cursorAt: { top: 56, left: 56 } });
