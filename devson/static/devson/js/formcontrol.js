@@ -21,12 +21,14 @@ function mostrarIframe(id){
 }
 
 //Funcion usada para agregar un nodo la la lista de nodos, x y y indican cual es la posicion en la que se encuantran
-function agregarnodo(idnodo,y,x){
+//la caracteristica dice si el nodo es nodo o si es hoja
+function agregarnodo(idnodo,y,x,caracteristica){
     var nuevonodo = new Object();
     nuevonodo.idnodo = idnodo;
     nuevonodo.x = x;
     nuevonodo.y = y;
     nuevonodo.idhijos=[];
+    nuevonodo.caracteristica=caracteristica;
     nuevonodo.tiponodo='';
     nuevonodo.valor = '';
     nodoscreados.push(nuevonodo);
@@ -42,15 +44,18 @@ function unirpadreahijo(idpadre,idhijo){
 }
 //En esta funcion se preparara al modal informandole de los datos actuales del nodo
 function mostrarmodal(idnodo){
+    var retorono = false;
     nodoscreados.forEach(function(nodo) {
-        if (nodo.idnodo==idnodo){
+        if (nodo.idnodo==idnodo && nodo.caracteristica=='Hoja'){
             $(function(){
                 $('#idnodoeditando').val(idnodo);
                 $('#tipo').val(nodo.tiponodo);
                 $('#valor').val(nodo.valor);
+                retorono = true;
             });
-        } 
+        }
     });
+    return retorono;
 }
 
 $(document).ready(function(){

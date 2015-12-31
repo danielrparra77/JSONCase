@@ -210,7 +210,7 @@
                             nombrenodo.appendTo(newDiv);
                             agregarpuntosdefinanodo(("nodo" + idnodocreado),false);
                         }
-                        agregarnodo(("nodo" + idnodocreado),y,x);
+                        agregarnodo(("nodo" + idnodocreado),y,x,objetoseleccionado);
                         objetoseleccionado = '';
                         idnodocreado = idnodocreado + 1;
                     }
@@ -219,8 +219,8 @@
                 $( document ).on( "click", ".ui-widget-content", function(){
                     if (String(objetoseleccionado) == 'Propiedades') {
                         idnodo = $(this).attr("id");
-                        mostrarmodal(idnodo);
-                        $("#myModal").modal();
+                        if (mostrarmodal(idnodo))
+                            $("#myModal").modal();
                     }
                 });
                 //Evento de conexion detectada para registrar quien es el padre y el hijo unidos
