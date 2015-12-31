@@ -12,6 +12,14 @@ function insertarobject(x){
     objetoseleccionado = x;
 }
 
+//Funcion para organizar vistas de los iframe creados por el usuario
+function mostrarIframe(id){
+    if (document.getElementById(id).style.visibility=="hidden")
+        document.getElementById(id).style.visibility="visible";
+    else
+        document.getElementById(id).style.visibility="hidden";
+}
+
 //Funcion usada para agregar un nodo la la lista de nodos, x y y indican cual es la posicion en la que se encuantran
 function agregarnodo(idnodo,y,x){
     var nuevonodo = new Object();
@@ -31,6 +39,39 @@ function unirpadreahijo(idpadre,idhijo){
             alert("hubo una conexion padre "+idpadre+" hijo "+idhijo);
             nodo.idhijos.push(idhijo);
         } });
+}
+
+//Uso de Sockets para comunicarse con otras paginas como los casos de los iframe
+
+var socket = io.connect('http://localhost:8010/');
+      
+socket.on('connect', function(){
+    console.log("connect");
+});
+
+socket.on('enviar propiedades actualizadas a cliente', function(node) {
+    var it = 0;
+    nodoscreados.forEach(function(nodo) {
+        if (nodo.idnodo==node.idnodo){
+            alert("he recibido propieades "+node+"tipo: "+node.tiponodo+" valor: "+node.valor);
+            nodo = node;
+            nodoscreados[it] = node;
+        }
+        it++;
+    });
+    mostrarIframe("frame"+node.idnodo);
+});
+
+socket.on('cancelar iframe', function(idnodo){
+    mostrarIframe("frame"+idnodo);
+});
+
+function enviarpropiedades(idnodo){
+    nodoscreados.forEach(function(nodo) {
+        if (nodo.idnodo==idnodo){
+            socket.emit('enviar propiedades nodo', nodo);
+        } 
+    });
 }
 
 //$(function() {

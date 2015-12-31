@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+        <script src="http://localhost:8010/socket.io/socket.io.js"></script>
         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
         {% block js %}
             <script  src="{% static 'devson/js/bootstrap.min.js' %}"></script>
@@ -105,6 +106,14 @@
                             <li>Insertar un objeto simple</li>
                         </ul>
                     </li>
+                    <li>
+                        <a onclick="insertarobject('Propiedades')">
+                            <img src="{% static 'devson/images/proyecto/propiedades.png' %}">
+                        </a>
+                        <ul>
+                            <li>Cambiar las propiedades de un nodo</li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </section>
@@ -179,7 +188,28 @@
                         idnodocreado = idnodocreado + 1;
                     }
                 });
-                
+                //Oyente para que el usuario pueda solicitar editar caracteristicas de un nodo
+                $( document ).on( "click", ".ui-widget-content", function(){
+                    if (String(objetoseleccionado) == 'Propiedades') {
+                        idnodo = $(this).attr("id");
+                        var idframe = "frame"+idnodo;
+                        //Creando el Iframe que editara las caracteristicas del nodo
+                        alert('se esta editando un nodo '+idnodo);
+                        if ( !document.getElementById(idframe)) {
+                            ifrm = document.createElement("IFRAME");
+                            ifrm.setAttribute("src", "http://localhost:8000/devson/usuario/nuevoproyecto/propiedadesnodo/"+idnodo+"/");
+                            ifrm.setAttribute("id", idframe);
+                            ifrm.style.width = 400+"px";
+                            ifrm.style.height = 600+"px";
+                            //fin de la creacion del iframe
+                            document.body.appendChild(ifrm);
+                        }
+                        else
+                            mostrarIframe(idframe);
+                        objetoseleccionado = '';
+                        enviarpropiedades(idnodo);
+                    }
+                });
                 //Evento de conexion detectada para registrar quien es el padre y el hijo unidos
                 jsPlumb.bind("connection", function(e) {
                     unirpadreahijo(e.sourceId,e.targetId);
@@ -193,7 +223,7 @@
                 });
 
                 //Remove anchor 
-                $(".button_remove").live("click", function () {
+                $( document ).on( "click", ".button_remove", function(){
 
                     var parentnode = $(this).parent();
                     //get list of current endpoints
