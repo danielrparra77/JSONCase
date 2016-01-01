@@ -56,8 +56,24 @@ def nuevoproyecto(request,usuario):
         configurado para que sea pasado como argumento desde el url, ademas que ya debe poseer el nombre del nuevo proyecto
         Este nombre es entregado por medio de request, desde el formulario que la plantilla de cliente.html posee.
     """
-    context = {'usuario': usuario}
-    return render(request, 'devson/proyecto.html',context)
+    if request.method == 'POST': # If the form has been submitted...
+        try:
+            nombreproyecto = request.POST['NombreProyecto']
+            print nombreproyecto
+            if nombreproyecto=='':
+                return render(request, 'devson/cliente.html', {
+                    'usuario': usuario,
+                    'error_message': "Usted no ha escrito un nombre de proyecto.",
+                })
+            context = {'usuario': usuario,
+                        'nombreproyecto': nombreproyecto}
+            return render(request, 'devson/proyecto.html',context)
+        except (KeyError, Choice.DoesNotExist):
+            # Redisplay the question voting form.
+            return render(request, 'devson/cliente.html', {
+                'usuario': usuario,
+                'error_message': "Usted no ha escrito un nombre valido.",
+            })
 
 def propiedadesnodo(request,usuario,nodo):
     """
@@ -88,7 +104,9 @@ def node_api(request):
         return HttpResponse("Everything worked :)")
     except Exception, e:
         return HttpResponseServerError(str(e))
-
+"""
+Fin de metodo de la conexion entre django y node
+"""
 class LoginView(FormView):
     template_name = 'devson/login.html'
     form_class = LoginForm

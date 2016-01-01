@@ -26,7 +26,7 @@
         <link rel="stylesheet" type="text/css" href="{% static 'devson/css/style.css' %}" />
         <link rel="stylesheet" type="text/css" href="{% static 'devson/css/style2.css' %}" />
     </head>
-    <body>
+    <body onload="setnombreproyecto('{{nombreproyecto}}')">
         <div class="container">
         <!-- Modal  en el que se van a editar las caracteristicas de los nodos-->
         <div class="modal fade" id="myModal" role="dialog">
@@ -110,7 +110,7 @@
         </div>
         <br>
         <section id="proyec">
-            <div><p align="center"><b>Proyeto: </b>Nombre de proyecto</p></div> 
+            <div><p align="center"><b>Proyeto: </b>{{ nombreproyecto }}</p></div> 
             <hr>
         </section>
         <section id="canvas">
@@ -153,6 +153,7 @@
         </footer>
         
         <script type="text/javascript">
+        
         var common = {
                     isSource: false,
                     isTarget: false,

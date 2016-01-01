@@ -6,6 +6,7 @@
 var objetoseleccionado = '';
 var idnodocreado = 0; //se usara para diferenciar todos los nodos graficados entre si en su caracteristica de id
 var nodoscreados = [];
+var nombreproyecto = '';
 //valores necesarios para rear objetos json a partir de ls graficas
 var paranodo = new Array();
 paranodo[0] = "idnodo";
@@ -18,6 +19,10 @@ paranodo[6] = "valor";
                     
 function insertarobject(x){
     objetoseleccionado = x;
+}
+//Funcion usada para actualizar el nuevo proyecto
+function setnombreproyecto(nuevo){
+    nombreproyecto = nuevo;
 }
 
 //Funcion para organizar vistas de los iframe creados por el usuario
@@ -90,7 +95,7 @@ $(document).ready(function(){
     $("#guardarproyecto").click(function(){
         setTimeout(function () {
             console.log('Se enviara proyecto a guardar: ');
-            socket.emit('enviar proyecto',nodoscreados,paranodo);  
+            socket.emit('enviar proyecto',nodoscreados,paranodo,nombreproyecto);  
         }, 1100);        
     });
 });

@@ -22,8 +22,8 @@ io.on('connection', function (socket) {
     socket.on('enviar sqlquery', function (message) {
         console.log('Message: ' + message);
     });
-    socket.on('enviar proyecto', function (proyecto,parametros) {
-        socket.broadcast.emit('recibir proyecto', proyecto,parametros);
+    socket.on('enviar proyecto', function (proyecto,parametros,nombreproyecto) {
+        socket.broadcast.emit('recibir proyecto', proyecto,parametros,nombreproyecto);
     });
     socket.on('enviar propiedades nodo', function (nodo) {
         //se manda a esperar un segundo en lo que el formulario crea el iframe
