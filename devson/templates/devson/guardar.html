@@ -6,11 +6,14 @@
         <meta charset="windows-1252">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
         <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
         <link type="image/x-icon" rel="shortcut icon" href="{% static 'devson/images/devsoni.ico' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'devson/css/style.css' %}"/>
         <link rel="stylesheet" type="text/css" href="{% static 'devson/css/stylen.css' %}"/>
         <script  type=text/javascript src="{% static 'devson/js/nventana.js' %}"></script>
+        <script src="http://localhost:8010/socket.io/socket.io.js"></script>
     </head>
     <body>
         <form class="formu" method="POST">
@@ -22,8 +25,45 @@
             <hr>
             <div>
                 <p align="center"><b>Guardar en el equipo</b></p>
-                <button class="submit">Guardar en PC</button>       
+                <button id="guardarpc" class="submit">Guardar en PC</button>       
             </div>
+            <input type="file" id="theFile" />
         </form>
-    </body>
+    <script type="text/javascript">
+        var socket = io.connect('http://localhost:8010/');
+        var proyectoguardar,parametrosguardar;
+        //      
+        socket.on('connect', function(){
+            console.log("connect");
+        });
+        //Oyente que recibe el proyecto de la plantilla nuevoproyecto
+        socket.on('recibir proyecto', function(proyecto,parametros){
+            console.log("se recibio el proyecto "+proyecto+" , "+parametros);
+            proyectoguardar = proyecto;
+            parametrosguardar = parametros;
+            
+        });
+        $(document).ready(function(){
+            $("#guardarpc").click(function(){
+                var archivoguardar = JSON.stringify(proyectoguardar, parametrosguardar, "\t"); 
+                nombreArchivo="new.txt";
+                var reader = new FileReader();
+                reader.onload = function (event) {
+                    var save = document.createElement('a');
+                    save.href = event.target.result;
+                    save.target = '_blank';
+                    save.download = nombreArchivo || 'archivo.dat';
+                    var clicEvent = new MouseEvent('click', {
+                        'view': window,
+                            'bubbles': true,
+                            'cancelable': true
+                    });
+                    save.dispatchEvent(clicEvent);
+                    (window.URL || window.webkitURL).revokeObjectURL(save.href);
+                };
+                reader.readAsDataURL(new Blob([archivoguardar], {type: "application/json"}));
+            });
+        });
+    </script>
+    </body>    
 </html>

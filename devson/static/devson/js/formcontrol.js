@@ -6,7 +6,15 @@
 var objetoseleccionado = '';
 var idnodocreado = 0; //se usara para diferenciar todos los nodos graficados entre si en su caracteristica de id
 var nodoscreados = [];
-
+//valores necesarios para rear objetos json a partir de ls graficas
+var paranodo = new Array();
+paranodo[0] = "idnodo";
+paranodo[1] = "x";
+paranodo[2] = "y";
+paranodo[3] = "idhijos";
+paranodo[4] = "caracteristica";
+paranodo[5] = "tiponodo";
+paranodo[6] = "valor";
                     
 function insertarobject(x){
     objetoseleccionado = x;
@@ -42,6 +50,16 @@ function unirpadreahijo(idpadre,idhijo){
             nodo.idhijos.push(idhijo);
         } });
 }
+
+
+//Uso de Sockets para comunicarse con otras paginas como los casos de los iframe
+
+var socket = io.connect('http://localhost:8010/');
+//      
+socket.on('connect', function(){
+    console.log("connect");
+});
+
 //En esta funcion se preparara al modal informandole de los datos actuales del nodo
 function mostrarmodal(idnodo){
     var retorono = false;
@@ -69,15 +87,14 @@ $(document).ready(function(){
             } 
         });          
     });
+    $("#guardarproyecto").click(function(){
+        setTimeout(function () {
+            console.log('Se enviara proyecto a guardar: ');
+            socket.emit('enviar proyecto',nodoscreados,paranodo);  
+        }, 1100);        
+    });
 });
 
-//Uso de Sockets para comunicarse con otras paginas como los casos de los iframe
-
-//var socket = io.connect('http://localhost:8010/');
-//      
-//socket.on('connect', function(){
-//    console.log("connect");
-//});
 //
 //socket.on('enviar propiedades actualizadas a cliente', function(node) {
 //    var it = 0;

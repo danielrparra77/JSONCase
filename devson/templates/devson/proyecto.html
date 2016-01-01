@@ -12,7 +12,7 @@
         <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
-        <!--<script src="http://localhost:8010/socket.io/socket.io.js"></script>-->
+        <script src="http://localhost:8010/socket.io/socket.io.js"></script>
         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
         {% block js %}
             <script  src="{% static 'devson/js/bootstrap.min.js' %}"></script>
@@ -52,6 +52,11 @@
           </div>
         </div>
         </div>
+        <!-- Formulario usado por metodo AJAX para que se pueda comunicar la plantilla con la vista de guardar
+        <form id="FormGuardar" action="{% url 'devson:guardar' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" id="jsonguardar" name="jsonguardar"/>
+        </form>-->
         <header id="page_header">
             <h1><img src="{% static 'devson/images/devson.png' %}" width="80" height="40">Bienvenido a la herramienta CASE DEVSON</h1>
         </header>
@@ -62,7 +67,7 @@
                     <ul>
                         <li><a href="#">Nuevo</a></li>
                         <li><a onclick="abrirventana('{% url 'devson:abrir' %}')">Abrir</a></li>
-                        <li><a onclick="abrirventanag('{% url 'devson:guardar' %}')">Guardar</a></li>
+                        <li><a id="guardarproyecto" onclick="abrirventanag('{% url 'devson:guardar' %}')">Guardar</a></li>
                         <li><a href="#">Exportar como</a></li>
                     </ul>
                 </li>
