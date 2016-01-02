@@ -33,17 +33,18 @@
         </form>
     <script type="text/javascript">
         var socket = io.connect('http://localhost:8010/');
-        var proyectoguardar,parametrosguardar,nombreproyecto;
+        var proyectoguardar,parametrosguardar,nombreproyecto,usuarioconectado;
         //      
         socket.on('connect', function(){
             console.log("connect");
         });
         //Oyente que recibe el proyecto de la plantilla nuevoproyecto
-        socket.on('recibir proyecto', function(proyecto,parametros,nombrenuevo){
-            console.log("se recibio el proyecto "+proyecto+" , "+parametros+" , "+nombrenuevo);
+        socket.on('recibir proyecto', function(proyecto,parametros,nombrenuevo,usuario){
+            console.log("se recibio el proyecto "+proyecto+" , "+parametros+" , "+nombrenuevo+" , "+usuario);
             proyectoguardar = proyecto;
             parametrosguardar = parametros;
             nombreproyecto = nombrenuevo;
+            usuarioconectado = usuario;
         });
         $(document).ready(function(){
             $("#guardarpc").click(function(){

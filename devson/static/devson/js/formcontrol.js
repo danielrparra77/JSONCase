@@ -8,6 +8,7 @@ var idnodocreado = 0; //se usara para diferenciar todos los nodos graficados ent
 var nodoscreados = [];
 var endpoints = [];
 var nombreproyecto = '';
+var usuarioconectado = '';
 //valores necesarios para rear objetos json a partir de ls graficas
 var paranodo = new Array();
 paranodo[0] = "idnodo";
@@ -22,8 +23,9 @@ function insertarobject(x){
     objetoseleccionado = x;
 }
 //Funcion usada para actualizar el nuevo proyecto
-function setnombreproyecto(nuevo){
+function setnombreproyecto(nuevo,usuario){
     nombreproyecto = nuevo;
+    usuarioconectado = usuario;
 }
 
 //Funcion para agregar los objetos endpoints
@@ -116,7 +118,7 @@ $(document).ready(function(){
     $("#guardarproyecto").click(function(){
         setTimeout(function () {
             console.log('Se enviara proyecto a guardar: ');
-            socket.emit('enviar proyecto',nodoscreados,paranodo,nombreproyecto);  
+            socket.emit('enviar proyecto',nodoscreados,paranodo,nombreproyecto,usuarioconectado);  
         }, 1100);        
     });
 });
