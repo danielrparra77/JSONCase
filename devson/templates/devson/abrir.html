@@ -64,6 +64,7 @@
             if (nombre!='' && archivoabrir!=''){
                 console.log("se abrira el proyecto "+nombre+" en "+archivoabrir);
                 socket.emit('abrir proyecto',archivoabrir,nombre);
+                window.close();
             }
         });
     });

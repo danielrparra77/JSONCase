@@ -110,7 +110,7 @@
         </div>
         <br>
         <section id="proyec">
-            <div><p align="center"><b>Proyeto: </b>{{ nombreproyecto }}</p></div> 
+            <div><p id="nomproyectoderecha" align="center"><b>Proyeto: </b>{{ nombreproyecto }}</p></div> 
             <hr>
         </section>
         <section id="canvas">
@@ -294,13 +294,17 @@
               socket.on('abrir nuevo proyecto', function(proyecto,nombreproyecto){
                     console.log("abriendo proyecto "+nombreproyecto);
                     jsPlumb.empty("containment-wrapper");
+                    setnombreproyecto(nombreproyecto);
+                    editarnombregraficoproyecto();
                     proyecto = jQuery.parseJSON( proyecto );
+                    //Ciclo para crear todos los nods que hay en el proyecto
                     for (nodo in proyecto){
                         console.log(nodo+" este es el nodo "+proyecto[nodo]);
                         var jsonnodo = (proyecto[nodo]);
                         crearnuevonodo(jsonnodo["idnodo"],jsonnodo["x"],
                             jsonnodo["y"],jsonnodo["tiponodo"],jsonnodo["caracteristica"],true);
                     }
+                    //Ciclo para conectar todos los nodos
                     for (nodo in proyecto){
                         var jsonnodo = (proyecto[nodo]);
                         console.log("hijos "+jsonnodo["idhijos"]);

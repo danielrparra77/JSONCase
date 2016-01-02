@@ -87,6 +87,20 @@ function mostrarmodal(idnodo){
     return retorono;
 }
 
+function editarnombregraficoproyecto (){
+    $(function(){
+        var para = document.createElement("b");
+        var node = document.createTextNode("Proyeto:");
+        var nombreproyec = document.createTextNode(nombreproyecto);
+        para.appendChild(node);
+        $('#nomproyectoderecha').empty();
+        var nombre = document.getElementById("nomproyectoderecha");
+        nombre.appendChild(para);
+        nombre.appendChild(nombreproyec);
+        //$('#nomproyectoderecha').text(nombreproyecto);
+    });
+}
+
 $(document).ready(function(){
     $("#enviar").click(function(){
         var idnodo = $('#idnodoeditando').val();
