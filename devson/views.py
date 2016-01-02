@@ -30,25 +30,30 @@ def registro(request):
 def desarrolladores(request):
     return render(request, 'devson/desarrolladores.html')
 
+@login_required()
 def abrir(request):
     return render(request, 'devson/abrir.html')
 
+@login_required()
 def guardar(request):
     return render(request, 'devson/guardar.html')
 
+@login_required()
 def propiedades(request):
     return render(request, 'devson/propiedades.html')
 
+@login_required()
 def cliente(request):
     """
         En esta vista ya se debe saber que cliente fue el que se conecto coonociendo su usuario
         Aqui se vera la plantilla de cliente donde este puede hacer lo que desee
     """
     #p = Proyecto(K_NombreProyecto="", K_UsuarioCreo="ya debo tener usuario aqui",V_FechaCreacion = datetime.now())
-    usuario = 'usuario'
+    usuario = request.user
     context = {'usuario': usuario}
     return render(request, 'devson/cliente.html',context)
 
+@login_required()
 def nuevoproyecto(request,usuario):
     """
         En esta vista se ve como el lciente entrega la solicitud de crear un nuevoproyecto,
