@@ -107,6 +107,7 @@ def node_api(request):
 """
 Fin de metodo de la conexion entre django y node
 """
+
 class LoginView(FormView):
     template_name = 'devson/login.html'
     form_class = LoginForm
