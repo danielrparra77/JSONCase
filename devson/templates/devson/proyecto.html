@@ -178,47 +178,7 @@
                     if (String(objetoseleccionado) == 'Nodo' || String(objetoseleccionado) == 'Hoja') {
                         var x = e.pageX-$(this).position().left;
                         var y = e.pageY-$(this).position().top;
-                        newDiv = $("<div/>", {
-                            "class": "ui-widget-content",
-                            "id": String("nodo" + idnodocreado),
-                        });
-                        newDiv.css({
-                            'top': y,
-                            'left': x
-                        });
-                        newDiv.appendTo("#containment-wrapper");
-                        jsPlumb.draggable($('#' + String("nodo" + idnodocreado)), {containment:"#containment-wrapper"});
-                        //             newDiv.animate({ left: x+'px',top: y+'px' });
-                        //            newImg = $("<img>", {
-                        //                "class": "imagenFondo",
-                        //                "src": "{% static 'devson/images/proyecto/"+String(objetoseleccionado)+".png' %}",
-                        //            });
-                        //            newImg.appendTo(newDiv);
-                        if (String(objetoseleccionado) == 'Nodo'){
-                            nombrenodo = $("<span>", {
-                                "class": "nombrenodo",
-                            }).html('object');
-                            nombrenodo.appendTo(newDiv);
-                            botonagregarhijo = $("<div>", {
-                                "class": "button_add",
-                            }).html('Agregar Hijo');
-                            botonagregarhijo.appendTo(newDiv);
-                            botonquitarhijo = $("<span>", {
-                                "class": "button_remove",
-                            }).html('Quitar Hijo');
-                            botonquitarhijo.appendTo(newDiv);
-                            agregarpuntosdefinanodo(("nodo" + idnodocreado),true);
-                        }
-                        else{
-                            nombrenodo = $("<span>", {
-                                "class": "nombrenodo",
-                            }).html('no hay tipo');
-                            nombrenodo.appendTo(newDiv);
-                            agregarpuntosdefinanodo(("nodo" + idnodocreado),false);
-                        }
-                        agregarnodo(("nodo" + idnodocreado),y,x,objetoseleccionado);
-                        objetoseleccionado = '';
-                        idnodocreado = idnodocreado + 1;
+                        crearnuevonodo(String("nodo" + idnodocreado),x,y,'no hay tipo',String(objetoseleccionado),false);
                     }
                 });
                 //Oyente para que el usuario pueda solicitar editar caracteristicas de un nodo
@@ -253,6 +213,52 @@
                     }
                 });
                 
+                //crear nuevo nodo, si abrir indica que si se creo nodo por abrirse un proyecto
+                function crearnuevonodo(idnodo,x,y,tiponodo,caracteristica,siabrir){
+                    newDiv = $("<div/>", {
+                        "class": "ui-widget-content",
+                        "id": idnodo,
+                    });
+                    newDiv.css({
+                        'top': y,
+                        'left': x
+                    });
+                    newDiv.appendTo("#containment-wrapper");
+                    jsPlumb.draggable($('#' + idnodo), {containment:"#containment-wrapper"});
+                    //             newDiv.animate({ left: x+'px',top: y+'px' });
+                    //            newImg = $("<img>", {
+                    //                "class": "imagenFondo",
+                    //                "src": "{% static 'devson/images/proyecto/"+String(caracteristica)+".png' %}",
+                    //            });
+                    //            newImg.appendTo(newDiv);
+                    if (String(caracteristica) == 'Nodo'){
+                        nombrenodo = $("<span>", {
+                            "class": "nombrenodo",
+                        }).html('object');
+                        nombrenodo.appendTo(newDiv);
+                        botonagregarhijo = $("<div>", {
+                            "class": "button_add",
+                        }).html('Agregar Hijo');
+                        botonagregarhijo.appendTo(newDiv);
+                        botonquitarhijo = $("<span>", {
+                            "class": "button_remove",
+                        }).html('Quitar Hijo');
+                        botonquitarhijo.appendTo(newDiv);
+                        if (!siabrir)
+                            agregarpuntosdefinanodo(idnodo,true);
+                    }
+                    else{
+                        nombrenodo = $("<span>", {
+                            "class": "nombrenodo",
+                        }).html(tiponodo);
+                        nombrenodo.appendTo(newDiv);
+                        if (!siabrir)
+                            agregarpuntosdefinanodo(idnodo,false);
+                    }
+                    agregarnodo(idnodo,y,x,caracteristica);
+                    objetoseleccionado = '';
+                    idnodocreado = idnodocreado + 1;
+                }
                 
                 //Se debe definir si el enddpoint a agregar de un nodo es de un padre o un hijo
                 function agregarpuntosdefinanodo(idnodo,espadre) {
@@ -261,8 +267,9 @@
                         endpoint.isSource=true;
                     else
                         endpoint.isTarget=true;
-                    jsPlumb.addEndpoint(String(idnodo), {
-                        anchor:"AutoDefault"
+                    var endp = jsPlumb.addEndpoint(String(idnodo), {
+                        anchor:"AutoDefault",
+                        uuid:"ep"+String(idnodo)
                     }, endpoint);
                     jsPlumb.draggable(String(idnodo), {
                         //x.draggable({
@@ -274,8 +281,42 @@
                             jsPlumb.repaintEverything();
                         }
                     });
+                    var nuevoendpoint = new Array();
+                    nuevoendpoint[0] = idnodo;
+                    nuevoendpoint[1] = endpoint;
+                    nuevoendpoint[2] = false;//se indica si ya ha sido unido o no
+                    agregarendpoint(nuevoendpoint);
+                    return endp;
                     //jsPlumb.draggable($("#"+String(idnodo)));
                 }
+                
+              //Oyente usado para recibir proyecto a abrir
+              socket.on('abrir nuevo proyecto', function(proyecto,nombreproyecto){
+                    console.log("abriendo proyecto "+nombreproyecto);
+                    jsPlumb.empty("containment-wrapper");
+                    proyecto = jQuery.parseJSON( proyecto );
+                    for (nodo in proyecto){
+                        console.log(nodo+" este es el nodo "+proyecto[nodo]);
+                        var jsonnodo = (proyecto[nodo]);
+                        crearnuevonodo(jsonnodo["idnodo"],jsonnodo["x"],
+                            jsonnodo["y"],jsonnodo["tiponodo"],jsonnodo["caracteristica"],true);
+                    }
+                    for (nodo in proyecto){
+                        var jsonnodo = (proyecto[nodo]);
+                        console.log("hijos "+jsonnodo["idhijos"]);
+                        if (jsonnodo["idhijos"].length>0){
+                            for (valor in jsonnodo["idhijos"]){
+                                var endpointpadre =agregarpuntosdefinanodo(
+                                    jsonnodo["idnodo"],true);//se asume que siempre el padre es un nodo
+                                var endpointhijo =agregarpuntosdefinanodo(
+                                    jsonnodo["idhijos"][valor],false);
+                                uuidpadre = endpointpadre.getUuid();
+                                uuidhijo = endpointhijo.getUuid();
+                                jsPlumb.connect({ uuids:[uuidpadre,uuidhijo] });                                
+                            }
+                        }
+                    }
+               });
             });
         </script>
     </body>

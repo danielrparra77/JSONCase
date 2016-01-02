@@ -6,6 +6,7 @@
 var objetoseleccionado = '';
 var idnodocreado = 0; //se usara para diferenciar todos los nodos graficados entre si en su caracteristica de id
 var nodoscreados = [];
+var endpoints = [];
 var nombreproyecto = '';
 //valores necesarios para rear objetos json a partir de ls graficas
 var paranodo = new Array();
@@ -23,6 +24,11 @@ function insertarobject(x){
 //Funcion usada para actualizar el nuevo proyecto
 function setnombreproyecto(nuevo){
     nombreproyecto = nuevo;
+}
+
+//Funcion para agregar los objetos endpoints
+function agregarendpoint(nuevoendpoint){
+    endpoints.push(nuevoendpoint);
 }
 
 //Funcion para organizar vistas de los iframe creados por el usuario
@@ -51,7 +57,7 @@ function agregarnodo(idnodo,y,x,caracteristica){
 function unirpadreahijo(idpadre,idhijo){
     nodoscreados.forEach(function(nodo) {
         if (nodo.idnodo==idpadre){
-            alert("hubo una conexion padre "+idpadre+" hijo "+idhijo);
+            //alert("hubo una conexion padre "+idpadre+" hijo "+idhijo);
             nodo.idhijos.push(idhijo);
         } });
 }

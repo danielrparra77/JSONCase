@@ -11,7 +11,9 @@
         <link rel="stylesheet" type="text/css" href="{% static 'devson/css/style.css' %}"/>
         <link rel="stylesheet" type="text/css" href="{% static 'devson/css/stylen.css' %}"/>
         <script  type=text/javascript src="{% static 'devson/js/nventana.js' %}"></script>
-        <script  type=text/javascript src="{% static 'devson/js/jquery-2.1.4.min.js' %}"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="http://localhost:8010/socket.io/socket.io.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
     </head>
 </head>
 <body onload="mostrarInputFileModificado()">
@@ -26,13 +28,47 @@
             <p align="center"><b>Proyetos en el equipo</b></p>
             <input class="inputImagen" id="archivo">
             <div class="botonInputFileModificado">
-                <input type="file" class="inputImagenOculto" id="archivo_oculto" name="archivo_oculto"/>
+                <input type="file" class="inputImagenOculto" id="archivo_oculto" onchange="processFiles(this.files)" name="archivo_oculto"/>
                 <label class="boton">Examinar</label>  
             </div>        
         </div>
         <hr> <br>
-        <button class="submit">Abrir</button>
+        <button id="abrirproyecto" class="submit">Abrir</button>
+        <input type="hidden" id="fileOutput"/>
     </form>
+    <script type="text/javascript">
+    var nombre = "";//nombre del proyecto
+    var socket = io.connect('http://localhost:8010/');
+    function processFiles(files) {
+        var file = files[0];
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var output = document.getElementById("fileOutput");
+            $(function(){
+                nombre = ($("#archivo_oculto").val()).split("\\");
+                nombre = nombre[nombre.length-1];
+                nombre = nombre.split(".")[0];
+            });
+            output.value = e.target.result;
+        };
+        reader.readAsText(file);
+    }
+    
+    socket.on('connect', function(){
+        console.log("connect");
+    });
+    
+    $(document).ready(function(){
+        $("#abrirproyecto").click(function(){
+            var archivoabrir = $('#fileOutput').val();
+            if (nombre!='' && archivoabrir!=''){
+                console.log("se abrira el proyecto "+nombre+" en "+archivoabrir);
+                socket.emit('abrir proyecto',archivoabrir,nombre);
+            }
+        });
+    });
+
+</script>
 </body>
 </html>
 
