@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link type="image/x-icon" rel="shortcut icon" href="{% static 'devson/images/devsoni.ico' %}">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <!--<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">-->
         <link rel="stylesheet" type="text/css" href="{% static 'devson/css/styleproyecto.css' %}" />	
         <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -23,34 +23,33 @@
             <script  src="{% static 'devson/js/jsPlumb-2.0.5-min.js' %}"></script>
             <script  src="{% static 'devson/js/nventana.js' %}"></script>
         {% endblock %}
+        <link rel="stylesheet" type="text/css" href="{% static 'devson/css/bootstrap.min.css' %}" />
         <link rel="stylesheet" type="text/css" href="{% static 'devson/css/style.css' %}" />
         <link rel="stylesheet" type="text/css" href="{% static 'devson/css/style2.css' %}" />
     </head>
     <body onload="setnombreproyecto('{{nombreproyecto}}')">
         <div class="container">
-        <!-- Modal  en el que se van a editar las caracteristicas de los nodos-->
-        <div class="modal fade" id="myModal" role="dialog">
-          <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Propiedades del nodo</h4>
-              </div>
-              <div class="modal-body">
-                <input type="hidden" id="idnodoeditando" value=""/>
-                <p>Tipo:</p><input type="text" id="tipo"/>
-                <p>Valor:</p><input type="text" id="valor"/>
-              </div>
-              <div class="modal-footer">
-                <button type="button" id="enviar" name="enviar" class="btn btn-default" data-dismiss="modal">Aceptar</button>
-                <button type="button" id="cancelar" name="cancelar" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-              </div>
+            <!-- Modal  en el que se van a editar las caracteristicas de los nodos-->
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Propiedades del nodo</h4>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" id="idnodoeditando" value=""/>
+                            <p>Tipo:</p><input type="text" id="tipo"/>
+                            <p>Valor:</p><input type="text" id="valor"/>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="enviar" name="enviar" class="btn btn-default" data-dismiss="modal">Aceptar</button>
+                            <button type="button" id="cancelar" name="cancelar" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-          </div>
-        </div>
         </div>
         <!-- Formulario usado por metodo AJAX para que se pueda comunicar la plantilla con la vista de guardar
         <form id="FormGuardar" action="{% url 'devson:guardar' %}" method="post">
@@ -151,176 +150,172 @@
         <footer id="page_footer">
             <p>&copy; 2016 Derechos Reservados.</p>
         </footer>
-        
         <script type="text/javascript">
-        
-        var common = {
-                    isSource: false,
+
+            var common = {
+            isSource: false,
                     isTarget: false,
                     connector: "Straight",
                     endpoint: "Rectangle",
                     paintStyle: {fillStyle: "white", outlineColor: "blue", outlineWidth: 1},
                     hoverPaintStyle: {fillStyle: "lightblue"},
                     connectorStyle: {strokeStyle: "blue", lineWidth: 1},
-                    connectorOverlays:[ 
-                        ["Arrow" , { width:12, length:12}]
+                    connectorOverlays:[
+                    ["Arrow", { width:12, length:12}]
                     ],
                     connectorHoverStyle: {lineWidth: 2}
-                };
-        jsPlumb.ready(function () {
-                //jsPlumb.draggable($(".ui-widget-content"), {containment:"parent"});
-                //$('.ui-widget-content').draggable({
-                //    containment: 'parent'
-                //});
-                jsPlumb.setContainer($("#containment-wrapper"));
-                $('#containment-wrapper').click(function (e) {
-                    //falta revisar como obtener las coordenadas correctas del evento
-                    if (String(objetoseleccionado) == 'Nodo' || String(objetoseleccionado) == 'Hoja') {
-                        var x = e.pageX-$(this).position().left;
-                        var y = e.pageY-$(this).position().top;
-                        crearnuevonodo(String("nodo" + idnodocreado),x,y,'no hay tipo',String(objetoseleccionado),false);
-                    }
-                });
-                //Oyente para que el usuario pueda solicitar editar caracteristicas de un nodo
-                $( document ).on( "click", ".ui-widget-content", function(){
-                    if (String(objetoseleccionado) == 'Propiedades') {
-                        idnodo = $(this).attr("id");
-                        if (mostrarmodal(idnodo))
-                            $("#myModal").modal();
-                    }
-                });
-                //Evento de conexion detectada para registrar quien es el padre y el hijo unidos
-                jsPlumb.bind("connection", function(e) {
-                    unirpadreahijo(e.sourceId,e.targetId);
-                });
-                
-                //Cuando un nodo quiere tener un hijo
-                $( document ).on( "click", ".button_add", function(){
-                //$(".button_add").live("click", function () {
-                    var parentnodeid = $(this).parent().attr("id");
-                    agregarpuntosdefinanodo(parentnodeid,true);
-                });
+            };
+            jsPlumb.ready(function () {
+            //jsPlumb.draggable($(".ui-widget-content"), {containment:"parent"});
+            //$('.ui-widget-content').draggable({
+            //    containment: 'parent'
+            //});
+            jsPlumb.setContainer($("#containment-wrapper"));
+            $('#containment-wrapper').click(function (e) {
+            //falta revisar como obtener las coordenadas correctas del evento
+            if (String(objetoseleccionado) == 'Nodo' || String(objetoseleccionado) == 'Hoja') {
+            var x = e.pageX - $(this).position().left;
+            var y = e.pageY - $(this).position().top;
+            crearnuevonodo(String("nodo" + idnodocreado), x, y, 'no hay tipo', String(objetoseleccionado), false);
+            }
+            });
+            //Oyente para que el usuario pueda solicitar editar caracteristicas de un nodo
+            $(document).on("click", ".ui-widget-content", function(){
+            if (String(objetoseleccionado) == 'Propiedades') {
+            idnodo = $(this).attr("id");
+            if (mostrarmodal(idnodo))
+                    $("#myModal").modal();
+            }
+            });
+            //Evento de conexion detectada para registrar quien es el padre y el hijo unidos
+            jsPlumb.bind("connection", function(e) {
+            unirpadreahijo(e.sourceId, e.targetId);
+            });
+            //Cuando un nodo quiere tener un hijo
+            $(document).on("click", ".button_add", function(){
+            //$(".button_add").live("click", function () {
+            var parentnodeid = $(this).parent().attr("id");
+            agregarpuntosdefinanodo(parentnodeid, true);
+            });
+            //Remove anchor 
+            $(document).on("click", ".button_remove", function(){
 
-                //Remove anchor 
-                $( document ).on( "click", ".button_remove", function(){
+            var parentnode = $(this).parent();
+            //get list of current endpoints
+            var endpoints = jsPlumb.getEndpoints(parentnode);
+            //remove last one
+            if (endpoints.length > 2) {
+            jsPlumb.deleteEndpoint(endpoints[endpoints.length - 1]);
+            }
+            });
+            //crear nuevo nodo, si abrir indica que si se creo nodo por abrirse un proyecto
+            function crearnuevonodo(idnodo, x, y, tiponodo, caracteristica, siabrir){
+            newDiv = $("<div/>", {
+            "class": "ui-widget-content",
+                    "id": idnodo,
+            });
+            newDiv.css({
+            'top': y,
+                    'left': x
+            });
+            newDiv.appendTo("#containment-wrapper");
+            jsPlumb.draggable($('#' + idnodo), {containment:"#containment-wrapper"});
+            //             newDiv.animate({ left: x+'px',top: y+'px' });
+            //            newImg = $("<img>", {
+            //                "class": "imagenFondo",
+            //                "src": "{% static 'devson/images/proyecto/"+String(caracteristica)+".png' %}",
+            //            });
+            //            newImg.appendTo(newDiv);
+            if (String(caracteristica) == 'Nodo'){
+            nombrenodo = $("<span>", {
+            "class": "nombrenodo",
+            }).html('object');
+            nombrenodo.appendTo(newDiv);
+            botonagregarhijo = $("<div>", {
+            "class": "button_add",
+            }).html('Agregar Hijo');
+            botonagregarhijo.appendTo(newDiv);
+            botonquitarhijo = $("<span>", {
+            "class": "button_remove",
+            }).html('Quitar Hijo');
+            botonquitarhijo.appendTo(newDiv);
+            if (!siabrir)
+                    agregarpuntosdefinanodo(idnodo, true);
+            }
+            else{
+            nombrenodo = $("<span>", {
+            "class": "nombrenodo",
+            }).html(tiponodo);
+            nombrenodo.appendTo(newDiv);
+            if (!siabrir)
+                    agregarpuntosdefinanodo(idnodo, false);
+            }
+            agregarnodo(idnodo, y, x, caracteristica);
+            objetoseleccionado = '';
+            idnodocreado = idnodocreado + 1;
+            }
 
-                    var parentnode = $(this).parent();
-                    //get list of current endpoints
-                    var endpoints = jsPlumb.getEndpoints(parentnode);
-                    //remove last one
-                    if (endpoints.length > 2) {
-                        jsPlumb.deleteEndpoint(endpoints[endpoints.length-1]);
+            //Se debe definir si el enddpoint a agregar de un nodo es de un padre o un hijo
+            function agregarpuntosdefinanodo(idnodo, espadre) {
+            var endpoint = common;
+            if (espadre)
+                    endpoint.isSource = true;
+            else
+                    endpoint.isTarget = true;
+            var endp = jsPlumb.addEndpoint(String(idnodo), {
+            anchor:"AutoDefault",
+                    uuid:"ep" + String(idnodo)
+            }, endpoint);
+            jsPlumb.draggable(String(idnodo), {
+            //x.draggable({
+            containment: '#containment-wrapper',
+                    drop: function (event, ui) {
+                    jsPlumb.repaintEverything();
+                    },
+                    drag: function (e, ui) {
+                    jsPlumb.repaintEverything();
                     }
-                });
-                
-                //crear nuevo nodo, si abrir indica que si se creo nodo por abrirse un proyecto
-                function crearnuevonodo(idnodo,x,y,tiponodo,caracteristica,siabrir){
-                    newDiv = $("<div/>", {
-                        "class": "ui-widget-content",
-                        "id": idnodo,
-                    });
-                    newDiv.css({
-                        'top': y,
-                        'left': x
-                    });
-                    newDiv.appendTo("#containment-wrapper");
-                    jsPlumb.draggable($('#' + idnodo), {containment:"#containment-wrapper"});
-                    //             newDiv.animate({ left: x+'px',top: y+'px' });
-                    //            newImg = $("<img>", {
-                    //                "class": "imagenFondo",
-                    //                "src": "{% static 'devson/images/proyecto/"+String(caracteristica)+".png' %}",
-                    //            });
-                    //            newImg.appendTo(newDiv);
-                    if (String(caracteristica) == 'Nodo'){
-                        nombrenodo = $("<span>", {
-                            "class": "nombrenodo",
-                        }).html('object');
-                        nombrenodo.appendTo(newDiv);
-                        botonagregarhijo = $("<div>", {
-                            "class": "button_add",
-                        }).html('Agregar Hijo');
-                        botonagregarhijo.appendTo(newDiv);
-                        botonquitarhijo = $("<span>", {
-                            "class": "button_remove",
-                        }).html('Quitar Hijo');
-                        botonquitarhijo.appendTo(newDiv);
-                        if (!siabrir)
-                            agregarpuntosdefinanodo(idnodo,true);
-                    }
-                    else{
-                        nombrenodo = $("<span>", {
-                            "class": "nombrenodo",
-                        }).html(tiponodo);
-                        nombrenodo.appendTo(newDiv);
-                        if (!siabrir)
-                            agregarpuntosdefinanodo(idnodo,false);
-                    }
-                    agregarnodo(idnodo,y,x,caracteristica);
-                    objetoseleccionado = '';
-                    idnodocreado = idnodocreado + 1;
-                }
-                
-                //Se debe definir si el enddpoint a agregar de un nodo es de un padre o un hijo
-                function agregarpuntosdefinanodo(idnodo,espadre) {
-                    var endpoint = common;
-                    if (espadre)
-                        endpoint.isSource=true;
-                    else
-                        endpoint.isTarget=true;
-                    var endp = jsPlumb.addEndpoint(String(idnodo), {
-                        anchor:"AutoDefault",
-                        uuid:"ep"+String(idnodo)
-                    }, endpoint);
-                    jsPlumb.draggable(String(idnodo), {
-                        //x.draggable({
-                        containment: '#containment-wrapper',
-                        drop: function (event, ui) {
-                            jsPlumb.repaintEverything();
-                        },
-                        drag: function (e, ui) {
-                            jsPlumb.repaintEverything();
-                        }
-                    });
-                    var nuevoendpoint = new Array();
-                    nuevoendpoint[0] = idnodo;
-                    nuevoendpoint[1] = endpoint;
-                    nuevoendpoint[2] = false;//se indica si ya ha sido unido o no
-                    agregarendpoint(nuevoendpoint);
-                    return endp;
-                    //jsPlumb.draggable($("#"+String(idnodo)));
-                }
-                
-              //Oyente usado para recibir proyecto a abrir
-              socket.on('abrir nuevo proyecto', function(proyecto,nombreproyecto){
-                    console.log("abriendo proyecto "+nombreproyecto);
-                    jsPlumb.empty("containment-wrapper");
-                    setnombreproyecto(nombreproyecto);
-                    editarnombregraficoproyecto();
-                    proyecto = jQuery.parseJSON( proyecto );
-                    //Ciclo para crear todos los nods que hay en el proyecto
-                    for (nodo in proyecto){
-                        console.log(nodo+" este es el nodo "+proyecto[nodo]);
-                        var jsonnodo = (proyecto[nodo]);
-                        crearnuevonodo(jsonnodo["idnodo"],jsonnodo["x"],
-                            jsonnodo["y"],jsonnodo["tiponodo"],jsonnodo["caracteristica"],true);
-                    }
-                    //Ciclo para conectar todos los nodos
-                    for (nodo in proyecto){
-                        var jsonnodo = (proyecto[nodo]);
-                        console.log("hijos "+jsonnodo["idhijos"]);
-                        if (jsonnodo["idhijos"].length>0){
-                            for (valor in jsonnodo["idhijos"]){
-                                var endpointpadre =agregarpuntosdefinanodo(
-                                    jsonnodo["idnodo"],true);//se asume que siempre el padre es un nodo
-                                var endpointhijo =agregarpuntosdefinanodo(
-                                    jsonnodo["idhijos"][valor],false);
-                                uuidpadre = endpointpadre.getUuid();
-                                uuidhijo = endpointhijo.getUuid();
-                                jsPlumb.connect({ uuids:[uuidpadre,uuidhijo] });                                
-                            }
-                        }
-                    }
-               });
+            });
+            var nuevoendpoint = new Array();
+            nuevoendpoint[0] = idnodo;
+            nuevoendpoint[1] = endpoint;
+            nuevoendpoint[2] = false; //se indica si ya ha sido unido o no
+            agregarendpoint(nuevoendpoint);
+            return endp;
+            //jsPlumb.draggable($("#"+String(idnodo)));
+            }
+
+            //Oyente usado para recibir proyecto a abrir
+            socket.on('abrir nuevo proyecto', function(proyecto, nombreproyecto){
+            console.log("abriendo proyecto " + nombreproyecto);
+            jsPlumb.empty("containment-wrapper");
+            setnombreproyecto(nombreproyecto);
+            editarnombregraficoproyecto();
+            proyecto = jQuery.parseJSON(proyecto);
+            //Ciclo para crear todos los nods que hay en el proyecto
+            for (nodo in proyecto){
+            console.log(nodo + " este es el nodo " + proyecto[nodo]);
+            var jsonnodo = (proyecto[nodo]);
+            crearnuevonodo(jsonnodo["idnodo"], jsonnodo["x"],
+                    jsonnodo["y"], jsonnodo["tiponodo"], jsonnodo["caracteristica"], true);
+            }
+            //Ciclo para conectar todos los nodos
+            for (nodo in proyecto){
+            var jsonnodo = (proyecto[nodo]);
+            console.log("hijos " + jsonnodo["idhijos"]);
+            if (jsonnodo["idhijos"].length > 0){
+            for (valor in jsonnodo["idhijos"]){
+            var endpointpadre = agregarpuntosdefinanodo(
+                    jsonnodo["idnodo"], true); //se asume que siempre el padre es un nodo
+            var endpointhijo = agregarpuntosdefinanodo(
+                    jsonnodo["idhijos"][valor], false);
+            uuidpadre = endpointpadre.getUuid();
+            uuidhijo = endpointhijo.getUuid();
+            jsPlumb.connect({ uuids:[uuidpadre, uuidhijo] });
+            }
+            }
+            }
+            });
             });
         </script>
     </body>

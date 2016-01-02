@@ -109,6 +109,7 @@ $(document).ready(function(){
             if (nodo.idnodo==idnodo){
                 nodo.tiponodo = $('#tipo').val();
                 nodo.valor = $('#valor').val();
+                cambiarnombretiponodo(idnodo,nodo.tiponodo);
             } 
         });          
     });
@@ -119,6 +120,21 @@ $(document).ready(function(){
         }, 1100);        
     });
 });
+
+
+
+//Esta funcion cambiara graficamente el tipo de nodo en la grafica
+function cambiarnombretiponodo(idnodo,tiponodo){
+    $(function(){
+        $("#"+idnodo+">.nombrenodo").empty("nombrenodo");
+        $("#"+idnodo+">.nombrenodo").html(tiponodo);
+//        nombrenodo = $("<span>", {
+//                "class": "nombrenodo",
+//            }).html(tiponodo);
+//        nombrenodo.appendTo($("#"+idnodo));
+        //$('#nomproyectoderecha').text(nombreproyecto);
+    });
+}
 
 //
 //socket.on('enviar propiedades actualizadas a cliente', function(node) {

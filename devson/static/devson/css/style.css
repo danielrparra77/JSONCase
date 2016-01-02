@@ -2,16 +2,8 @@ body
 {
     width: auto;
     font-family: Arial, Helvetica, sans-serif;
-    padding: 0px;
+    padding: 5px 10px 0px 10px;
     margin: 30px auto;
-}
-
-body
-{
-    width: auto;
-    font-family: Arial, Helvetica, sans-serif;
-    padding: 0px;
-    margin: 35px auto;
 }
 
 p
@@ -94,10 +86,7 @@ ul, ol{
 
 .nav li a:hover{
     background-color: #434343;
-}
-
-.nav > li{
-    float: left;
+    z-index: 1;
 }
 
 .nav > li{
@@ -108,7 +97,6 @@ ul, ol{
 .nav li ul{
     display: none;
     position: absolute;
-    min-width: 140px;
     background: #000000;
     /**left: 0;**/
     -webkit-transition: all .3s ease;
@@ -122,6 +110,7 @@ ul, ol{
     display: inline-block;
     position: absolute;
     min-width: 140px;
+    z-index: 1;
 }
 
 .nav li ul li{
@@ -133,14 +122,6 @@ ul, ol{
     right: -140px;
     top: 0px;
     min-width: 140px;
-}
-
-.nav2 li a{
-    background-color: #000000;
-    color: #FFFFFF;
-    text-decoration: none;
-    padding: 10px 15px;
-    display: inline-block;
 }
 
 .nav2 li a{
@@ -165,6 +146,7 @@ ul, ol{
 
 .nav2 li a:hover{
     background-color: #434343;
+    z-index: 1;
 }
 
 .nav3{
@@ -191,6 +173,7 @@ ul, ol{
 
 .nav3 li a:hover{
     background-color: #FFFFFF;
+    z-index: 1;
 }
 
 .nav3 > li{
@@ -214,6 +197,7 @@ ul, ol{
     display: inline-block;
     position: absolute;
     min-width: 140px;
+    z-index: 1;
 }
 
 .nav3 li ul li{
