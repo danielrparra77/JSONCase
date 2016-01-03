@@ -50,7 +50,7 @@ io.on('connection', function (socket) {
         console.log('he recibido una peticion de cambiar estilo de '+tipo+': ' +
                 color+' '+colorlinea+' '+grosorlinea+' '+tamano+' '+fuente);
         socket.broadcast.emit('recibir estilos', color,colorlinea,grosorlinea,tamano,fuente,tipo);
-        cerrarventana();
+        //cerrarventana();
     });
 });
 
