@@ -72,6 +72,20 @@ function settamanofuente(n){
 function gettamanofuente(){
     return tamanofuente;
 }
+var grosorconexion = '3';
+function setgrosorconexion(n){
+    grosorconexion = n;
+}
+function getgrosorconexion(){
+    return grosorconexion;
+}
+var colorconexion = '#020202';
+function setcolorconexion(n){
+    colorconexion = n;
+}
+function getcolorconexion(){
+    return colorconexion;
+}
 //valores necesarios para rear objetos json a partir de ls graficas
 var paranodo = new Array();
 paranodo[0] = "idnodo";
