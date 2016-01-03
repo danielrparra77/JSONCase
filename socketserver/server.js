@@ -22,13 +22,14 @@ io.on('connection', function (socket) {
     socket.on('enviar sqlquery', function (message) {
         console.log('Message: ' + message);
     });
-    socket.on('enviar proyecto', function (proyecto,parametros,nombreproyecto,usuario) {
-        console.log('he recibido una peticion de enviar proyecto: ' + proyecto+" "+parametros+" "+nombreproyecto+" "+usuario);
-        socket.broadcast.emit('recibir proyecto', proyecto,parametros,nombreproyecto,usuario);
+    socket.on('enviar proyecto', function (proyecto,parametros,estilo,paraestilo,nombreproyecto,usuario) {
+        console.log('he recibido una peticion de enviar proyecto: ' + proyecto+" "+parametros+" "+
+                estilo+" "+paraestilo+" "+nombreproyecto+" "+usuario);
+        socket.broadcast.emit('recibir proyecto', proyecto,parametros,estilo,paraestilo,nombreproyecto,usuario);
     });
-    socket.on('abrir proyecto', function (proyecto,nombreproyecto) {
-        console.log('he recibido una peticion de abrir proyecto: ' + proyecto+" "+nombreproyecto);
-        socket.broadcast.emit('abrir nuevo proyecto', proyecto,nombreproyecto);
+    socket.on('abrir proyecto', function (proyecto) {
+        console.log('he recibido una peticion de abrir proyecto: ' + proyecto);
+        socket.broadcast.emit('abrir nuevo proyecto', proyecto);
     });
     socket.on('enviar propiedades nodo', function (nodo) {
         //se manda a esperar un segundo en lo que el formulario crea el iframe

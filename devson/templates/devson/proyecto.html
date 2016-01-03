@@ -307,13 +307,32 @@
             }
 
             //Oyente usado para recibir proyecto a abrir
-            socket.on('abrir nuevo proyecto', function(proyecto, nombreproyecto){
+            socket.on('abrir nuevo proyecto', function(proyecto){
+                propiedadesproyecto = jQuery.parseJSON(proyecto);
+                var nombreproyecto = propiedadesproyecto["nombre"];
+                var usuarioproyecto = propiedadesproyecto["usuario"];
+                var estiloproyecto = propiedadesproyecto["estilo"];
+                proyecto = propiedadesproyecto["proyecto"];
+                //Cambio en el nombre del proyecto del interfaz
                 console.log("abriendo proyecto " + nombreproyecto);
                 jsPlumb.empty("containment-wrapper");
                 setnombreproyecto(nombreproyecto);
                 editarnombregraficoproyecto();
+                //Cambio en los estilos actuales
+                estiloproyecto = jQuery.parseJSON(estiloproyecto);
+                setfondonodo(estiloproyecto["fondonodo"]);
+                setcolorlineanodo(estiloproyecto["colorlineanodo"]);
+                setgrosornodo(estiloproyecto["grosornodo"]);
+                setfondohoja(estiloproyecto["fondohoja"]);
+                setcolorlineahoja(estiloproyecto["colorlineahoja"]);
+                setgrosorhoja(estiloproyecto["grosorhoja"]);
+                setfuenteletra(estiloproyecto["fuenteletra"]);
+                setcolorfuente(estiloproyecto["colorfuente"]);
+                settamanofuente(estiloproyecto["tamanofuente"]);
+                setgrosorconexion(estiloproyecto["grosorconexion"]);
+                setcolorconexion(estiloproyecto["colorconexion"]);
+                //Ciclo para crear todos los nodos que hay en el proyecto
                 proyecto = jQuery.parseJSON(proyecto);
-                //Ciclo para crear todos los nods que hay en el proyecto
                 for (nodo in proyecto){
                 console.log(nodo + " este es el nodo " + proyecto[nodo]);
                 var jsonnodo = (proyecto[nodo]);

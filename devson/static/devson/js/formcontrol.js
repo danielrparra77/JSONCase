@@ -9,82 +9,98 @@ var nodoscreados = [];
 var endpoints = [];
 var nombreproyecto = '';
 var usuarioconectado = '';
-var fondonodo = '#ffffff';
+
+
+//valores necesarios para crear objetos json a partir de los estilos
+var paraestilo = new Array();
+paraestilo[0] = "fondonodo";
+paraestilo[1] = "colorlineanodo";
+paraestilo[2] = "grosornodo";
+paraestilo[3] = "fondohoja";
+paraestilo[4] = "colorlineahoja";
+paraestilo[5] = "grosorhoja";
+paraestilo[6] = "fuenteletra";
+paraestilo[7] = "colorfuente";
+paraestilo[8] = "tamanofuente";
+paraestilo[9] = "grosorconexion";
+paraestilo[10] = "colorconexion";
+var estilo = new Object();
+estilo.fondonodo = '#ffffff';
 function setfondonodo(n){
-    fondonodo = n;
+    estilo.fondonodo = n;
 }
 function getfondonodo(){
-    return fondonodo;
+    return estilo.fondonodo;
 }
-var colorlineanodo ='#020202';
+estilo.colorlineanodo ='#020202';
 function setcolorlineanodo(n){
-    colorlineanodo = n;
+    estilo.colorlineanodo = n;
 }
 function getcolorlineanodo(){
-    return colorlineanodo;
+    return estilo.colorlineanodo;
 }
-var grosornodo ='1';
+estilo.grosornodo ='1';
 function setgrosornodo(n){
-    grosornodo = n;
+    estilo.grosornodo = n;
 }
 function getgrosornodo(){
-    return grosornodo;
+    return estilo.grosornodo;
 }
-var fondohoja = '#ffffff';
+estilo.fondohoja = '#ffffff';
 function setfondohoja(n){
-    fondohoja = n;
+    estilo.fondohoja = n;
 }
 function getfondohoja(){
-    return fondohoja;
+    return estilo.fondohoja;
 }
-var colorlineahoja ='#020202';
+estilo.colorlineahoja ='#020202';
 function setcolorlineahoja(n){
-    colorlineahoja = n;
+    estilo.colorlineahoja = n;
 }
 function getcolorlineahoja(){
-    return colorlineahoja;
+    return estilo.colorlineahoja;
 }
-var grosorhoja='1';
+estilo.grosorhoja='1';
 function setgrosorhoja(n){
-    grosorhoja = n;
+    estilo.grosorhoja = n;
 }
 function getgrosorhoja(){
-    return grosorhoja;
+    return estilo.grosorhoja;
 }
-var fuenteletra='arial';
+estilo.fuenteletra='arial';
 function setfuenteletra(n){
-    fuenteletra = n;
+    estilo.fuenteletra = n;
 }
 function getfuenteletra(){
-    return fuenteletra;
+    return estilo.fuenteletra;
 }
-var colorfuente='#020202';
+estilo.colorfuente='#020202';
 function setcolorfuente(n){
-    colorfuente = n;
+    estilo.colorfuente = n;
 }
 function getcolorfuente(){
-    return colorfuente;
+    return estilo.colorfuente;
 }
-var tamanofuente = '10';
+estilo.tamanofuente = '10';
 function settamanofuente(n){
-    tamanofuente = n;
+    estilo.tamanofuente = n;
 }
 function gettamanofuente(){
-    return tamanofuente;
+    return estilo.tamanofuente;
 }
-var grosorconexion = '3';
+estilo.grosorconexion = '3';
 function setgrosorconexion(n){
-    grosorconexion = n;
+    estilo.grosorconexion = n;
 }
 function getgrosorconexion(){
-    return grosorconexion;
+    return estilo.grosorconexion;
 }
-var colorconexion = '#020202';
+estilo.colorconexion = '#020202';
 function setcolorconexion(n){
-    colorconexion = n;
+    estilo.colorconexion = n;
 }
 function getcolorconexion(){
-    return colorconexion;
+    return estilo.colorconexion;
 }
 //valores necesarios para rear objetos json a partir de ls graficas
 var paranodo = new Array();
@@ -194,8 +210,8 @@ $(document).ready(function(){
     });
     $("#guardarproyecto").click(function(){
         setTimeout(function () {
-            console.log('Se enviara proyecto a guardar: ');
-            socket.emit('enviar proyecto',nodoscreados,paranodo,nombreproyecto,usuarioconectado);  
+            console.log('Se enviara proyecto a guardar: '+nombreproyecto+" de "+usuarioconectado);
+            socket.emit('enviar proyecto',nodoscreados,paranodo,estilo,paraestilo,nombreproyecto,usuarioconectado);  
         }, 1100);        
     });
 });
