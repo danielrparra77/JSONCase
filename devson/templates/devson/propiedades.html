@@ -8,12 +8,14 @@
         <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
         <link type="image/x-icon" rel="shortcut icon" href="{% static 'devson/images/devsoni.ico' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'devson/css/estilo.css' %}"/>
-        <script src="{% static 'devson/js/jquery-2.1.4.min.js' %}"></script>
-        <script type="text/javascript" src="{% static 'devson/js/cambiarPestana.js' %}"></script>
+        
+        <script src="http://localhost:8010/socket.io/socket.io.js"></script>
+        <script src="{% static 'devson/js/cambiarPestana.js' %}"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
         <title>Propiedades</title>
     </head>
     <body onload="cambiarPestanna(pestanas, pestana1);">
-        <script type="text/javascript" src="jquery-2.1.4.min.js"></script>
         <div class="contenedor">
             <div id="pestanas">
                 <ul id=lista>
@@ -52,7 +54,7 @@
                             <li>
                                 <label id="ejem1"></label>
                             </li>
-                            <li><button class="submit" type="submit" onclick="">Guardar Cambios</button></li>
+                            <li><button class="submit" type="submit" id="enviarestilocompuesto">Guardar Cambios</button></li>
                         </ul>
                     </form>
                 </div>
@@ -84,7 +86,7 @@
                             <li>
                                 <label id="ejem2"></label>
                             </li>
-                            <li><button class="submit" type="submit" onclick="">Guardar Cambios</button></li>
+                            <li><button class="submit" type="submit" id="enviarestilosimple">Guardar Cambios</button></li>
                         </ul>
                     </form>
                 </div>
@@ -113,7 +115,7 @@
                             <li>
                                 <label id="ejem3"></label>
                             </li>
-                            <li><button class="submit" type="submit" onclick="">Guardar Cambios</button></li>
+                            <li><button class="submit" type="submit" id="enviarestiloflecha">Guardar Cambios</button></li>
                         </ul>
                     </form>
                 </div>
@@ -152,7 +154,7 @@
                             <li>
                                 <h3 id="texto">Ejemplo</h3>
                             </li>
-                            <li><button class="submit" type="submit" onclick="">Guardar Cambios</button></li>
+                            <li><button class="submit" type="submit" id="enviarestiloletra">Guardar Cambios</button></li>
                         </ul>
                     </form>
                 </div>

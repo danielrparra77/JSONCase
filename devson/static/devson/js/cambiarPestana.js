@@ -1,3 +1,14 @@
+var socket = io.connect('http://localhost:8010/');
+//      
+socket.on('connect', function(){
+    console.log("connect");
+});
+
+var grolineacomp='0',collineacomp='#070707',colfondcomp='#070707';
+var grolineasm='0',collineasim='#070707',colfondsim='#070707';
+var grolinea='0',colorlinea='#070707';
+var fuente='arial',tamanofuente='10',colorfuente='#070707';
+
 function cambiarPestanna(pestanas, pestana) {
     pestana = document.getElementById(pestana.id);
     listaPestanas = document.getElementById(pestanas.id);
@@ -17,6 +28,35 @@ function cambiarPestanna(pestanas, pestana) {
         $(cpestana).css('display', '');
         $(pestana).css('background', '#434343');
         $(pestana).css('padding-bottom', '2px');
+        
+        $("#enviarestilocompuesto").click(function(){
+            console.log("estilo compuesto");
+            socket.emit('enviar estilo',colfondcomp,collineacomp,grolineacomp,'','','Compuesto');
+            setTimeout(function () {
+                window.close();  
+            }, 500);
+        });
+        $("#enviarestilosimple").click(function(){
+            console.log("estilo simple");
+            socket.emit('enviar estilo',colfondsim,collineasim,grolineasm,'','','Simple');
+            setTimeout(function () {
+                window.close();  
+            }, 500);
+        });
+        $("#enviarestiloflecha").click(function(){
+            console.log("estilo linea");
+            socket.emit('enviar estilo',colorlinea,'',grolinea,'','','Linea');
+            setTimeout(function () {
+                window.close();  
+            }, 500);
+        });
+        $("#enviarestiloletra").click(function(){
+            console.log("estilo letra");
+            socket.emit('enviar estilo',colorfuente,'','',tamanofuente,fuente,'Texto');
+            setTimeout(function () {
+                window.close();  
+            }, 500);
+        });
     });
 }
 
@@ -34,17 +74,17 @@ function tamanol() {
     lista = document.tipoTexto.tamano;
     elegido = lista.selectedIndex;
     opcion = lista.options[elegido];
-    tamano = opcion.value;
+    tamanofuente = opcion.value;
     texto = opcion.text;
     escribe = document.getElementById("texto");
-    escribe.style.fontSize = tamano + "px";
+    escribe.style.fontSize = tamanofuente + "px";
 }
 
 function color() {
     lista = document.getElementById("colort");
-    elegido = lista.value;
+    colorfuente = lista.value;
     escribe = document.getElementById("texto");
-    escribe.style.color = elegido;
+    escribe.style.color = colorfuente;
 }
 
 function colorl() {
@@ -53,17 +93,17 @@ function colorl() {
 
     elegido2 = lista2.selectedIndex;
     opcion = lista2.options[elegido2];
-    tamano = opcion.value;
-    elegido = lista.value;
+    grolineacomp = opcion.value;
+    collineacomp = lista.value;
     escribe = document.getElementById("ejem1");
-    escribe.style.border = tamano + 'px solid ' + elegido;
+    escribe.style.border = grolineacomp + 'px solid ' + collineacomp;
 }
 
 function colorr() {
     lista = document.getElementById("colorre");
-    elegido = lista.value;
+    colfondcomp = lista.value;
     escribe = document.getElementById("ejem1");
-    escribe.style.background = elegido;
+    escribe.style.background = colfondcomp;
 }
 
 function colorls() {
@@ -71,17 +111,17 @@ function colorls() {
     lista2 = document.tiposimple.grosors;
     elegido2 = lista2.selectedIndex;
     opcion = lista2.options[elegido2];
-    tamano = opcion.value;
-    elegido = lista.value;
+    grolineasm = opcion.value;
+    collineasim = lista.value;
     escribe = document.getElementById("ejem2");
-    escribe.style.border = tamano + 'px solid ' + elegido;
+    escribe.style.border = grolineasm + 'px solid ' + collineasim;
 }
 
 function colorrs() {
     lista = document.getElementById("colorres");
-    elegido = lista.value;
+    colfondsim = lista.value;
     escribe = document.getElementById("ejem2");
-    escribe.style.background = elegido;
+    escribe.style.background = colfondsim;
 }
 
 function colorll() {
@@ -89,9 +129,9 @@ function colorll() {
     lista2 = document.tipolinea.grosorl;
     elegido2 = lista2.selectedIndex;
     opcion = lista2.options[elegido2];
-    tamano = opcion.value;
-    elegido = lista.value;
+    grolinea = opcion.value;
+    colorlinea = lista.value;
     escribe = document.getElementById("ejem3");
-    escribe.style.background = elegido;
-    escribe.style.height = tamano + 'px'; 
+    escribe.style.background = colorlinea;
+    escribe.style.height = grolinea + 'px'; 
 }

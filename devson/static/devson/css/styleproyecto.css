@@ -8,7 +8,7 @@ and open the template in the editor.
     Author     : User
 */
 
-.ui-widget-content {
+.ui-widget-contentsimple {
     position: absolute;
     width: 108px;
     height: 75px;
@@ -16,8 +16,23 @@ and open the template in the editor.
     color: black;
     float: left;
     margin: 0 10px 10px 0;
+    border: 1px solid black;
 }
-.ui-widget-content:hover { 
+.ui-widget-contentsimple:hover { 
+    box-shadow: 2px 2px 19px #AAAAAA;
+    cursor: pointer;
+}
+.ui-widget-contentcomp {
+    position: absolute;
+    width: 108px;
+    height: 75px;
+    padding: 0.5em;
+    color: black;
+    float: left;
+    margin: 0 10px 10px 0;
+    border: 1px solid black;
+}
+.ui-widget-contentcomp:hover { 
     box-shadow: 2px 2px 19px #AAAAAA;
     cursor: pointer;
 }
