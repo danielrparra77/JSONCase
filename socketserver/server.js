@@ -45,6 +45,12 @@ io.on('connection', function (socket) {
         console.log('he recibido una peticion de cancelar propiedades : ' + idnodo);
         socket.broadcast.emit('cancelar iframe', idnodo);
     });
+    //el tipo de este oyente indica si se dirige a objeto simple compuesto,linea o letra
+    socket.on('enviar estilo', function (color,colorlinea,grosorlinea,tamano,fuente,tipo) {
+        console.log('he recibido una peticion de cambiar estilo de '+tipo+': ' +
+                color+' '+colorlinea+' '+grosorlinea+' '+tamano+' '+fuente);
+        socket.broadcast.emit('recibir estilos', color,colorlinea,grosorlinea,tamano,fuente,tipo);
+    });
 });
 
 console.log("mi servidor" );
