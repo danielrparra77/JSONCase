@@ -158,14 +158,17 @@
                     connector: "Straight",
                     endpoint: "Rectangle",
                     paintStyle: {fillStyle: "white", outlineColor: "blue", outlineWidth: 1},
-                    hoverPaintStyle: {fillStyle: "lightblue"},
-                    connectorStyle: {strokeStyle: "blue", lineWidth: 1},
+                    connectionType:"lineas",
                     connectorOverlays:[
                     ["Arrow", { width:12, length:12}]
                     ],
                     connectorHoverStyle: {lineWidth: 2}
             };
             jsPlumb.ready(function () {
+            jsPlumb.registerConnectionType("lineas", {
+                paintStyle:{ strokeStyle: getcolorconexion(), lineWidth: getgrosorconexion()  },
+                hoverPaintStyle:{fillStyle: "lightblue"}
+            });
             //jsPlumb.draggable($(".ui-widget-content"), {containment:"parent"});
                 //$('.ui-widget-content').draggable({
                 //    containment: 'parent'
@@ -383,6 +386,17 @@
                         console.log("en Linea");
                         setcolorconexion(color);
                         setgrosorconexion(grosorlinea);
+                        jsPlumb.registerConnectionType("lineas", {
+                            paintStyle:{ strokeStyle: getcolorconexion(), lineWidth: getgrosorconexion()  },
+                            hoverPaintStyle:{fillStyle: "lightblue"}
+                        });
+                        var connections=jsPlumb.getConnections();
+                        jsPlumb.select().addType("lineas"); 
+                        for(i=0;i<connections.length;i++){
+                            connections[i].setPaintStyle({
+                                strokeStyle: getcolorconexion(), lineWidth: getgrosorconexion()});
+                            jsPlumb.repaint(connections[i].id);
+                        }
                         break;
                     case 'Texto':
                         console.log("en Texto");
