@@ -216,21 +216,27 @@
             });
             //crear nuevo nodo, si abrir indica que si se creo nodo por abrirse un proyecto
             function crearnuevonodo(idnodo, x, y, tiponodo, caracteristica, siabrir){
-                if (String(caracteristica) == 'Nodo')
+                if (String(caracteristica) == 'Nodo'){
                     newDiv = $("<div/>", {
                         "class": "ui-widget-contentcomp",
                         "id": idnodo,
                     });
-                else
+                }
+                else{
                     newDiv = $("<div/>", {
                         "class": "ui-widget-contentsimple",
                         "id": idnodo,
                     });
+                }
                 newDiv.css({
                     'top': y,
                     'left': x
                 });
                 newDiv.appendTo("#containment-wrapper");
+                $(".ui-widget-contentcomp").css("border",getgrosornodo()+'px solid '+getcolorlineanodo());
+                $(".ui-widget-contentcomp").css("background", getfondonodo());
+                $(".ui-widget-contentsimple").css("background", getfondohoja());
+                $(".ui-widget-contentsimple").css("border", getgrosorhoja() + 'px solid ' + getcolorlineahoja());
                 jsPlumb.draggable($('#' + idnodo), {containment:"#containment-wrapper"});
                 //             newDiv.animate({ left: x+'px',top: y+'px' });
                 //            newImg = $("<img>", {
@@ -262,6 +268,9 @@
                     if (!siabrir)
                         agregarpuntosdefinanodo(idnodo, false);
                 }
+                $(".nombrenodo").css("fontFamily", getfuenteletra());
+                $(".nombrenodo").css("fontSize", gettamanofuente() + 'px');
+                $(".nombrenodo").css("color", getcolorfuente());
                 agregarnodo(idnodo, y, x, caracteristica);
                 objetoseleccionado = '';
                 idnodocreado = idnodocreado + 1;
@@ -337,22 +346,31 @@
                 {
                     case 'Compuesto':
                         console.log("en Compuesto");
-                        $(".ui-widget-contentcomp").css("border", grosorlinea + 'px solid ' + colorlinea);
-                        $(".ui-widget-contentcomp").css("background", color);
+                        setfondonodo(color);
+                        setgrosornodo(grosorlinea);
+                        setcolorlineanodo(colorlinea);
+                        $(".ui-widget-contentcomp").css("border",getgrosornodo()+'px solid '+getcolorlineanodo());
+                        $(".ui-widget-contentcomp").css("background", getfondonodo());
                         break;
                     case 'Simple':
                         console.log("en Simple");
-                        $(".ui-widget-contentsimple").css("background", color);
-                        $(".ui-widget-contentsimple").css("border", grosorlinea + 'px solid ' + colorlinea);
+                        setfondohoja(color);
+                        setcolorlineahoja(colorlinea);
+                        setgrosorhoja(grosorlinea);
+                        $(".ui-widget-contentsimple").css("background", getfondohoja());
+                        $(".ui-widget-contentsimple").css("border", getgrosorhoja() + 'px solid ' + getcolorlineahoja());
                         break;
                     case 'Linea':
                         console.log("en Linea");
                         break;
                     case 'Texto':
                         console.log("en Texto");
-                        $(".nombrenodo").css("fontFamily", fuente);
-                        $(".nombrenodo").css("fontSize", tamano + 'px');
-                        $(".nombrenodo").css("color", color);
+                        setcolorfuente(color);
+                        settamanofuente(tamano);
+                        setfuenteletra(fuente);
+                        $(".nombrenodo").css("fontFamily", getfuenteletra());
+                        $(".nombrenodo").css("fontSize", gettamanofuente() + 'px');
+                        $(".nombrenodo").css("color", getcolorfuente());
                         break;
                     default:
                         document.write("Error entregando datos de estilos, se recomienda recargar pagina<br />")

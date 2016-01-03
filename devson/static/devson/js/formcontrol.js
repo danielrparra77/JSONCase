@@ -9,6 +9,69 @@ var nodoscreados = [];
 var endpoints = [];
 var nombreproyecto = '';
 var usuarioconectado = '';
+var fondonodo = '#ffffff';
+function setfondonodo(n){
+    fondonodo = n;
+}
+function getfondonodo(){
+    return fondonodo;
+}
+var colorlineanodo ='#020202';
+function setcolorlineanodo(n){
+    colorlineanodo = n;
+}
+function getcolorlineanodo(){
+    return colorlineanodo;
+}
+var grosornodo ='1';
+function setgrosornodo(n){
+    grosornodo = n;
+}
+function getgrosornodo(){
+    return grosornodo;
+}
+var fondohoja = '#ffffff';
+function setfondohoja(n){
+    fondohoja = n;
+}
+function getfondohoja(){
+    return fondohoja;
+}
+var colorlineahoja ='#020202';
+function setcolorlineahoja(n){
+    colorlineahoja = n;
+}
+function getcolorlineahoja(){
+    return colorlineahoja;
+}
+var grosorhoja='1';
+function setgrosorhoja(n){
+    grosorhoja = n;
+}
+function getgrosorhoja(){
+    return grosorhoja;
+}
+var fuenteletra='arial';
+function setfuenteletra(n){
+    fuenteletra = n;
+}
+function getfuenteletra(){
+    return fuenteletra;
+}
+var colorfuente='#020202';
+function setcolorfuente(n){
+    colorfuente = n;
+}
+function getcolorfuente(){
+    return colorfuente;
+}
+var tamanofuente = '10';
+function settamanofuente(n){
+    tamanofuente = n;
+}
+function gettamanofuente(){
+    return tamanofuente;
+}
 //valores necesarios para rear objetos json a partir de ls graficas
 var paranodo = new Array();
 paranodo[0] = "idnodo";
