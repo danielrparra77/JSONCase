@@ -1,3 +1,4 @@
+var newwindow;
 function mostrarInputFileModificado() {
     $("#archivo_oculto").change(function(){
         $("#archivo").val($("#archivo_oculto").val());
@@ -29,4 +30,8 @@ function abrirventanap(a) {
     var top = (screen.height / 2) - (h / 2);
     newwindow = window.open(a, 'Propiedades', 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=no,copyhistory=no,width=' + w + ',height=' + h + ',top=' + top + ',left=' + left);
     newwindow.creator = self;
+}
+
+function cerrarventana(){
+    newwindow.window.close();
 }

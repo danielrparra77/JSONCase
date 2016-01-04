@@ -28,12 +28,12 @@
             <p align="center"><b>Proyetos en el equipo</b></p>
             <input class="inputImagen" id="archivo">
             <div class="botonInputFileModificado">
-                <input type="file" class="inputImagenOculto" id="archivo_oculto" onchange="processFiles(this.files)" name="archivo_oculto"/>
+                <input type="file" class="inputImagenOculto" value="" id="archivo_oculto" onchange="processFiles(this.files)" name="archivo_oculto"/>
                 <label class="boton">Examinar</label>  
             </div>        
         </div>
         <hr> <br>
-        <button id="abrirproyecto" class="submit">Abrir</button>
+        <input type="button" id="abrirproyecto" onclick="setTimeout(function(){window.close();},1000)" value="Abrir" class="submit"/>
         <input type="hidden" id="fileOutput"/>
     </form>
     <script type="text/javascript">
@@ -61,10 +61,9 @@
     $(document).ready(function(){
         $("#abrirproyecto").click(function(){
             var archivoabrir = $('#fileOutput').val();
-            if (nombre!='' && archivoabrir!=''){
-                console.log("se abrira el proyecto "+nombre+" en "+archivoabrir);
-                socket.emit('abrir proyecto',archivoabrir,nombre);
-                window.close();
+            if (archivoabrir!=''){
+                console.log("se abrira el proyecto "+" en "+archivoabrir);
+                socket.emit('abrir proyecto',archivoabrir);
             }
         });
     });

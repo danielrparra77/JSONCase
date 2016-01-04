@@ -9,6 +9,99 @@ var nodoscreados = [];
 var endpoints = [];
 var nombreproyecto = '';
 var usuarioconectado = '';
+
+
+//valores necesarios para crear objetos json a partir de los estilos
+var paraestilo = new Array();
+paraestilo[0] = "fondonodo";
+paraestilo[1] = "colorlineanodo";
+paraestilo[2] = "grosornodo";
+paraestilo[3] = "fondohoja";
+paraestilo[4] = "colorlineahoja";
+paraestilo[5] = "grosorhoja";
+paraestilo[6] = "fuenteletra";
+paraestilo[7] = "colorfuente";
+paraestilo[8] = "tamanofuente";
+paraestilo[9] = "grosorconexion";
+paraestilo[10] = "colorconexion";
+var estilo = new Object();
+estilo.fondonodo = '#ffffff';
+function setfondonodo(n){
+    estilo.fondonodo = n;
+}
+function getfondonodo(){
+    return estilo.fondonodo;
+}
+estilo.colorlineanodo ='#020202';
+function setcolorlineanodo(n){
+    estilo.colorlineanodo = n;
+}
+function getcolorlineanodo(){
+    return estilo.colorlineanodo;
+}
+estilo.grosornodo ='1';
+function setgrosornodo(n){
+    estilo.grosornodo = n;
+}
+function getgrosornodo(){
+    return estilo.grosornodo;
+}
+estilo.fondohoja = '#ffffff';
+function setfondohoja(n){
+    estilo.fondohoja = n;
+}
+function getfondohoja(){
+    return estilo.fondohoja;
+}
+estilo.colorlineahoja ='#020202';
+function setcolorlineahoja(n){
+    estilo.colorlineahoja = n;
+}
+function getcolorlineahoja(){
+    return estilo.colorlineahoja;
+}
+estilo.grosorhoja='1';
+function setgrosorhoja(n){
+    estilo.grosorhoja = n;
+}
+function getgrosorhoja(){
+    return estilo.grosorhoja;
+}
+estilo.fuenteletra='arial';
+function setfuenteletra(n){
+    estilo.fuenteletra = n;
+}
+function getfuenteletra(){
+    return estilo.fuenteletra;
+}
+estilo.colorfuente='#020202';
+function setcolorfuente(n){
+    estilo.colorfuente = n;
+}
+function getcolorfuente(){
+    return estilo.colorfuente;
+}
+estilo.tamanofuente = '10';
+function settamanofuente(n){
+    estilo.tamanofuente = n;
+}
+function gettamanofuente(){
+    return estilo.tamanofuente;
+}
+estilo.grosorconexion = '3';
+function setgrosorconexion(n){
+    estilo.grosorconexion = n;
+}
+function getgrosorconexion(){
+    return estilo.grosorconexion;
+}
+estilo.colorconexion = '#020202';
+function setcolorconexion(n){
+    estilo.colorconexion = n;
+}
+function getcolorconexion(){
+    return estilo.colorconexion;
+}
 //valores necesarios para rear objetos json a partir de ls graficas
 var paranodo = new Array();
 paranodo[0] = "idnodo";
@@ -117,8 +210,8 @@ $(document).ready(function(){
     });
     $("#guardarproyecto").click(function(){
         setTimeout(function () {
-            console.log('Se enviara proyecto a guardar: ');
-            socket.emit('enviar proyecto',nodoscreados,paranodo,nombreproyecto,usuarioconectado);  
+            console.log('Se enviara proyecto a guardar: '+nombreproyecto+" de "+usuarioconectado);
+            socket.emit('enviar proyecto',nodoscreados,paranodo,estilo,paraestilo,nombreproyecto,usuarioconectado);  
         }, 1100);        
     });
 });

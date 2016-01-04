@@ -158,14 +158,17 @@
                     connector: "Straight",
                     endpoint: "Rectangle",
                     paintStyle: {fillStyle: "white", outlineColor: "blue", outlineWidth: 1},
-                    hoverPaintStyle: {fillStyle: "lightblue"},
-                    connectorStyle: {strokeStyle: "blue", lineWidth: 1},
+                    connectionType:"lineas",
                     connectorOverlays:[
                     ["Arrow", { width:12, length:12}]
                     ],
                     connectorHoverStyle: {lineWidth: 2}
             };
             jsPlumb.ready(function () {
+            jsPlumb.registerConnectionType("lineas", {
+                paintStyle:{ strokeStyle: getcolorconexion(), lineWidth: getgrosorconexion()  },
+                hoverPaintStyle:{fillStyle: "lightblue"}
+            });
             //jsPlumb.draggable($(".ui-widget-content"), {containment:"parent"});
                 //$('.ui-widget-content').draggable({
                 //    containment: 'parent'
@@ -216,21 +219,27 @@
             });
             //crear nuevo nodo, si abrir indica que si se creo nodo por abrirse un proyecto
             function crearnuevonodo(idnodo, x, y, tiponodo, caracteristica, siabrir){
-                if (String(caracteristica) == 'Nodo')
+                if (String(caracteristica) == 'Nodo'){
                     newDiv = $("<div/>", {
                         "class": "ui-widget-contentcomp",
                         "id": idnodo,
                     });
-                else
+                }
+                else{
                     newDiv = $("<div/>", {
                         "class": "ui-widget-contentsimple",
                         "id": idnodo,
                     });
+                }
                 newDiv.css({
                     'top': y,
                     'left': x
                 });
                 newDiv.appendTo("#containment-wrapper");
+                $(".ui-widget-contentcomp").css("border",getgrosornodo()+'px solid '+getcolorlineanodo());
+                $(".ui-widget-contentcomp").css("background", getfondonodo());
+                $(".ui-widget-contentsimple").css("background", getfondohoja());
+                $(".ui-widget-contentsimple").css("border", getgrosorhoja() + 'px solid ' + getcolorlineahoja());
                 jsPlumb.draggable($('#' + idnodo), {containment:"#containment-wrapper"});
                 //             newDiv.animate({ left: x+'px',top: y+'px' });
                 //            newImg = $("<img>", {
@@ -262,6 +271,9 @@
                     if (!siabrir)
                         agregarpuntosdefinanodo(idnodo, false);
                 }
+                $(".nombrenodo").css("fontFamily", getfuenteletra());
+                $(".nombrenodo").css("fontSize", gettamanofuente() + 'px');
+                $(".nombrenodo").css("color", getcolorfuente());
                 agregarnodo(idnodo, y, x, caracteristica);
                 objetoseleccionado = '';
                 idnodocreado = idnodocreado + 1;
@@ -298,13 +310,32 @@
             }
 
             //Oyente usado para recibir proyecto a abrir
-            socket.on('abrir nuevo proyecto', function(proyecto, nombreproyecto){
+            socket.on('abrir nuevo proyecto', function(proyecto){
+                propiedadesproyecto = jQuery.parseJSON(proyecto);
+                var nombreproyecto = propiedadesproyecto["nombre"];
+                var usuarioproyecto = propiedadesproyecto["usuario"];
+                var estiloproyecto = propiedadesproyecto["estilo"];
+                proyecto = propiedadesproyecto["proyecto"];
+                //Cambio en el nombre del proyecto del interfaz
                 console.log("abriendo proyecto " + nombreproyecto);
                 jsPlumb.empty("containment-wrapper");
                 setnombreproyecto(nombreproyecto);
                 editarnombregraficoproyecto();
+                //Cambio en los estilos actuales
+                estiloproyecto = jQuery.parseJSON(estiloproyecto);
+                setfondonodo(estiloproyecto["fondonodo"]);
+                setcolorlineanodo(estiloproyecto["colorlineanodo"]);
+                setgrosornodo(estiloproyecto["grosornodo"]);
+                setfondohoja(estiloproyecto["fondohoja"]);
+                setcolorlineahoja(estiloproyecto["colorlineahoja"]);
+                setgrosorhoja(estiloproyecto["grosorhoja"]);
+                setfuenteletra(estiloproyecto["fuenteletra"]);
+                setcolorfuente(estiloproyecto["colorfuente"]);
+                settamanofuente(estiloproyecto["tamanofuente"]);
+                setgrosorconexion(estiloproyecto["grosorconexion"]);
+                setcolorconexion(estiloproyecto["colorconexion"]);
+                //Ciclo para crear todos los nodos que hay en el proyecto
                 proyecto = jQuery.parseJSON(proyecto);
-                //Ciclo para crear todos los nods que hay en el proyecto
                 for (nodo in proyecto){
                 console.log(nodo + " este es el nodo " + proyecto[nodo]);
                 var jsonnodo = (proyecto[nodo]);
@@ -337,22 +368,44 @@
                 {
                     case 'Compuesto':
                         console.log("en Compuesto");
-                        $(".ui-widget-contentcomp").css("border", grosorlinea + 'px solid ' + colorlinea);
-                        $(".ui-widget-contentcomp").css("background", color);
+                        setfondonodo(color);
+                        setgrosornodo(grosorlinea);
+                        setcolorlineanodo(colorlinea);
+                        $(".ui-widget-contentcomp").css("border",getgrosornodo()+'px solid '+getcolorlineanodo());
+                        $(".ui-widget-contentcomp").css("background", getfondonodo());
                         break;
                     case 'Simple':
                         console.log("en Simple");
-                        $(".ui-widget-contentsimple").css("background", color);
-                        $(".ui-widget-contentsimple").css("border", grosorlinea + 'px solid ' + colorlinea);
+                        setfondohoja(color);
+                        setcolorlineahoja(colorlinea);
+                        setgrosorhoja(grosorlinea);
+                        $(".ui-widget-contentsimple").css("background", getfondohoja());
+                        $(".ui-widget-contentsimple").css("border", getgrosorhoja() + 'px solid ' + getcolorlineahoja());
                         break;
                     case 'Linea':
                         console.log("en Linea");
+                        setcolorconexion(color);
+                        setgrosorconexion(grosorlinea);
+                        jsPlumb.registerConnectionType("lineas", {
+                            paintStyle:{ strokeStyle: getcolorconexion(), lineWidth: getgrosorconexion()  },
+                            hoverPaintStyle:{fillStyle: "lightblue"}
+                        });
+                        var connections=jsPlumb.getConnections();
+                        jsPlumb.select().addType("lineas"); 
+                        for(i=0;i<connections.length;i++){
+                            connections[i].setPaintStyle({
+                                strokeStyle: getcolorconexion(), lineWidth: getgrosorconexion()});
+                            jsPlumb.repaint(connections[i].id);
+                        }
                         break;
                     case 'Texto':
                         console.log("en Texto");
-                        $(".nombrenodo").css("fontFamily", fuente);
-                        $(".nombrenodo").css("fontSize", tamano + 'px');
-                        $(".nombrenodo").css("color", color);
+                        setcolorfuente(color);
+                        settamanofuente(tamano);
+                        setfuenteletra(fuente);
+                        $(".nombrenodo").css("fontFamily", getfuenteletra());
+                        $(".nombrenodo").css("fontSize", gettamanofuente() + 'px');
+                        $(".nombrenodo").css("color", getcolorfuente());
                         break;
                     default:
                         document.write("Error entregando datos de estilos, se recomienda recargar pagina<br />")

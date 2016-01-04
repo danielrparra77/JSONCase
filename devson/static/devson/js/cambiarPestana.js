@@ -30,32 +30,36 @@ function cambiarPestanna(pestanas, pestana) {
         $(pestana).css('padding-bottom', '2px');
         
         $("#enviarestilocompuesto").click(function(){
-            console.log("estilo compuesto");
+            
             socket.emit('enviar estilo',colfondcomp,collineacomp,grolineacomp,'','','Compuesto');
-            setTimeout(function () {
-                window.close();  
-            }, 500);
+            //setTimeout(function () {
+                console.log("estilo compuesto");
+            //    window.close();  
+            //}, 500);
         });
         $("#enviarestilosimple").click(function(){
-            console.log("estilo simple");
+            
             socket.emit('enviar estilo',colfondsim,collineasim,grolineasm,'','','Simple');
-            setTimeout(function () {
-                window.close();  
-            }, 500);
+//            setTimeout(function () {
+                console.log("estilo simple");
+//                window.close();  
+//            }, 500);
         });
         $("#enviarestiloflecha").click(function(){
-            console.log("estilo linea");
+            
             socket.emit('enviar estilo',colorlinea,'',grolinea,'','','Linea');
-            setTimeout(function () {
-                window.close();  
-            }, 500);
+//            setTimeout(function () {
+                console.log("estilo linea");
+//                window.close();  
+//            }, 500);
         });
         $("#enviarestiloletra").click(function(){
-            console.log("estilo letra");
+            
             socket.emit('enviar estilo',colorfuente,'','',tamanofuente,fuente,'Texto');
-            setTimeout(function () {
-                window.close();  
-            }, 500);
+//            setTimeout(function () {
+                console.log("estilo letra");
+//                window.close();  
+//            }, 500);
         });
     });
 }
