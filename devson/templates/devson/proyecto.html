@@ -15,17 +15,26 @@
         <script src="http://localhost:8010/socket.io/socket.io.js"></script>
         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
         {% block js %}
-            <script  src="{% static 'devson/js/bootstrap.min.js' %}"></script>
-            <script  src="{% static 'devson/js/formcontrol.js' %}"></script>
-            <script  src="{% static 'devson/js/jquery.jsPlumb-1.6.4-min.js' %}"></script>
-            <script  src="{% static 'devson/js/jquery-scrollto.js' %}"></script>
-            <script  src="{% static 'devson/js/jsPlumb-2.0.5.js' %}"></script>
-            <script  src="{% static 'devson/js/jsPlumb-2.0.5-min.js' %}"></script>
-            <script  src="{% static 'devson/js/nventana.js' %}"></script>
+        <script  src="{% static 'devson/js/bootstrap.min.js' %}"></script>
+        <script  src="{% static 'devson/js/formcontrol.js' %}"></script>
+        <script  src="{% static 'devson/js/jquery.jsPlumb-1.6.4-min.js' %}"></script>
+        <script  src="{% static 'devson/js/jquery-scrollto.js' %}"></script>
+        <script  src="{% static 'devson/js/jsPlumb-2.0.5.js' %}"></script>
+        <script  src="{% static 'devson/js/jsPlumb-2.0.5-min.js' %}"></script>
+        <script  src="{% static 'devson/js/nventana.js' %}"></script>
         {% endblock %}
         <link rel="stylesheet" type="text/css" href="{% static 'devson/css/bootstrap.min.css' %}" />
         <link rel="stylesheet" type="text/css" href="{% static 'devson/css/style.css' %}" />
         <link rel="stylesheet" type="text/css" href="{% static 'devson/css/style2.css' %}" />
+
+
+
+        <link rel="stylesheet" href="{% static 'devson/css/jquery.jsonview.css' %}" type="text/css">
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.0/jquery.min.js" type="text/javascript"></script>
+        <script  src="{% static 'devson/js/formcontrol.js' %}"></script>
+        <script  src="{% static 'devson/js/jquery.jsonview.js' %}"></script>
+
+
     </head>
     <body onload="setnombreproyecto('{{nombreproyecto}}','{{usuario}}')">
         <div class="container">
@@ -111,6 +120,9 @@
         <section id="proyec">
             <div><p id="nomproyectoderecha" align="center"><b>Proyeto: </b>{{ nombreproyecto }}</p></div> 
             <hr>
+            <div id="jsonview">
+
+            </div>
         </section>
         <section id="canvas">
             <div id="containment-wrapper"></div>   
@@ -166,117 +178,117 @@
             };
             jsPlumb.ready(function () {
             jsPlumb.registerConnectionType("lineas", {
-                paintStyle:{ strokeStyle: getcolorconexion(), lineWidth: getgrosorconexion()  },
-                hoverPaintStyle:{fillStyle: "lightblue"}
+            paintStyle:{ strokeStyle: getcolorconexion(), lineWidth: getgrosorconexion()  },
+                    hoverPaintStyle:{fillStyle: "lightblue"}
             });
             //jsPlumb.draggable($(".ui-widget-content"), {containment:"parent"});
-                //$('.ui-widget-content').draggable({
-                //    containment: 'parent'
+            //$('.ui-widget-content').draggable({
+            //    containment: 'parent'
             //});
             jsPlumb.setContainer($("#containment-wrapper"));
             $('#containment-wrapper').click(function (e) {
-                //falta revisar como obtener las coordenadas correctas del evento
-                if (String(objetoseleccionado) == 'Nodo' || String(objetoseleccionado) == 'Hoja') {
-                    var x = e.pageX - $(this).position().left;
-                    var y = e.pageY - $(this).position().top;
-                    crearnuevonodo(String("nodo" + idnodocreado), x, y, 'no hay tipo', String(objetoseleccionado), false);
-                }
+            //falta revisar como obtener las coordenadas correctas del evento
+            if (String(objetoseleccionado) == 'Nodo' || String(objetoseleccionado) == 'Hoja') {
+            var x = e.pageX - $(this).position().left;
+            var y = e.pageY - $(this).position().top;
+            crearnuevonodo(String("nodo" + idnodocreado), x, y, 'no hay tipo', String(objetoseleccionado), false);
+            }
             });
             //Oyente para que el usuario pueda solicitar editar caracteristicas de un nodo
             $(document).on("click", ".ui-widget-contentcomp", function(){
-                if (String(objetoseleccionado) == 'Propiedades') {
-                    idnodo = $(this).attr("id");
-                    if (mostrarmodal(idnodo))
-                        $("#myModal").modal();
-                }
+            if (String(objetoseleccionado) == 'Propiedades') {
+            idnodo = $(this).attr("id");
+            if (mostrarmodal(idnodo))
+                    $("#myModal").modal();
+            }
             });
             $(document).on("click", ".ui-widget-contentsimple", function(){
-                if (String(objetoseleccionado) == 'Propiedades') {
-                    idnodo = $(this).attr("id");
-                    if (mostrarmodal(idnodo))
-                        $("#myModal").modal();
-                }
+            if (String(objetoseleccionado) == 'Propiedades') {
+            idnodo = $(this).attr("id");
+            if (mostrarmodal(idnodo))
+                    $("#myModal").modal();
+            }
             });
             //Evento de conexion detectada para registrar quien es el padre y el hijo unidos
             jsPlumb.bind("connection", function(e) {
-                unirpadreahijo(e.sourceId, e.targetId);
+            unirpadreahijo(e.sourceId, e.targetId);
             });
             //Cuando un nodo quiere tener un hijo
             $(document).on("click", ".button_add", function(){
-                //$(".button_add").live("click", function () {
-                var parentnodeid = $(this).parent().attr("id");
-                agregarpuntosdefinanodo(parentnodeid, true);
+            //$(".button_add").live("click", function () {
+            var parentnodeid = $(this).parent().attr("id");
+            agregarpuntosdefinanodo(parentnodeid, true);
             });
             //Remove anchor 
             $(document).on("click", ".button_remove", function(){
-                var parentnode = $(this).parent();
-                //get list of current endpoints
-                var endpoints = jsPlumb.getEndpoints(parentnode);
-                //remove last one
-                if (endpoints.length > 2) {
-                    jsPlumb.deleteEndpoint(endpoints[endpoints.length - 1]);
-                }
+            var parentnode = $(this).parent();
+            //get list of current endpoints
+            var endpoints = jsPlumb.getEndpoints(parentnode);
+            //remove last one
+            if (endpoints.length > 2) {
+            jsPlumb.deleteEndpoint(endpoints[endpoints.length - 1]);
+            }
             });
             //crear nuevo nodo, si abrir indica que si se creo nodo por abrirse un proyecto
             function crearnuevonodo(idnodo, x, y, tiponodo, caracteristica, siabrir){
-                if (String(caracteristica) == 'Nodo'){
-                    newDiv = $("<div/>", {
-                        "class": "ui-widget-contentcomp",
-                        "id": idnodo,
-                    });
-                }
-                else{
-                    newDiv = $("<div/>", {
-                        "class": "ui-widget-contentsimple",
-                        "id": idnodo,
-                    });
-                }
-                newDiv.css({
-                    'top': y,
+            if (String(caracteristica) == 'Nodo'){
+            newDiv = $("<div/>", {
+            "class": "ui-widget-contentcomp",
+                    "id": idnodo,
+            });
+            }
+            else{
+            newDiv = $("<div/>", {
+            "class": "ui-widget-contentsimple",
+                    "id": idnodo,
+            });
+            }
+            newDiv.css({
+            'top': y,
                     'left': x
-                });
-                newDiv.appendTo("#containment-wrapper");
-                $(".ui-widget-contentcomp").css("border",getgrosornodo()+'px solid '+getcolorlineanodo());
-                $(".ui-widget-contentcomp").css("background", getfondonodo());
-                $(".ui-widget-contentsimple").css("background", getfondohoja());
-                $(".ui-widget-contentsimple").css("border", getgrosorhoja() + 'px solid ' + getcolorlineahoja());
-                jsPlumb.draggable($('#' + idnodo), {containment:"#containment-wrapper"});
-                //             newDiv.animate({ left: x+'px',top: y+'px' });
-                //            newImg = $("<img>", {
-                //                "class": "imagenFondo",
-                //                "src": "{% static 'devson/images/proyecto/"+String(caracteristica)+".png' %}",
-                //            });
-                //            newImg.appendTo(newDiv);
-                if (String(caracteristica) == 'Nodo'){
-                    nombrenodo = $("<label>", {
-                        "class": "nombrenodo",
-                    }).html('object');
-                    nombrenodo.appendTo(newDiv);
-                    botonagregarhijo = $("<div>", {
-                        "class": "button_add",
-                    }).html('Agregar Hijo');
-                    botonagregarhijo.appendTo(newDiv);
-                    botonquitarhijo = $("<span>", {
-                        "class": "button_remove",
-                    }).html('Quitar Hijo');
-                    botonquitarhijo.appendTo(newDiv);
-                    if (!siabrir)
-                        agregarpuntosdefinanodo(idnodo, true);
-                }
-                else{
-                    nombrenodo = $("<label>", {
-                        "class": "nombrenodo",
-                    }).html(tiponodo);
-                    nombrenodo.appendTo(newDiv);
-                    if (!siabrir)
-                        agregarpuntosdefinanodo(idnodo, false);
-                }
-                $(".nombrenodo").css("fontFamily", getfuenteletra());
-                $(".nombrenodo").css("fontSize", gettamanofuente() + 'px');
-                $(".nombrenodo").css("color", getcolorfuente());
-                agregarnodo(idnodo, y, x, caracteristica);
-                objetoseleccionado = '';
-                idnodocreado = idnodocreado + 1;
+            });
+            newDiv.appendTo("#containment-wrapper");
+            $(".ui-widget-contentcomp").css("border", getgrosornodo() + 'px solid ' + getcolorlineanodo());
+            $(".ui-widget-contentcomp").css("background", getfondonodo());
+            $(".ui-widget-contentsimple").css("background", getfondohoja());
+            $(".ui-widget-contentsimple").css("border", getgrosorhoja() + 'px solid ' + getcolorlineahoja());
+            jsPlumb.draggable($('#' + idnodo), {containment:"#containment-wrapper"});
+            //             newDiv.animate({ left: x+'px',top: y+'px' });
+            //            newImg = $("<img>", {
+            //                "class": "imagenFondo",
+            //                "src": "{% static 'devson/images/proyecto/"+String(caracteristica)+".png' %}",
+            //            });
+            //            newImg.appendTo(newDiv);
+            if (String(caracteristica) == 'Nodo'){
+            nombrenodo = $("<label>", {
+            "class": "nombrenodo",
+            }).html('object');
+            nombrenodo.appendTo(newDiv);
+            botonagregarhijo = $("<div>", {
+            "class": "button_add",
+            }).html('Agregar Hijo');
+            botonagregarhijo.appendTo(newDiv);
+            botonquitarhijo = $("<span>", {
+            "class": "button_remove",
+            }).html('Quitar Hijo');
+            botonquitarhijo.appendTo(newDiv);
+            if (!siabrir)
+                    agregarpuntosdefinanodo(idnodo, true);
+            }
+            else{
+            nombrenodo = $("<label>", {
+            "class": "nombrenodo",
+            }).html(tiponodo);
+            nombrenodo.appendTo(newDiv);
+            if (!siabrir)
+                    agregarpuntosdefinanodo(idnodo, false);
+            }
+            $(".nombrenodo").css("fontFamily", getfuenteletra());
+            $(".nombrenodo").css("fontSize", gettamanofuente() + 'px');
+            $(".nombrenodo").css("color", getcolorfuente());
+            agregarnodo(idnodo, y, x, caracteristica);
+            objetoseleccionado = '';
+            idnodocreado = idnodocreado + 1;
             }
 
             //Se debe definir si el enddpoint a agregar de un nodo es de un padre o un hijo
@@ -311,107 +323,110 @@
 
             //Oyente usado para recibir proyecto a abrir
             socket.on('abrir nuevo proyecto', function(proyecto){
-                propiedadesproyecto = jQuery.parseJSON(proyecto);
-                var nombreproyecto = propiedadesproyecto["nombre"];
-                var usuarioproyecto = propiedadesproyecto["usuario"];
-                var estiloproyecto = propiedadesproyecto["estilo"];
-                proyecto = propiedadesproyecto["proyecto"];
-                //Cambio en el nombre del proyecto del interfaz
-                console.log("abriendo proyecto " + nombreproyecto);
-                jsPlumb.empty("containment-wrapper");
-                setnombreproyecto(nombreproyecto);
-                editarnombregraficoproyecto();
-                //Cambio en los estilos actuales
-                estiloproyecto = jQuery.parseJSON(estiloproyecto);
-                setfondonodo(estiloproyecto["fondonodo"]);
-                setcolorlineanodo(estiloproyecto["colorlineanodo"]);
-                setgrosornodo(estiloproyecto["grosornodo"]);
-                setfondohoja(estiloproyecto["fondohoja"]);
-                setcolorlineahoja(estiloproyecto["colorlineahoja"]);
-                setgrosorhoja(estiloproyecto["grosorhoja"]);
-                setfuenteletra(estiloproyecto["fuenteletra"]);
-                setcolorfuente(estiloproyecto["colorfuente"]);
-                settamanofuente(estiloproyecto["tamanofuente"]);
-                setgrosorconexion(estiloproyecto["grosorconexion"]);
-                setcolorconexion(estiloproyecto["colorconexion"]);
-                //Ciclo para crear todos los nodos que hay en el proyecto
-                proyecto = jQuery.parseJSON(proyecto);
-                for (nodo in proyecto){
-                console.log(nodo + " este es el nodo " + proyecto[nodo]);
-                var jsonnodo = (proyecto[nodo]);
-                crearnuevonodo(jsonnodo["idnodo"], jsonnodo["x"],
-                        jsonnodo["y"], jsonnodo["tiponodo"], jsonnodo["caracteristica"], true);
-                }
-                //Ciclo para conectar todos los nodos
-                for (nodo in proyecto){
-                var jsonnodo = (proyecto[nodo]);
-                console.log("hijos " + jsonnodo["idhijos"]);
-                if (jsonnodo["idhijos"].length > 0){
-                for (valor in jsonnodo["idhijos"]){
-                var endpointpadre = agregarpuntosdefinanodo(
-                        jsonnodo["idnodo"], true); //se asume que siempre el padre es un nodo
-                var endpointhijo = agregarpuntosdefinanodo(
-                        jsonnodo["idhijos"][valor], false);
-                uuidpadre = endpointpadre.getUuid();
-                uuidhijo = endpointhijo.getUuid();
-                jsPlumb.connect({ uuids:[uuidpadre, uuidhijo] });
-                }
-                }
-                }
+            propiedadesproyecto = jQuery.parseJSON(proyecto);
+            var nombreproyecto = propiedadesproyecto["nombre"];
+            var usuarioproyecto = propiedadesproyecto["usuario"];
+            var estiloproyecto = propiedadesproyecto["estilo"];
+            proyecto = propiedadesproyecto["proyecto"];
+            //Cambio en el nombre del proyecto del interfaz
+            console.log("abriendo proyecto " + nombreproyecto);
+            jsPlumb.empty("containment-wrapper");
+            setnombreproyecto(nombreproyecto);
+            editarnombregraficoproyecto();
+            //Cambio en los estilos actuales
+            estiloproyecto = jQuery.parseJSON(estiloproyecto);
+            setfondonodo(estiloproyecto["fondonodo"]);
+            setcolorlineanodo(estiloproyecto["colorlineanodo"]);
+            setgrosornodo(estiloproyecto["grosornodo"]);
+            setfondohoja(estiloproyecto["fondohoja"]);
+            setcolorlineahoja(estiloproyecto["colorlineahoja"]);
+            setgrosorhoja(estiloproyecto["grosorhoja"]);
+            setfuenteletra(estiloproyecto["fuenteletra"]);
+            setcolorfuente(estiloproyecto["colorfuente"]);
+            settamanofuente(estiloproyecto["tamanofuente"]);
+            setgrosorconexion(estiloproyecto["grosorconexion"]);
+            setcolorconexion(estiloproyecto["colorconexion"]);
+            //Ciclo para crear todos los nodos que hay en el proyecto
+            proyecto = jQuery.parseJSON(proyecto);
+            for (nodo in proyecto){
+            console.log(nodo + " este es el nodo " + proyecto[nodo]);
+            var jsonnodo = (proyecto[nodo]);
+            crearnuevonodo(jsonnodo["idnodo"], jsonnodo["x"],
+                    jsonnodo["y"], jsonnodo["tiponodo"], jsonnodo["caracteristica"], true);
+            }
+            //Ciclo para conectar todos los nodos
+            for (nodo in proyecto){
+            var jsonnodo = (proyecto[nodo]);
+            console.log("hijos " + jsonnodo["idhijos"]);
+            if (jsonnodo["idhijos"].length > 0){
+            for (valor in jsonnodo["idhijos"]){
+            var endpointpadre = agregarpuntosdefinanodo(
+                    jsonnodo["idnodo"], true); //se asume que siempre el padre es un nodo
+            var endpointhijo = agregarpuntosdefinanodo(
+                    jsonnodo["idhijos"][valor], false);
+            uuidpadre = endpointpadre.getUuid();
+            uuidhijo = endpointhijo.getUuid();
+            jsPlumb.connect({ uuids:[uuidpadre, uuidhijo] });
+            }
+            }
+            }
             });
-            socket.on('recibir estilos', function(color,colorlinea,grosorlinea,
-                        tamano,fuente,tipo){
-                console.log('se editarn estilos de '+tipo+': ' +
-                    color+' '+colorlinea+' '+grosorlinea+' '+tamano+' '+fuente);
-                console.log('mi border: '+grosorlinea + 'px solid ' + colorlinea);
-                switch (tipo)
-                {
-                    case 'Compuesto':
-                        console.log("en Compuesto");
-                        setfondonodo(color);
-                        setgrosornodo(grosorlinea);
-                        setcolorlineanodo(colorlinea);
-                        $(".ui-widget-contentcomp").css("border",getgrosornodo()+'px solid '+getcolorlineanodo());
-                        $(".ui-widget-contentcomp").css("background", getfondonodo());
-                        break;
-                    case 'Simple':
-                        console.log("en Simple");
-                        setfondohoja(color);
-                        setcolorlineahoja(colorlinea);
-                        setgrosorhoja(grosorlinea);
-                        $(".ui-widget-contentsimple").css("background", getfondohoja());
-                        $(".ui-widget-contentsimple").css("border", getgrosorhoja() + 'px solid ' + getcolorlineahoja());
-                        break;
-                    case 'Linea':
-                        console.log("en Linea");
-                        setcolorconexion(color);
-                        setgrosorconexion(grosorlinea);
-                        jsPlumb.registerConnectionType("lineas", {
-                            paintStyle:{ strokeStyle: getcolorconexion(), lineWidth: getgrosorconexion()  },
-                            hoverPaintStyle:{fillStyle: "lightblue"}
-                        });
-                        var connections=jsPlumb.getConnections();
-                        jsPlumb.select().addType("lineas"); 
-                        for(i=0;i<connections.length;i++){
-                            connections[i].setPaintStyle({
-                                strokeStyle: getcolorconexion(), lineWidth: getgrosorconexion()});
-                            jsPlumb.repaint(connections[i].id);
-                        }
-                        break;
-                    case 'Texto':
-                        console.log("en Texto");
-                        setcolorfuente(color);
-                        settamanofuente(tamano);
-                        setfuenteletra(fuente);
-                        $(".nombrenodo").css("fontFamily", getfuenteletra());
-                        $(".nombrenodo").css("fontSize", gettamanofuente() + 'px');
-                        $(".nombrenodo").css("color", getcolorfuente());
-                        break;
-                    default:
-                        document.write("Error entregando datos de estilos, se recomienda recargar pagina<br />")
-                }
+            socket.on('recibir estilos', function(color, colorlinea, grosorlinea,
+                    tamano, fuente, tipo){
+            console.log('se editarn estilos de ' + tipo + ': ' +
+                    color + ' ' + colorlinea + ' ' + grosorlinea + ' ' + tamano + ' ' + fuente);
+            console.log('mi border: ' + grosorlinea + 'px solid ' + colorlinea);
+            switch (tipo)
+            {
+            case 'Compuesto':
+                    console.log("en Compuesto");
+            setfondonodo(color);
+            setgrosornodo(grosorlinea);
+            setcolorlineanodo(colorlinea);
+            $(".ui-widget-contentcomp").css("border", getgrosornodo() + 'px solid ' + getcolorlineanodo());
+            $(".ui-widget-contentcomp").css("background", getfondonodo());
+            break;
+            case 'Simple':
+                    console.log("en Simple");
+            setfondohoja(color);
+            setcolorlineahoja(colorlinea);
+            setgrosorhoja(grosorlinea);
+            $(".ui-widget-contentsimple").css("background", getfondohoja());
+            $(".ui-widget-contentsimple").css("border", getgrosorhoja() + 'px solid ' + getcolorlineahoja());
+            break;
+            case 'Linea':
+                    console.log("en Linea");
+            setcolorconexion(color);
+            setgrosorconexion(grosorlinea);
+            jsPlumb.registerConnectionType("lineas", {
+            paintStyle:{ strokeStyle: getcolorconexion(), lineWidth: getgrosorconexion()  },
+                    hoverPaintStyle:{fillStyle: "lightblue"}
             });
-        });
+            var connections = jsPlumb.getConnections();
+            jsPlumb.select().addType("lineas");
+            for (i = 0; i < connections.length; i++){
+            connections[i].setPaintStyle({
+            strokeStyle: getcolorconexion(), lineWidth: getgrosorconexion()});
+            jsPlumb.repaint(connections[i].id);
+            }
+            break;
+            case 'Texto':
+                    console.log("en Texto");
+            setcolorfuente(color);
+            settamanofuente(tamano);
+            setfuenteletra(fuente);
+            $(".nombrenodo").css("fontFamily", getfuenteletra());
+            $(".nombrenodo").css("fontSize", gettamanofuente() + 'px');
+            $(".nombrenodo").css("color", getcolorfuente());
+            break;
+            default:
+                    document.write("Error entregando datos de estilos, se recomienda recargar pagina<br />")
+            }
+            });
+           });
+            
         </script>
+
+
     </body>
 </html>

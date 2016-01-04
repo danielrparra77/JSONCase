@@ -438,3 +438,9 @@ button.submit:active{
 .email:required:invalid + .ocul:before{
     color: #28921F;
 }
+
+#jsonview{
+    width:100%;
+    overflow:auto;
+    height: 425px;
+}
