@@ -23,7 +23,7 @@
             </div>
             <div>
                 <p align="center"><b>Guardar en la base de datos</b></p> 
-                <button class="submit">Guardar en BD</button>
+                <button id="guardardb" class="submit">Guardar en BD</button>
             </div>
             <hr>
         </form>
@@ -85,6 +85,12 @@
                     (window.URL || window.webkitURL).revokeObjectURL(save.href);
                 };
                 reader.readAsDataURL(new Blob([archivoguardar], {type: "application/json"}));
+            });
+            $("#guardardb").click(function(){
+                var archivoguardar = JSON.stringify(proyectocompleto, parametrosproyecto, "\t");
+                return $.post( "{% url 'devson:guardarendb'%}", { proyecto: archivoguardar},
+                function() {this.submit();});
+                
             });
         });
     </script>

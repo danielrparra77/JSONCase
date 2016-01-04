@@ -19,7 +19,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.sessions.models import Session
 from django.contrib.auth.decorators import login_required
 import redis
-
+import json
+from . import models
+from datetime import datetime
 
 def index(request):
     return render(request, 'devson/index.html')
@@ -37,6 +39,22 @@ def abrir(request):
 @login_required()
 def guardar(request):
     return render(request, 'devson/guardar.html')
+
+@login_required()
+@csrf_exempt
+def guardarendb(request):
+    """
+        En esta vista se propone guardar el proyecto ya construido por el cliente
+        en la base de datos para ser usado en un momento futuro.
+    """
+    proyecto = request.POST['proyecto']
+    proyecto = json.dumps(proyecto)
+    proyecto = json.loads(proyecto)
+    print proyecto
+    print proyecto["nombre"]
+    print proyecto["proyecto"]
+    #mproyecto = models.Proyecto(K_NombreProyecto='',K_UsuarioCreo='',V_FechaCreacion=datetime.now())
+    return HttpResponse("Aqui se guardara en la base de datos")
 
 @login_required()
 def propiedades(request):
