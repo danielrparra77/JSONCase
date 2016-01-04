@@ -34,6 +34,8 @@ class Objeto(models.Model):
     K_Proyecto = models.ForeignKey(Proyecto)
     K_TipoObjeto = models.ForeignKey(TipoObjeto)
     K_HijoDe = models.ForeignKey("self")
+    def setpadre(self,padre):
+        self.K_HijoDe = padre
     
 """
     Aqui se registraran todos los posibles valores que un nodo puede tener

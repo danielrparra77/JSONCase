@@ -111,8 +111,9 @@ paranodo[3] = "idhijos";
 paranodo[4] = "caracteristica";
 paranodo[5] = "tiponodo";
 paranodo[6] = "valor";
-
-function insertarobject(x) {
+paranodo[7] = "padre";
+                    
+function insertarobject(x){
     objetoseleccionado = x;
 }
 //Funcion usada para actualizar el nuevo proyecto
@@ -145,6 +146,7 @@ function agregarnodo(idnodo, y, x, caracteristica) {
     nuevonodo.caracteristica = caracteristica;
     nuevonodo.tiponodo = '';
     nuevonodo.valor = '';
+    nuevonodo.padre = '';
     nodoscreados.push(nuevonodo);
 }
 
@@ -154,10 +156,40 @@ function unirpadreahijo(idpadre, idhijo) {
         if (nodo.idnodo == idpadre) {
             //alert("hubo una conexion padre "+idpadre+" hijo "+idhijo);
             nodo.idhijos.push(idhijo);
+            console.log(nodo.idnodo+" mis hijos "+nodo.idhijos);
+        }
+        if (nodo.idnodo==idhijo){
+            //alert("hubo una conexion padre "+idpadre+" hijo "+idhijo);
+            nodo.padre = idpadre;
         }
     });
 }
 
+//Funcion usada para separar a un padre con su hijo
+function separarpadrehijo(idpadre,idhijo){
+    var it = 0;
+    nodoscreados.forEach(function(nodo) {
+        if (nodo.idnodo==idpadre){
+            nodo.idhijos.splice(it, 1);
+            console.log(nodo.idnodo+" mis hijos "+nodo.idhijos);
+        }
+        if (nodo.idnodo==idhijo){
+            //alert("hubo una conexion padre "+idpadre+" hijo "+idhijo);
+            nodo.padre = '';
+        }
+        it+=1;
+    });
+}
+
+//Funcion usada para accrutalizar las posiciones de los nodos
+function actualizarposicionnodo(idnodo,posx,posy){
+    nodoscreados.forEach(function(nodo) {
+        if (nodo.idnodo==idnodo){
+            nodo.x = posx;
+            nodo.y = posy;
+        }
+    });
+}
 
 //Uso de Sockets para comunicarse con otras paginas como los casos de los iframe
 

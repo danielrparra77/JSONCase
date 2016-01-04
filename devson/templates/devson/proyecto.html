@@ -163,7 +163,9 @@
             <p>&copy; 2016 Derechos Reservados.</p>
         </footer>
         <script type="text/javascript">
-
+            //Posicion en la que se encuentran el contenedor de los divs
+            var xcontainment = 0;
+            var ycontainment = 0;
             var common = {
             isSource: false,
                     isTarget: false,
@@ -187,12 +189,14 @@
             //});
             jsPlumb.setContainer($("#containment-wrapper"));
             $('#containment-wrapper').click(function (e) {
-            //falta revisar como obtener las coordenadas correctas del evento
-            if (String(objetoseleccionado) == 'Nodo' || String(objetoseleccionado) == 'Hoja') {
-            var x = e.pageX - $(this).position().left;
-            var y = e.pageY - $(this).position().top;
-            crearnuevonodo(String("nodo" + idnodocreado), x, y, 'no hay tipo', String(objetoseleccionado), false);
-            }
+                //falta revisar como obtener las coordenadas correctas del evento
+                if (String(objetoseleccionado) == 'Nodo' || String(objetoseleccionado) == 'Hoja') {
+                    xcontainment = $(this).position().left;
+                    ycontainment = $(this).position().top
+                    var x = e.pageX - xcontainment;
+                    var y = e.pageY - ycontainment;
+                    crearnuevonodo(String("nodo" + idnodocreado), x, y, 'no hay tipo', String(objetoseleccionado), false);
+                }
             });
             //Oyente para que el usuario pueda solicitar editar caracteristicas de un nodo
             $(document).on("click", ".ui-widget-contentcomp", function(){
@@ -209,9 +213,16 @@
                     $("#myModal").modal();
             }
             });
+            //Evento de conexion detectada para separar a un padre de su hijo
+            jsPlumb.bind("beforeDetach", function(e) {
+                console.log("separando "+e.sourceId+" "+e.targetId);
+                separarpadrehijo(e.sourceId, e.targetId);
+                return true;
+            });
             //Evento de conexion detectada para registrar quien es el padre y el hijo unidos
             jsPlumb.bind("connection", function(e) {
-            unirpadreahijo(e.sourceId, e.targetId);
+                console.log("uniendo "+e.sourceId+" "+e.targetId);
+                unirpadreahijo(e.sourceId, e.targetId);
             });
             //Cuando un nodo quiere tener un hijo
             $(document).on("click", ".button_add", function(){
@@ -246,49 +257,60 @@
             newDiv.css({
             'top': y,
                     'left': x
-            });
-            newDiv.appendTo("#containment-wrapper");
-            $(".ui-widget-contentcomp").css("border", getgrosornodo() + 'px solid ' + getcolorlineanodo());
-            $(".ui-widget-contentcomp").css("background", getfondonodo());
-            $(".ui-widget-contentsimple").css("background", getfondohoja());
-            $(".ui-widget-contentsimple").css("border", getgrosorhoja() + 'px solid ' + getcolorlineahoja());
-            jsPlumb.draggable($('#' + idnodo), {containment:"#containment-wrapper"});
-            //             newDiv.animate({ left: x+'px',top: y+'px' });
-            //            newImg = $("<img>", {
-            //                "class": "imagenFondo",
-            //                "src": "{% static 'devson/images/proyecto/"+String(caracteristica)+".png' %}",
-            //            });
-            //            newImg.appendTo(newDiv);
-            if (String(caracteristica) == 'Nodo'){
-            nombrenodo = $("<label>", {
-            "class": "nombrenodo",
-            }).html('object');
-            nombrenodo.appendTo(newDiv);
-            botonagregarhijo = $("<div>", {
-            "class": "button_add",
-            }).html('Agregar Hijo');
-            botonagregarhijo.appendTo(newDiv);
-            botonquitarhijo = $("<span>", {
-            "class": "button_remove",
-            }).html('Quitar Hijo');
-            botonquitarhijo.appendTo(newDiv);
-            if (!siabrir)
-                    agregarpuntosdefinanodo(idnodo, true);
-            }
-            else{
-            nombrenodo = $("<label>", {
-            "class": "nombrenodo",
-            }).html(tiponodo);
-            nombrenodo.appendTo(newDiv);
-            if (!siabrir)
-                    agregarpuntosdefinanodo(idnodo, false);
-            }
-            $(".nombrenodo").css("fontFamily", getfuenteletra());
-            $(".nombrenodo").css("fontSize", gettamanofuente() + 'px');
-            $(".nombrenodo").css("color", getcolorfuente());
-            agregarnodo(idnodo, y, x, caracteristica);
-            objetoseleccionado = '';
-            idnodocreado = idnodocreado + 1;
+                });
+                newDiv.appendTo("#containment-wrapper");
+                $(".ui-widget-contentcomp").css("border",getgrosornodo()+'px solid '+getcolorlineanodo());
+                $(".ui-widget-contentcomp").css("background", getfondonodo());
+                $(".ui-widget-contentsimple").css("background", getfondohoja());
+                $(".ui-widget-contentsimple").css("border", getgrosorhoja() + 'px solid ' + getcolorlineahoja());
+                jsPlumb.draggable($('#' + idnodo), {containment:"#containment-wrapper",
+                    stop: function(e){
+                        // Evento cuando se actualizo la psocion de un div para registrar el cambio.
+                        var divcambiado = idnodo;
+                        var p = $("#"+idnodo);
+                        var position = p.position();
+                        var nuevox = position.left;
+                        var nuevoy = position.top;
+                        actualizarposicionnodo(divcambiado,nuevox,nuevoy);
+                        console.log("cambio la pos del div "+divcambiado+" en "+nuevox+" "+nuevoy+" "+e);
+                    }
+                });
+                //             newDiv.animate({ left: x+'px',top: y+'px' });
+                //            newImg = $("<img>", {
+                //                "class": "imagenFondo",
+                //                "src": "{% static 'devson/images/proyecto/"+String(caracteristica)+".png' %}",
+                //            });
+                //            newImg.appendTo(newDiv);
+                if (String(caracteristica) == 'Nodo'){
+                    nombrenodo = $("<label>", {
+                        "class": "nombrenodo",
+                    }).html('object');
+                    nombrenodo.appendTo(newDiv);
+                    botonagregarhijo = $("<div>", {
+                        "class": "button_add",
+                    }).html('Agregar Hijo');
+                    botonagregarhijo.appendTo(newDiv);
+                    botonquitarhijo = $("<span>", {
+                        "class": "button_remove",
+                    }).html('Quitar Hijo');
+                    botonquitarhijo.appendTo(newDiv);
+                    if (!siabrir)
+                        agregarpuntosdefinanodo(idnodo, true);
+                }
+                else{
+                    nombrenodo = $("<label>", {
+                        "class": "nombrenodo",
+                    }).html(tiponodo);
+                    nombrenodo.appendTo(newDiv);
+                    if (!siabrir)
+                        agregarpuntosdefinanodo(idnodo, false);
+                }
+                $(".nombrenodo").css("fontFamily", getfuenteletra());
+                $(".nombrenodo").css("fontSize", gettamanofuente() + 'px');
+                $(".nombrenodo").css("color", getcolorfuente());
+                agregarnodo(idnodo, y, x, caracteristica);
+                objetoseleccionado = '';
+                idnodocreado = idnodocreado + 1;
             }
 
             //Se debe definir si el enddpoint a agregar de un nodo es de un padre o un hijo
@@ -302,16 +324,6 @@
             anchor:"AutoDefault",
                     uuid:"ep" + String(idnodo)
             }, endpoint);
-            jsPlumb.draggable(String(idnodo), {
-            //x.draggable({
-            containment: '#containment-wrapper',
-                    drop: function (event, ui) {
-                    jsPlumb.repaintEverything();
-                    },
-                    drag: function (e, ui) {
-                    jsPlumb.repaintEverything();
-                    }
-            });
             var nuevoendpoint = new Array();
             nuevoendpoint[0] = idnodo;
             nuevoendpoint[1] = endpoint;
