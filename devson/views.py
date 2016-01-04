@@ -48,12 +48,34 @@ def guardarendb(request):
         en la base de datos para ser usado en un momento futuro.
     """
     proyecto = request.POST['proyecto']
-    proyecto = json.dumps(proyecto)
     proyecto = json.loads(proyecto)
     print proyecto
     print proyecto["nombre"]
-    print proyecto["proyecto"]
-    #mproyecto = models.Proyecto(K_NombreProyecto='',K_UsuarioCreo='',V_FechaCreacion=datetime.now())
+    mproyecto = models.Proyecto(K_NombreProyecto=proyecto["nombre"],K_UsuarioCreo=proyecto["usuario"],V_FechaCreacion=datetime.now())
+    print proyecto["estilo"]
+    estilo = json.loads(proyecto["estilo"])
+    mestilo = []
+    mestilo.append(models.EstiloObjeto(V_Estilo="fondonodo",V_Valor=estilo["fondonodo"],K_Proyecto=mproyecto))
+    mestilo.append(models.EstiloObjeto(V_Estilo="colorlineanodo",V_Valor=estilo["colorlineanodo"],K_Proyecto=mproyecto))
+    mestilo.append(models.EstiloObjeto(V_Estilo="grosornodo",V_Valor=estilo["grosornodo"],K_Proyecto=mproyecto))
+    mestilo.append(models.EstiloObjeto(V_Estilo="fondohoja",V_Valor=estilo["fondohoja"],K_Proyecto=mproyecto))
+    mestilo.append(models.EstiloObjeto(V_Estilo="colorlineahoja",V_Valor=estilo["colorlineahoja"],K_Proyecto=mproyecto))
+    mestilo.append(models.EstiloObjeto(V_Estilo="grosorhoja",V_Valor=estilo["grosorhoja"],K_Proyecto=mproyecto))
+    mestilo.append(models.EstiloObjeto(V_Estilo="fuenteletra",V_Valor=estilo["fuenteletra"],K_Proyecto=mproyecto))
+    mestilo.append(models.EstiloObjeto(V_Estilo="colorfuente",V_Valor=estilo["colorfuente"],K_Proyecto=mproyecto))
+    mestilo.append(models.EstiloObjeto(V_Estilo="tamanofuente",V_Valor=estilo["tamanofuente"],K_Proyecto=mproyecto))
+    mestilo.append(models.EstiloObjeto(V_Estilo="grosorconexion",V_Valor=estilo["grosorconexion"],K_Proyecto=mproyecto))
+    mestilo.append(models.EstiloObjeto(V_Estilo="colorconexion",V_Valor=estilo["colorconexion"],K_Proyecto=mproyecto))
+    print estilo["fondonodo"]
+    nodos = json.loads(proyecto["proyecto"])
+    print nodos
+    mnodo = []
+    for nodo in nodos:
+        print nodo
+        mnodo.append(models.Objeto(V_CoordenadaX=nodo["x"],V_CoordenadaY=nodo["y"],N_ClaseObjeto=nodo["caracteristica"],
+            N_SiRaiz='',K_Proyecto=mproyecto,K_TipoObjeto=nodo["tiponodo"],K_HijoDe=self))
+        
+        print nodo["idnodo"]
     return HttpResponse("Aqui se guardara en la base de datos")
 
 @login_required()
