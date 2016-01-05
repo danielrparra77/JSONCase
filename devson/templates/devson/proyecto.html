@@ -219,6 +219,16 @@
                 separarpadrehijo(e.sourceId, e.targetId);
                 return true;
             });
+            //Evento para impedir que dos hojas se conecten
+            jsPlumb.bind("beforeDrop", function(e) {
+                console.log("se uniran "+e.sourceId+" "+e.targetId);
+                fuente = getnodo(e.sourceId);
+                destino = getnodo(e.targetId);
+                if (fuente.caracteristica=='Hoja' && destino.caracteristica=='Hoja')
+                        return false;
+                else
+                    return true;
+            });
             //Evento de conexion detectada para registrar quien es el padre y el hijo unidos
             jsPlumb.bind("connection", function(e) {
                 console.log("uniendo "+e.sourceId+" "+e.targetId);
