@@ -1,6 +1,6 @@
 (function () {
     $.fn.jsonView = function (jsonData) {
-
+        console.log("en json view "+jsonData);
         id = 0;
         var $this = $(this);
         var treeHTML = "<div class=\"jquery-jsonview\">" + json2markup(jsonData) + "</div>";
@@ -51,13 +51,13 @@
             ele = '<li class="object-property"><dl class="property-definition"><dt class="property-name closed-array">' + k + ':<a href="#" class="property-toggle-button">[+]</a><a href="#" id="show_json_detail_' + id + '">show</a></dt><dd class="property-value" style="display:none;">' + json2markup(json[k], lvl) + '</dd></dl></li>';
         }
         markup.push(ele);
-        $('#show_json_detail_' + id + '').live('click', function (e) {
+        $(document).on("click",'#show_json_detail_' + id + '', function (e) {
             e.preventDefault();
             e.stopPropagation();
             alert(JSON.stringify(json[k], null, 2));
         });
     }
-    $('.list-toggle-button').live('click', function (e) {
+    $(document).on("click", ".list-toggle-button", function (e) {
         e.preventDefault();
         e.stopPropagation();
         var $this = $(this);
@@ -84,7 +84,7 @@
             });
         }
     });
-    $('.property-toggle-button').live('click', function (e) {
+    $(document).on("click", ".property-toggle-button", function (e) {
         e.preventDefault();
         e.stopPropagation();
         var $this = $(this);

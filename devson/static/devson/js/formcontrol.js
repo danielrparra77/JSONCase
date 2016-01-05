@@ -148,6 +148,9 @@ function agregarnodo(idnodo, y, x, caracteristica) {
     nuevonodo.valor = '';
     nuevonodo.padre = '';
     nodoscreados.push(nuevonodo);
+    $(function () {
+        $('#jsonview').jsonView(nodoscreados, {"status": "close"});
+    });
 }
 
 //Funcion usada para que el padre sepa que hijo acaba de tener
@@ -247,8 +250,9 @@ $(document).ready(function () {
             socket.emit('enviar proyecto', nodoscreados, paranodo, estilo, paraestilo, nombreproyecto, usuarioconectado);
         }, 1100);
     });
-
-
+    
+    
+    
 });
 
 
