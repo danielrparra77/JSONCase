@@ -112,8 +112,8 @@ paranodo[4] = "caracteristica";
 paranodo[5] = "tiponodo";
 paranodo[6] = "valor";
 paranodo[7] = "padre";
-                    
-function insertarobject(x){
+
+function insertarobject(x) {
     objetoseleccionado = x;
 }
 //Funcion usada para actualizar el nuevo proyecto
@@ -156,9 +156,9 @@ function unirpadreahijo(idpadre, idhijo) {
         if (nodo.idnodo == idpadre) {
             //alert("hubo una conexion padre "+idpadre+" hijo "+idhijo);
             nodo.idhijos.push(idhijo);
-            console.log(nodo.idnodo+" mis hijos "+nodo.idhijos);
+            console.log(nodo.idnodo + " mis hijos " + nodo.idhijos);
         }
-        if (nodo.idnodo==idhijo){
+        if (nodo.idnodo == idhijo) {
             //alert("hubo una conexion padre "+idpadre+" hijo "+idhijo);
             nodo.padre = idpadre;
         }
@@ -166,25 +166,25 @@ function unirpadreahijo(idpadre, idhijo) {
 }
 
 //Funcion usada para separar a un padre con su hijo
-function separarpadrehijo(idpadre,idhijo){
+function separarpadrehijo(idpadre, idhijo) {
     var it = 0;
-    nodoscreados.forEach(function(nodo) {
-        if (nodo.idnodo==idpadre){
+    nodoscreados.forEach(function (nodo) {
+        if (nodo.idnodo == idpadre) {
             nodo.idhijos.splice(it, 1);
-            console.log(nodo.idnodo+" mis hijos "+nodo.idhijos);
+            console.log(nodo.idnodo + " mis hijos " + nodo.idhijos);
         }
-        if (nodo.idnodo==idhijo){
+        if (nodo.idnodo == idhijo) {
             //alert("hubo una conexion padre "+idpadre+" hijo "+idhijo);
             nodo.padre = '';
         }
-        it+=1;
+        it += 1;
     });
 }
 
 //Funcion usada para accrutalizar las posiciones de los nodos
-function actualizarposicionnodo(idnodo,posx,posy){
-    nodoscreados.forEach(function(nodo) {
-        if (nodo.idnodo==idnodo){
+function actualizarposicionnodo(idnodo, posx, posy) {
+    nodoscreados.forEach(function (nodo) {
+        if (nodo.idnodo == idnodo) {
             nodo.x = posx;
             nodo.y = posy;
         }
@@ -247,56 +247,8 @@ $(document).ready(function () {
             socket.emit('enviar proyecto', nodoscreados, paranodo, estilo, paraestilo, nombreproyecto, usuarioconectado);
         }, 1100);
     });
-    $("#containment-wrapper").click(function () {
-        setTimeout(function () {
-            console.log('Se enviara proyecto a guardar: ' + nombreproyecto + " de " + usuarioconectado);
-            socket.emit('enviar proyecto', nodoscreados, paranodo, estilo, paraestilo, nombreproyecto, usuarioconectado);
-        }, 1100);
-
-        var proyectoguardar, parametrosguardar, nombreproyecto, usuarioconectado,
-                estilos, parametrosestilo, parametrosproyecto, proyectocompleto;
-
-        var paraproyecto = new Array();
-        paraproyecto[0] = "nombre";
-        paraproyecto[1] = "usuario";
-        paraproyecto[2] = "proyecto";
-        paraproyecto[3] = "estilo";
-        //      
-        socket.on('connect', function () {
-            console.log("connect");
-        });
-        //Oyente que recibe el proyecto de la plantilla nuevoproyecto
-        socket.on('recibir proyecto', function (proyecto, parametros, estilo, paraestilo, nombrenuevo, usuario) {
-            console.log("se recibio el proyecto " + proyecto + " , " + parametros + " , " + nombrenuevo + " , " + usuario);
-            proyectoguardar = proyecto;
-            parametrosguardar = parametros;
-            var archivoproyecto = JSON.stringify(proyectoguardar, parametrosguardar, "\t");
-            nombreproyecto = nombrenuevo;
-            usuarioconectado = usuario;
-            estilos = estilo;
-            parametrosestilo = paraestilo;
-            var archivoestilo = JSON.stringify(estilos, parametrosestilo, "\t");
-            parametrosproyecto = paraproyecto;
-            proyectocompleto = new Object();
-            proyectocompleto.nombre = nombrenuevo;
-            proyectocompleto.usuario = usuario;
-            proyectocompleto.proyecto = archivoproyecto;
-            proyectocompleto.estilo = archivoestilo;
-        });
-
-        var archivoguardar = JSON.stringify(proyectocompleto, parametrosproyecto, "\t");
-        var json = archivoguardar;
-        alert(json);
-        $('#jsonview').jsonView(json, {"status": "close"});
 
 
-
-
-
-
-
-
-    });
 });
 
 
