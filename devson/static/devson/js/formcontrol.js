@@ -148,6 +148,9 @@ function agregarnodo(idnodo, y, x, caracteristica) {
     nuevonodo.valor = '';
     nuevonodo.padre = '';
     nodoscreados.push(nuevonodo);
+    $(function () {
+        $('#jsonview').jsonView(nodoscreados, {"status": "close"});
+    });
 }
 
 //Funcion usada para que el padre sepa que hijo acaba de tener
@@ -162,6 +165,9 @@ function unirpadreahijo(idpadre, idhijo) {
             //alert("hubo una conexion padre "+idpadre+" hijo "+idhijo);
             nodo.padre = idpadre;
         }
+    });
+    $(function () {
+        $('#jsonview').jsonView(nodoscreados, {"status": "close"});
     });
 }
 
@@ -179,6 +185,9 @@ function separarpadrehijo(idpadre, idhijo) {
         }
         it += 1;
     });
+    $(function () {
+        $('#jsonview').jsonView(nodoscreados, {"status": "close"});
+    });
 }
 
 //Funcion usada para accrutalizar las posiciones de los nodos
@@ -188,6 +197,9 @@ function actualizarposicionnodo(idnodo, posx, posy) {
             nodo.x = posx;
             nodo.y = posy;
         }
+    });
+    $(function () {
+        $('#jsonview').jsonView(nodoscreados, {"status": "close"});
     });
 }
 
@@ -247,6 +259,7 @@ $(document).ready(function () {
             socket.emit('enviar proyecto', nodoscreados, paranodo, estilo, paraestilo, nombreproyecto, usuarioconectado);
         }, 1100);
     });
+
 
 
 });
