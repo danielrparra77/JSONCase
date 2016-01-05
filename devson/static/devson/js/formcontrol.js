@@ -203,6 +203,16 @@ function actualizarposicionnodo(idnodo, posx, posy) {
     });
 }
 
+function getnodo(idnodo){
+    var nodoencontrado = null;
+    nodoscreados.forEach(function (nodo) {
+        if (nodo.idnodo == idnodo) {
+            nodoencontrado = nodo;
+        }
+    });
+    return nodoencontrado;
+}
+
 //Uso de Sockets para comunicarse con otras paginas como los casos de los iframe
 
 var socket = io.connect('http://localhost:8010/');
