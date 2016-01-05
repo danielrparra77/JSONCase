@@ -70,13 +70,40 @@ def guardarendb(request):
     nodos = json.loads(proyecto["proyecto"])
     print nodos
     mnodo = []
+    mvalor = []
+    #Se crearan todos los nodos
     for nodo in nodos:
         print nodo
-        mnodo.append(models.Objeto(V_CoordenadaX=nodo["x"],V_CoordenadaY=nodo["y"],N_ClaseObjeto=nodo["caracteristica"],
-            N_SiRaiz='',K_Proyecto=mproyecto,K_TipoObjeto=nodo["tiponodo"],K_HijoDe=self))
-        
-        print nodo["idnodo"]
-    return HttpResponse("Aqui se guardara en la base de datos")
+        nuevo = models.Objeto(V_IdLocal=nodo["idnodo"],V_CoordenadaX=nodo["x"],V_CoordenadaY=nodo["y"],N_ClaseObjeto=nodo["caracteristica"],
+            N_SiRaiz=(nodo["padre"]==''),K_Proyecto=mproyecto,K_TipoObjeto=nodo["tiponodo"])      
+        print nodo["valor"]
+        valor = nodo["valor"]
+        if '[' in valor and ']' in valor and valor.index('[')==0 and valor.index(']')==len(valor)-1:
+            valor = valor[1:len(valor)-1].split(',')
+            print "encontre multiples valores "+str(valor)
+            for v in valor:
+                mvalor.append(models.ValorObjeto(K_ValorObjeto=v,K_Objeto=nuevo))
+        else:
+            print "encontre valor unico "+valor
+            mvalor.append(models.ValorObjeto(K_ValorObjeto=valor,K_Objeto=nuevo))
+        mnodo.append(nuevo)
+    #Se relacionaran los nodos con sus padres
+    print("relacionando con padres")
+    for nodo in mnodo:
+        if not nodo.N_SiRaiz:
+            for node in mnodo:
+                padreencontrado = False
+                for it in nodos:
+                    print("buscando "+ it['idnodo']+","+nodo.V_IdLocal+","+ node.V_IdLocal+","+it['padre'])
+                    if it['idnodo']==nodo.V_IdLocal and node.V_IdLocal == it['padre']:
+                        print("se encontro una relacion en "+it['idnodo']+" con "+it['padre'])
+                        nodo.K_HijoDe=node
+                        padreencontrado = True
+                        break
+                if padreencontrado:
+                    break
+    print("se termino de relacionar con padres")
+    return HttpResponseRedirect("Aqui se guardara en la base de datos")
 
 @login_required()
 def propiedades(request):

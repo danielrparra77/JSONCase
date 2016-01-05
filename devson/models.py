@@ -27,15 +27,14 @@ class TipoObjeto(models.Model):
 """
 
 class Objeto(models.Model):
+    V_IdLocal = models.CharField(max_length=9)
     V_CoordenadaX = models.IntegerField()
     V_CoordenadaY = models.IntegerField()
     N_ClaseObjeto = models.CharField(max_length=4)
     N_SiRaiz = models.BooleanField()
     K_Proyecto = models.ForeignKey(Proyecto)
-    K_TipoObjeto = models.ForeignKey(TipoObjeto)
+    K_TipoObjeto = models.CharField(max_length=10)
     K_HijoDe = models.ForeignKey("self")
-    def setpadre(self,padre):
-        self.K_HijoDe = padre
     
 """
     Aqui se registraran todos los posibles valores que un nodo puede tener
