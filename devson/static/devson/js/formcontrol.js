@@ -26,80 +26,80 @@ paraestilo[9] = "grosorconexion";
 paraestilo[10] = "colorconexion";
 var estilo = new Object();
 estilo.fondonodo = '#ffffff';
-function setfondonodo(n){
+function setfondonodo(n) {
     estilo.fondonodo = n;
 }
-function getfondonodo(){
+function getfondonodo() {
     return estilo.fondonodo;
 }
-estilo.colorlineanodo ='#020202';
-function setcolorlineanodo(n){
+estilo.colorlineanodo = '#020202';
+function setcolorlineanodo(n) {
     estilo.colorlineanodo = n;
 }
-function getcolorlineanodo(){
+function getcolorlineanodo() {
     return estilo.colorlineanodo;
 }
-estilo.grosornodo ='1';
-function setgrosornodo(n){
+estilo.grosornodo = '1';
+function setgrosornodo(n) {
     estilo.grosornodo = n;
 }
-function getgrosornodo(){
+function getgrosornodo() {
     return estilo.grosornodo;
 }
 estilo.fondohoja = '#ffffff';
-function setfondohoja(n){
+function setfondohoja(n) {
     estilo.fondohoja = n;
 }
-function getfondohoja(){
+function getfondohoja() {
     return estilo.fondohoja;
 }
-estilo.colorlineahoja ='#020202';
-function setcolorlineahoja(n){
+estilo.colorlineahoja = '#020202';
+function setcolorlineahoja(n) {
     estilo.colorlineahoja = n;
 }
-function getcolorlineahoja(){
+function getcolorlineahoja() {
     return estilo.colorlineahoja;
 }
-estilo.grosorhoja='1';
-function setgrosorhoja(n){
+estilo.grosorhoja = '1';
+function setgrosorhoja(n) {
     estilo.grosorhoja = n;
 }
-function getgrosorhoja(){
+function getgrosorhoja() {
     return estilo.grosorhoja;
 }
-estilo.fuenteletra='arial';
-function setfuenteletra(n){
+estilo.fuenteletra = 'arial';
+function setfuenteletra(n) {
     estilo.fuenteletra = n;
 }
-function getfuenteletra(){
+function getfuenteletra() {
     return estilo.fuenteletra;
 }
-estilo.colorfuente='#020202';
-function setcolorfuente(n){
+estilo.colorfuente = '#020202';
+function setcolorfuente(n) {
     estilo.colorfuente = n;
 }
-function getcolorfuente(){
+function getcolorfuente() {
     return estilo.colorfuente;
 }
 estilo.tamanofuente = '10';
-function settamanofuente(n){
+function settamanofuente(n) {
     estilo.tamanofuente = n;
 }
-function gettamanofuente(){
+function gettamanofuente() {
     return estilo.tamanofuente;
 }
 estilo.grosorconexion = '3';
-function setgrosorconexion(n){
+function setgrosorconexion(n) {
     estilo.grosorconexion = n;
 }
-function getgrosorconexion(){
+function getgrosorconexion() {
     return estilo.grosorconexion;
 }
 estilo.colorconexion = '#020202';
-function setcolorconexion(n){
+function setcolorconexion(n) {
     estilo.colorconexion = n;
 }
-function getcolorconexion(){
+function getcolorconexion() {
     return estilo.colorconexion;
 }
 //valores necesarios para rear objetos json a partir de ls graficas
@@ -112,53 +112,53 @@ paranodo[4] = "caracteristica";
 paranodo[5] = "tiponodo";
 paranodo[6] = "valor";
 paranodo[7] = "padre";
-                    
-function insertarobject(x){
+
+function insertarobject(x) {
     objetoseleccionado = x;
 }
 //Funcion usada para actualizar el nuevo proyecto
-function setnombreproyecto(nuevo,usuario){
+function setnombreproyecto(nuevo, usuario) {
     nombreproyecto = nuevo;
     usuarioconectado = usuario;
 }
 
 //Funcion para agregar los objetos endpoints
-function agregarendpoint(nuevoendpoint){
+function agregarendpoint(nuevoendpoint) {
     endpoints.push(nuevoendpoint);
 }
 
 //Funcion para organizar vistas de los iframe creados por el usuario
-function mostrarIframe(id){
-    if (document.getElementById(id).style.visibility=="hidden")
-        document.getElementById(id).style.visibility="visible";
+function mostrarIframe(id) {
+    if (document.getElementById(id).style.visibility == "hidden")
+        document.getElementById(id).style.visibility = "visible";
     else
-        document.getElementById(id).style.visibility="hidden";
+        document.getElementById(id).style.visibility = "hidden";
 }
 
 //Funcion usada para agregar un nodo la la lista de nodos, x y y indican cual es la posicion en la que se encuantran
 //la caracteristica dice si el nodo es nodo o si es hoja
-function agregarnodo(idnodo,y,x,caracteristica){
+function agregarnodo(idnodo, y, x, caracteristica) {
     var nuevonodo = new Object();
     nuevonodo.idnodo = idnodo;
     nuevonodo.x = x;
     nuevonodo.y = y;
-    nuevonodo.idhijos=[];
-    nuevonodo.caracteristica=caracteristica;
-    nuevonodo.tiponodo='';
+    nuevonodo.idhijos = [];
+    nuevonodo.caracteristica = caracteristica;
+    nuevonodo.tiponodo = '';
     nuevonodo.valor = '';
     nuevonodo.padre = '';
     nodoscreados.push(nuevonodo);
 }
 
 //Funcion usada para que el padre sepa que hijo acaba de tener
-function unirpadreahijo(idpadre,idhijo){
-    nodoscreados.forEach(function(nodo) {
-        if (nodo.idnodo==idpadre){
+function unirpadreahijo(idpadre, idhijo) {
+    nodoscreados.forEach(function (nodo) {
+        if (nodo.idnodo == idpadre) {
             //alert("hubo una conexion padre "+idpadre+" hijo "+idhijo);
             nodo.idhijos.push(idhijo);
-            console.log(nodo.idnodo+" mis hijos "+nodo.idhijos);
+            console.log(nodo.idnodo + " mis hijos " + nodo.idhijos);
         }
-        if (nodo.idnodo==idhijo){
+        if (nodo.idnodo == idhijo) {
             //alert("hubo una conexion padre "+idpadre+" hijo "+idhijo);
             nodo.padre = idpadre;
         }
@@ -166,25 +166,25 @@ function unirpadreahijo(idpadre,idhijo){
 }
 
 //Funcion usada para separar a un padre con su hijo
-function separarpadrehijo(idpadre,idhijo){
+function separarpadrehijo(idpadre, idhijo) {
     var it = 0;
-    nodoscreados.forEach(function(nodo) {
-        if (nodo.idnodo==idpadre){
+    nodoscreados.forEach(function (nodo) {
+        if (nodo.idnodo == idpadre) {
             nodo.idhijos.splice(it, 1);
-            console.log(nodo.idnodo+" mis hijos "+nodo.idhijos);
+            console.log(nodo.idnodo + " mis hijos " + nodo.idhijos);
         }
-        if (nodo.idnodo==idhijo){
+        if (nodo.idnodo == idhijo) {
             //alert("hubo una conexion padre "+idpadre+" hijo "+idhijo);
             nodo.padre = '';
         }
-        it+=1;
+        it += 1;
     });
 }
 
 //Funcion usada para accrutalizar las posiciones de los nodos
-function actualizarposicionnodo(idnodo,posx,posy){
-    nodoscreados.forEach(function(nodo) {
-        if (nodo.idnodo==idnodo){
+function actualizarposicionnodo(idnodo, posx, posy) {
+    nodoscreados.forEach(function (nodo) {
+        if (nodo.idnodo == idnodo) {
             nodo.x = posx;
             nodo.y = posy;
         }
@@ -195,16 +195,16 @@ function actualizarposicionnodo(idnodo,posx,posy){
 
 var socket = io.connect('http://localhost:8010/');
 //      
-socket.on('connect', function(){
+socket.on('connect', function () {
     console.log("connect");
 });
 
 //En esta funcion se preparara al modal informandole de los datos actuales del nodo
-function mostrarmodal(idnodo){
+function mostrarmodal(idnodo) {
     var retorono = false;
-    nodoscreados.forEach(function(nodo) {
-        if (nodo.idnodo==idnodo && nodo.caracteristica=='Hoja'){
-            $(function(){
+    nodoscreados.forEach(function (nodo) {
+        if (nodo.idnodo == idnodo && nodo.caracteristica == 'Hoja') {
+            $(function () {
                 $('#idnodoeditando').val(idnodo);
                 $('#tipo').val(nodo.tiponodo);
                 $('#valor').val(nodo.valor);
@@ -215,8 +215,8 @@ function mostrarmodal(idnodo){
     return retorono;
 }
 
-function editarnombregraficoproyecto (){
-    $(function(){
+function editarnombregraficoproyecto() {
+    $(function () {
         var para = document.createElement("b");
         var node = document.createTextNode("Proyeto:");
         var nombreproyec = document.createTextNode(nombreproyecto);
@@ -229,33 +229,35 @@ function editarnombregraficoproyecto (){
     });
 }
 
-$(document).ready(function(){
-    $("#enviar").click(function(){
+$(document).ready(function () {
+    $("#enviar").click(function () {
         var idnodo = $('#idnodoeditando').val();
         //alert("enviando "+idnodo);
-        nodoscreados.forEach(function(nodo) {
-            if (nodo.idnodo==idnodo){
+        nodoscreados.forEach(function (nodo) {
+            if (nodo.idnodo == idnodo) {
                 nodo.tiponodo = $('#tipo').val();
                 nodo.valor = $('#valor').val();
-                cambiarnombretiponodo(idnodo,nodo.tiponodo);
-            } 
-        });          
+                cambiarnombretiponodo(idnodo, nodo.tiponodo);
+            }
+        });
     });
-    $("#guardarproyecto").click(function(){
+    $("#guardarproyecto").click(function () {
         setTimeout(function () {
-            console.log('Se enviara proyecto a guardar: '+nombreproyecto+" de "+usuarioconectado);
-            socket.emit('enviar proyecto',nodoscreados,paranodo,estilo,paraestilo,nombreproyecto,usuarioconectado);  
-        }, 1100);        
+            console.log('Se enviara proyecto a guardar: ' + nombreproyecto + " de " + usuarioconectado);
+            socket.emit('enviar proyecto', nodoscreados, paranodo, estilo, paraestilo, nombreproyecto, usuarioconectado);
+        }, 1100);
     });
+
+
 });
 
 
 
 //Esta funcion cambiara graficamente el tipo de nodo en la grafica
-function cambiarnombretiponodo(idnodo,tiponodo){
-    $(function(){
-        $("#"+idnodo+">.nombrenodo").empty("nombrenodo");
-        $("#"+idnodo+">.nombrenodo").html(tiponodo);
+function cambiarnombretiponodo(idnodo, tiponodo) {
+    $(function () {
+        $("#" + idnodo + ">.nombrenodo").empty("nombrenodo");
+        $("#" + idnodo + ">.nombrenodo").html(tiponodo);
 //        nombrenodo = $("<span>", {
 //                "class": "nombrenodo",
 //            }).html(tiponodo);
@@ -291,13 +293,13 @@ function cambiarnombretiponodo(idnodo,tiponodo){
 //}
 
 //$(function() {
-  //$( "#draggable" ).draggable({ cursor: "move", cursorAt: { top: 56, left: 56 } });
-  //$( "#draggable2" ).draggable({ cursor: "crosshair", cursorAt: { top: -5, left: -5 } });
-  //$( "#draggable3" ).draggable({ cursorAt: { bottom: 0 } }); existe la funcion resizable() para despues
-  //$( ".ui-widget-content" ).draggable({ containment: "#containment-wrapper", scroll: true });
-  //$('#containment-wrapper').scrollTop(200);
+//$( "#draggable" ).draggable({ cursor: "move", cursorAt: { top: 56, left: 56 } });
+//$( "#draggable2" ).draggable({ cursor: "crosshair", cursorAt: { top: -5, left: -5 } });
+//$( "#draggable3" ).draggable({ cursorAt: { bottom: 0 } }); existe la funcion resizable() para despues
+//$( ".ui-widget-content" ).draggable({ containment: "#containment-wrapper", scroll: true });
+//$('#containment-wrapper').scrollTop(200);
 //});
 
 //$(document).ready(function(){
-    
+
 //});

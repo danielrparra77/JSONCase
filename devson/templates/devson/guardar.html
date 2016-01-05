@@ -84,6 +84,7 @@
                     save.dispatchEvent(clicEvent);
                     (window.URL || window.webkitURL).revokeObjectURL(save.href);
                 };
+                //alert(archivoguardar);
                 reader.readAsDataURL(new Blob([archivoguardar], {type: "application/json"}));
             });
             $("#guardardb").click(function(){
