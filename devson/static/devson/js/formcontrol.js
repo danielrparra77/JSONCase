@@ -174,6 +174,9 @@ function unirpadreahijo(idpadre, idhijo) {
             nodo.padre = idpadre;
         }
     });
+    $(function () {
+        $('#jsonview').jsonView(nodoscreados, {"status": "close"});
+    });
 }
 
 //Funcion usada para separar a un padre con su hijo
@@ -190,6 +193,9 @@ function separarpadrehijo(idpadre, idhijo) {
         }
         it += 1;
     });
+    $(function () {
+        $('#jsonview').jsonView(nodoscreados, {"status": "close"});
+    });
 }
 
 //Funcion usada para accrutalizar las posiciones de los nodos
@@ -199,6 +205,9 @@ function actualizarposicionnodo(idnodo, posx, posy) {
             nodo.x = posx;
             nodo.y = posy;
         }
+    });
+    $(function () {
+        $('#jsonview').jsonView(nodoscreados, {"status": "close"});
     });
 }
 
@@ -275,9 +284,9 @@ $(document).ready(function () {
             socket.emit('enviar proyecto', nodoscreados, paranodo, estilo, paraestilo, nombreproyecto, usuarioconectado);
         }, 1100);
     });
-    
-    
-    
+
+
+
 });
 
 
