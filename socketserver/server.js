@@ -22,35 +22,21 @@ io.on('connection', function (socket) {
     socket.on('enviar sqlquery', function (message) {
         console.log('Message: ' + message);
     });
+    //Se debe eliminar este socket ya que no es muy requerido pra guardar proyectos, basta con usar ajax
     socket.on('enviar proyecto', function (proyecto,parametros,estilo,paraestilo,nombreproyecto,usuario) {
         console.log('he recibido una peticion de enviar proyecto: ' + proyecto+" "+parametros+" "+
                 estilo+" "+paraestilo+" "+nombreproyecto+" "+usuario);
         socket.broadcast.emit('recibir proyecto', proyecto,parametros,estilo,paraestilo,nombreproyecto,usuario);
     });
-    socket.on('abrir proyecto', function (proyecto) {
-        console.log('he recibido una peticion de abrir proyecto: ' + proyecto);
-        socket.broadcast.emit('abrir nuevo proyecto', proyecto);
-    });
-    socket.on('enviar propiedades nodo', function (nodo) {
-        //se manda a esperar un segundo en lo que el formulario crea el iframe
-        setTimeout(function () {
-            console.log('he recibido una peticion de enviar: ' + nodo);
-            socket.broadcast.emit('enviar propiedades a cliente', nodo);
-        }, 1200);
-    });
-    socket.on('propiedades actualizadas nodo', function (nodo) {
-        console.log('he recibido una peticion actualizadas de enviar: ' + nodo);
-        socket.broadcast.emit('enviar propiedades actualizadas a cliente', nodo);
-    });
-    socket.on('cancelar propiedades nodo', function (idnodo) {
-        console.log('he recibido una peticion de cancelar propiedades : ' + idnodo);
-        socket.broadcast.emit('cancelar iframe', idnodo);
+    socket.on('abrir proyecto', function (proyecto,idinterfaz) {
+        console.log('he recibido una peticion de abrir proyecto: ' + proyecto+' para '+idinterfaz);
+        socket.broadcast.to(idinterfaz).emit('abrir nuevo proyecto', proyecto);
     });
     //el tipo de este oyente indica si se dirige a objeto simple compuesto,linea o letra
-    socket.on('enviar estilo', function (color,colorlinea,grosorlinea,tamano,fuente,tipo) {
+    socket.on('enviar estilo', function (color,colorlinea,grosorlinea,tamano,fuente,tipo,idinterfaz) {
         console.log('he recibido una peticion de cambiar estilo de '+tipo+': ' +
-                color+' '+colorlinea+' '+grosorlinea+' '+tamano+' '+fuente);
-        socket.broadcast.emit('recibir estilos', color,colorlinea,grosorlinea,tamano,fuente,tipo);
+                color+' '+colorlinea+' '+grosorlinea+' '+tamano+' '+fuente+' para '+idinterfaz);
+        socket.broadcast.to(idinterfaz).emit('recibir estilos', color,colorlinea,grosorlinea,tamano,fuente,tipo);
         //cerrarventana();
     });
 });

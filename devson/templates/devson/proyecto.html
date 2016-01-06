@@ -75,7 +75,7 @@
                     <a href="#">Archivo</a>
                     <ul>
                         <li><a href="#">Nuevo</a></li>
-                        <li><a onclick="abrirventana('{% url 'devson:abrir' %}')">Abrir</a></li>
+                        <li><a onclick="abrirventana('{% url 'devson:abrir' %}',getidsocket())">Abrir</a></li>
                         <li><a id="guardarproyecto" onclick="abrirventanag('{% url 'devson:guardar' %}')">Guardar</a></li>
                         <li><a href="#">Exportar como</a></li>
                     </ul>
@@ -93,10 +93,10 @@
                 <li>
                     <a href="#">Formato</a>
                     <ul>
-                        <li><a onclick="abrirventanap('{% url 'devson:propiedades' %}')">Objeto simple</a></li>
-                        <li><a onclick="abrirventanap('{% url 'devson:propiedades' %}')">Objeto compuesto</a></li>
-                        <li><a onclick="abrirventanap('{% url 'devson:propiedades' %}')">Relaci&oacute;n</a></li>
-                        <li><a onclick="abrirventanap('{% url 'devson:propiedades' %}')">Texto</a></li>
+                        <li><a onclick="abrirventanap('{% url 'devson:propiedades' %}',getidsocket())">Objeto simple</a></li>
+                        <li><a onclick="abrirventanap('{% url 'devson:propiedades' %}',getidsocket())">Objeto compuesto</a></li>
+                        <li><a onclick="abrirventanap('{% url 'devson:propiedades' %}',getidsocket())">Relaci&oacute;n</a></li>
+                        <li><a onclick="abrirventanap('{% url 'devson:propiedades' %}',getidsocket())">Texto</a></li>
                     </ul>                
                 </li>
                 <li>
@@ -163,6 +163,10 @@
         <footer id="page_footer">
             <p>&copy; 2016 Derechos Reservados.</p>
         </footer>
+        <form id="postabrirventana" class="formu" method="POST">
+            {% csrf_token %}
+            <input type="hidden" id="idsock" name="idsock"/>
+        </form>
         <script type="text/javascript">
             //Posicion en la que se encuentran el contenedor de los divs
             var xcontainment = 0;

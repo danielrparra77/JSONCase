@@ -215,10 +215,17 @@ function getnodo(idnodo){
 //Uso de Sockets para comunicarse con otras paginas como los casos de los iframe
 
 var socket = io.connect('http://localhost:8010/');
+var idsocket = '';
 //      
 socket.on('connect', function () {
     console.log("connect");
+    idsocket = socket.io.engine.id;
+    console.log("id socket "+idsocket);
 });
+
+function getidsocket(){
+    return idsocket;
+}
 
 //En esta funcion se preparara al modal informandole de los datos actuales del nodo
 function mostrarmodal(idnodo) {

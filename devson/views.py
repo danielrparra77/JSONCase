@@ -34,7 +34,11 @@ def desarrolladores(request):
 
 @login_required()
 def abrir(request):
-    return render(request, 'devson/abrir.html')
+    idsock = request.POST.get('idsock','')
+    print idsock
+    print 'abriendo nuevo proyecto'
+    context = {'idsock': idsock}
+    return render(request, 'devson/abrir.html',context)
 
 @login_required()
 def guardar(request):
@@ -118,7 +122,11 @@ def guardarendb(request):
 
 @login_required()
 def propiedades(request):
-    return render(request, 'devson/propiedades.html')
+    idsock = request.POST.get('idsock','')
+    print idsock
+    print 'viendo propiedades de los nodos'
+    context = {'idsock': idsock}
+    return render(request, 'devson/propiedades.html',context)
 
 @login_required()
 def cliente(request):
@@ -151,7 +159,7 @@ def nuevoproyecto(request,usuario):
             context = {'usuario': usuario,
                         'nombreproyecto': nombreproyecto}
             return render(request, 'devson/proyecto.html',context)
-        except (KeyError, Choice.DoesNotExist):
+        except:
             # Redisplay the question voting form.
             return render(request, 'devson/cliente.html', {
                 'usuario': usuario,

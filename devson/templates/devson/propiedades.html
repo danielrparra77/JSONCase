@@ -8,7 +8,7 @@
         <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
         <link type="image/x-icon" rel="shortcut icon" href="{% static 'devson/images/devsoni.ico' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'devson/css/estilo.css' %}"/>
-        
+        <!-- <meta http-equiv="refresh" content="3" >-->
         <script src="http://localhost:8010/socket.io/socket.io.js"></script>
         <script src="{% static 'devson/js/cambiarPestana.js' %}"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -160,4 +160,7 @@
             </div>
         </div>
     </body>
+    <script type="text/javascript">
+        setidsock('{{idsock}}');
+    </script>    
 </html>

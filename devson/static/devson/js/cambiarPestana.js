@@ -9,6 +9,14 @@ var grolineasm='0',collineasim='#070707',colfondsim='#070707';
 var grolinea='0',colorlinea='#070707';
 var fuente='arial',tamanofuente='10',colorfuente='#070707';
 
+var idsock = '';
+function getidsock() {
+    return idsock;
+}
+function setidsock(n){
+    idsock = n;
+}
+
 function cambiarPestanna(pestanas, pestana) {
     pestana = document.getElementById(pestana.id);
     listaPestanas = document.getElementById(pestanas.id);
@@ -31,7 +39,7 @@ function cambiarPestanna(pestanas, pestana) {
         
         $("#enviarestilocompuesto").click(function(){
             
-            socket.emit('enviar estilo',colfondcomp,collineacomp,grolineacomp,'','','Compuesto');
+            socket.emit('enviar estilo',colfondcomp,collineacomp,grolineacomp,'','','Compuesto',getidsock());
             //setTimeout(function () {
                 console.log("estilo compuesto");
             //    window.close();  
@@ -39,7 +47,7 @@ function cambiarPestanna(pestanas, pestana) {
         });
         $("#enviarestilosimple").click(function(){
             
-            socket.emit('enviar estilo',colfondsim,collineasim,grolineasm,'','','Simple');
+            socket.emit('enviar estilo',colfondsim,collineasim,grolineasm,'','','Simple',getidsock());
 //            setTimeout(function () {
                 console.log("estilo simple");
 //                window.close();  
@@ -47,7 +55,7 @@ function cambiarPestanna(pestanas, pestana) {
         });
         $("#enviarestiloflecha").click(function(){
             
-            socket.emit('enviar estilo',colorlinea,'',grolinea,'','','Linea');
+            socket.emit('enviar estilo',colorlinea,'',grolinea,'','','Linea',getidsock());
 //            setTimeout(function () {
                 console.log("estilo linea");
 //                window.close();  
@@ -55,7 +63,7 @@ function cambiarPestanna(pestanas, pestana) {
         });
         $("#enviarestiloletra").click(function(){
             
-            socket.emit('enviar estilo',colorfuente,'','',tamanofuente,fuente,'Texto');
+            socket.emit('enviar estilo',colorfuente,'','',tamanofuente,fuente,'Texto',getidsock());
 //            setTimeout(function () {
                 console.log("estilo letra");
 //                window.close();  
