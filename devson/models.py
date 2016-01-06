@@ -34,7 +34,7 @@ class Objeto(models.Model):
     N_SiRaiz = models.BooleanField()
     K_Proyecto = models.ForeignKey(Proyecto)
     K_TipoObjeto = models.CharField(max_length=10)
-    K_HijoDe = models.ForeignKey("self")
+    K_HijoDe = models.ForeignKey("self", null=True)
     
 """
     Aqui se registraran todos los posibles valores que un nodo puede tener
@@ -48,5 +48,5 @@ class ValorObjeto(models.Model):
 """
 class EstiloObjeto(models.Model):
     V_Estilo = models.CharField(max_length=100)
-    V_Valor = models.IntegerField()
+    V_Valor = models.CharField(max_length=10)
     K_Proyecto = models.ForeignKey(Proyecto,default=None)

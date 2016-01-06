@@ -116,6 +116,11 @@ paranodo[7] = "padre";
 function insertarobject(x) {
     objetoseleccionado = x;
 }
+
+function getusuarioactivo(){
+    return usuarioconectado;
+}
+
 //Funcion usada para actualizar el nuevo proyecto
 function setnombreproyecto(nuevo, usuario) {
     nombreproyecto = nuevo;
@@ -137,15 +142,18 @@ function mostrarIframe(id) {
 
 //Funcion usada para agregar un nodo la la lista de nodos, x y y indican cual es la posicion en la que se encuantran
 //la caracteristica dice si el nodo es nodo o si es hoja
-function agregarnodo(idnodo, y, x, caracteristica) {
+function agregarnodo(idnodo, y, x, caracteristica,tiponodo,valor) {
     var nuevonodo = new Object();
     nuevonodo.idnodo = idnodo;
     nuevonodo.x = x;
     nuevonodo.y = y;
     nuevonodo.idhijos = [];
     nuevonodo.caracteristica = caracteristica;
-    nuevonodo.tiponodo = '';
-    nuevonodo.valor = '';
+    if (tiponodo !='no hay tipo')
+        nuevonodo.tiponodo = tiponodo;
+    else
+        nuevonodo.tiponodo = '';
+    nuevonodo.valor = valor;
     nuevonodo.padre = '';
     nodoscreados.push(nuevonodo);
     $(function () {

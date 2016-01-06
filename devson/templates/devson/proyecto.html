@@ -7,6 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link type="image/x-icon" rel="shortcut icon" href="{% static 'devson/images/devsoni.ico' %}">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <!--<meta http-equiv="refresh" content="3" >-->
         <!--<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">-->
         <link rel="stylesheet" type="text/css" href="{% static 'devson/css/styleproyecto.css' %}" />	
         <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
@@ -190,13 +191,14 @@
             jsPlumb.setContainer($("#containment-wrapper"));
             $('#containment-wrapper').click(function (e) {
                 //falta revisar como obtener las coordenadas correctas del evento
-                if (String(objetoseleccionado) == 'Nodo' || String(objetoseleccionado) == 'Hoja') {
                     xcontainment = $(this).position().left;
                     ycontainment = $(this).position().top
                     var x = e.pageX - xcontainment;
                     var y = e.pageY - ycontainment;
-                    crearnuevonodo(String("nodo" + idnodocreado), x, y, 'no hay tipo', String(objetoseleccionado), false);
-                }
+                if (String(objetoseleccionado) == 'Nodo')
+                    crearnuevonodo(String("nodo" + idnodocreado), x, y, 'object','', String(objetoseleccionado), false);
+                if(String(objetoseleccionado) == 'Hoja')
+                    crearnuevonodo(String("nodo" + idnodocreado), x, y, 'no hay tipo','', String(objetoseleccionado), false);
             });
             //Oyente para que el usuario pueda solicitar editar caracteristicas de un nodo
             $(document).on("click", ".ui-widget-contentcomp", function(){
@@ -251,7 +253,7 @@
             }
             });
             //crear nuevo nodo, si abrir indica que si se creo nodo por abrirse un proyecto
-            function crearnuevonodo(idnodo, x, y, tiponodo, caracteristica, siabrir){
+            function crearnuevonodo(idnodo, x, y, tiponodo,valor, caracteristica, siabrir){
             if (String(caracteristica) == 'Nodo'){
             newDiv = $("<div/>", {
             "class": "ui-widget-contentcomp",
@@ -318,7 +320,7 @@
                 $(".nombrenodo").css("fontFamily", getfuenteletra());
                 $(".nombrenodo").css("fontSize", gettamanofuente() + 'px');
                 $(".nombrenodo").css("color", getcolorfuente());
-                agregarnodo(idnodo, y, x, caracteristica);
+                agregarnodo(idnodo, y, x, caracteristica,tiponodo,valor);
                 objetoseleccionado = '';
                 idnodocreado = idnodocreado + 1;
             }
@@ -353,7 +355,7 @@
             //Cambio en el nombre del proyecto del interfaz
             console.log("abriendo proyecto " + nombreproyecto);
             jsPlumb.empty("containment-wrapper");
-            setnombreproyecto(nombreproyecto);
+            setnombreproyecto(nombreproyecto,getusuarioactivo());
             editarnombregraficoproyecto();
             //Cambio en los estilos actuales
             estiloproyecto = jQuery.parseJSON(estiloproyecto);
@@ -374,7 +376,7 @@
             console.log(nodo + " este es el nodo " + proyecto[nodo]);
             var jsonnodo = (proyecto[nodo]);
             crearnuevonodo(jsonnodo["idnodo"], jsonnodo["x"],
-                    jsonnodo["y"], jsonnodo["tiponodo"], jsonnodo["caracteristica"], true);
+                    jsonnodo["y"], jsonnodo["tiponodo"],jsonnodo["valor"], jsonnodo["caracteristica"], true);
             }
             //Ciclo para conectar todos los nodos
             for (nodo in proyecto){
