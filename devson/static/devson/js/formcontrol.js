@@ -287,9 +287,11 @@ $(document).ready(function () {
 
     $('#postguardar').submit(function(e) {
         //setTimeout(function () {
-        alert('q pasa '+nodoscreados," "+paranodo+" "+JSON.stringify(nodoscreados,paranodo));
-            $(this).append('<input type="hidden" name="nodoscreados" value="'+JSON.stringify(nodoscreados,paranodo)+'" />');
-            $(this).append('<input type="hidden" name="estilo" value="'+JSON.stringify(estilo,paraestilo)+'" />');
+        var stringproyecto = JSON.stringify(nodoscreados,paranodo);
+        var stringestilo = JSON.stringify(estilo,paraestilo);
+        //alert('q pasa '+nodoscreados+" "+paranodo+" "+JSON.stringify(nodoscreados,paranodo));
+            $(this).append('<input type="hidden" name="nodoscreados" value='+stringproyecto+' />');
+            $(this).append('<input type="hidden" name="estilo" value='+stringestilo+' />');
             $(this).append('<input type="hidden" name="nombreproyecto" value="'+nombreproyecto+'" />');
             $(this).append('<input type="hidden" name="usuarioconectado" value="'+usuarioconectado+'" />');
             return true;

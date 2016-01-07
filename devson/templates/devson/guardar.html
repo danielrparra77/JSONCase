@@ -12,8 +12,7 @@
         <link type="image/x-icon" rel="shortcut icon" href="{% static 'devson/images/devsoni.ico' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'devson/css/style.css' %}"/>
         <link rel="stylesheet" type="text/css" href="{% static 'devson/css/stylen.css' %}"/>
-        <script  type=text/javascript src="{% static 'devson/js/nventana.js' %}"></script>
-        <script src="http://localhost:8010/socket.io/socket.io.js"></script>
+        <script  type=text/javascript src="{% static 'devson/js/jsonoutput.js' %}"></script>
     </head>
     <body>
         <form action="{% url 'devson:guardarendb'%}" class="formu" method="POST">
@@ -36,37 +35,23 @@
             </div>
         </form>
     <script type="text/javascript">
-        var socket = io.connect('http://localhost:8010/');
-        var proyectoguardar = '{{nodoscreados}}',parametrosguardar,nombreproyecto,usuarioconectado,
-                 estilos,parametrosestilo, parametrosproyecto, proyectocompleto;
-         
-        var paraproyecto = new Array();
-        paraproyecto[0] = "nombre";
-        paraproyecto[1] = "usuario";
-        paraproyecto[2] = "proyecto";
-        paraproyecto[3] = "estilo";
-        //      
-        socket.on('connect', function(){
-            console.log("connect");
-        });
-        //Oyente que recibe el proyecto de la plantilla nuevoproyecto
-        socket.on('recibir proyecto', function(proyecto,parametros,estilo,paraestilo,nombrenuevo,usuario){
-            console.log("se recibio el proyecto "+proyecto+" , "+parametros+" , "+nombrenuevo+" , "+usuario);
-            proyectoguardar = proyecto;
-            parametrosguardar = parametros;
-            var archivoproyecto = JSON.stringify(proyectoguardar, parametrosguardar, "\t");
-            nombreproyecto = nombrenuevo;
-            usuarioconectado = usuario;
-            estilos = estilo;
-            parametrosestilo = paraestilo;
-            var archivoestilo = JSON.stringify(estilos, parametrosestilo, "\t");
-            parametrosproyecto = paraproyecto;
-            proyectocompleto = new Object();
-            proyectocompleto.nombre = nombrenuevo;
-            proyectocompleto.usuario = usuario;
-            proyectocompleto.proyecto = archivoproyecto;
-            proyectocompleto.estilo = archivoestilo;
-        });
+        var proyectoguardar = '{{nodoscreados|safe}}',nombreproyecto = '{{nombreproyecto}}',
+                usuarioconectado = '{{usuarioconectado}}',estilos = '{{estilo|safe}}',
+                parametrosproyecto, proyectocompleto;
+        console.log("proyecto "+proyectoguardar);
+        console.log("estilo "+estilos);
+        //JSON.parse(proyectoguardar.replace(/&quot;/g,'"')); 
+        //JSON.parse(proyectoguardar.replace(/&quot;/g,'"')); 
+        parametrosproyecto = new Array();
+        parametrosproyecto[0] = "nombre";
+        parametrosproyecto[1] = "usuario";
+        parametrosproyecto[2] = "proyecto";
+        parametrosproyecto[3] = "estilo";
+        proyectocompleto = new Object();
+        proyectocompleto.nombre = nombreproyecto;
+        proyectocompleto.usuario = usuarioconectado;
+        proyectocompleto.proyecto = proyectoguardar;
+        proyectocompleto.estilo = estilos;
         $(document).ready(function(){
             $("#guardarpc").click(function(){
                 var archivoguardar = JSON.stringify(proyectocompleto, parametrosproyecto, "\t"); 
