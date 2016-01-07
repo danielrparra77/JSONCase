@@ -3,7 +3,7 @@ body
     width: auto;
     font-family: Arial, Helvetica, sans-serif;
     padding: 0px;
-    margin: 30px auto;
+    margin: 25px auto;
 }
 
 p
@@ -103,4 +103,25 @@ label{
     opacity: 0;
     position: absolute;
     margin-left: -125px;
+}
+
+#abrirproyecto, #guardardb{
+    width: 220px;
+    display: inline-block;
+    padding: 5px 8px;
+    height: 30px;
+    background: #000000;
+    border: 1px solid #509111;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    box-shadow: inset 0 1px 0 0 #434343;
+    color: white;
+    text-align: center;
+    text-shadow: 0 -1px 0 #396715;
+    padding: 6px 20px;
+}
+
+#abrirproyecto:hover, #guardardb:hover{
+    opacity: .85;
+    cursor: pointer;
 }

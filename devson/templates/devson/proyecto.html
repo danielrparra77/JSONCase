@@ -43,8 +43,16 @@
                         </div>
                         <div class="modal-body">
                             <input type="hidden" id="idnodoeditando" value=""/>
-                            <p>Tipo:</p><input type="text" id="tipo"/>
-                            <p>Valor:</p><input type="text" id="valor"/>
+                            <ul class="tiva">
+                                <li class="ti">
+                                    <label class="lab">Tipo: </label><input type="text" id="tipo"/>
+                                </li>
+                                <li class="va">
+                                    <label class="lab">Valor: </label><input type="text" id="valor"/>
+                                </li>
+                            </ul>
+<!--                            <p>Tipo:</p><input type="text" id="tipo"/>
+                            <p>Valor:</p><input type="text" id="valor"/>-->
                         </div>
                         <div class="modal-footer">
                             <button type="button" id="enviar" name="enviar" class="btn btn-default" data-dismiss="modal">Aceptar</button>
@@ -67,7 +75,7 @@
                 <li>
                     <a href="#">Archivo</a>
                     <ul>
-                        <li><a href="#">Nuevo</a></li>
+                        <li><a href="{% url 'devson:cliente' %}">Nuevo</a></li>
                         <li><a onclick="abrirventana('{% url 'devson:abrir' %}', getidsocket())">Abrir</a></li>
                         <li><a id="guardarproyecto" onclick="abrirventanag('{% url 'devson:guardar' %}')">Guardar</a></li>
                         <li><a href="#">Exportar como</a></li>
@@ -93,13 +101,6 @@
                     </ul>                
                 </li>
                 <li>
-                    <a href="#">Datos</a>
-                    <ul>
-                        <li><a href="#">Objeto simple</a></li>
-                        <li><a href="#">Objeto compuesto</a></li>
-                    </ul>
-                </li>
-                <li>
                     <a href="#">Ayuda</a>
                     <ul>
                         <li><a href="#">Manual de usuario</a></li>
@@ -107,14 +108,14 @@
                 </li>
             </ul>  
             <ul class="nav2">
-                <li><a href="{% url 'devson:login' %}">Cerrar Sesi&oacute;n</a></li>
+                <li><a href="{% url 'devson:logout' %}">Cerrar Sesi&oacute;n</a></li>
             </ul>
         </div>
         <div id="header2">
             <ul class="nav">
-                <li><a href="#"><span class=""><i class="icon icon-document"></i></span></a></li>
-                <li><a href="#"><span class=""><i class="icon icon-folder"></i></span></a></li>
-                <li><a href="#"><span class=""><i class="icon icon-save"></i></span></a></li>  
+                <li><a href="{% url 'devson:cliente' %}"><span class=""><i class="icon icon-document"></i></span></a></li>
+                <li><a onclick="abrirventana('{% url 'devson:abrir' %}', getidsocket())"><span class=""><i class="icon icon-folder"></i></span></a></li>
+                <li><a id="guardarproyecto" onclick="abrirventanag('{% url 'devson:guardar' %}')"><span class=""><i class="icon icon-save"></i></span></a></li>  
                 <li><a href="#"><span class=""><i class="icon icon-export"></i></span></a></li>
                 <li><a href="#"><span class=""><i class="icon icon-print"></i></span></a></li>                
                 <li><a href="#"><span class=""><i class="icon icon-scissors"></i></span></a></li>
@@ -123,9 +124,7 @@
                 <li><a href="#"><span class=""><i class="icon icon-trash"></i></span></a></li>
                 <li><a href="#"><span class=""><i class="icon icon-reply"></i></span></a></li>
                 <li><a href="#"><span class=""><i class="icon icon-forward"></i></span></a></li>
-                <li><a href="#"><span class=""><i class="icon icon-sound-mix"></i></span></a></li>
-                <li><a href="#"><span class=""><i class="icon icon-image"></i></span></a></li>
-                <li><a href="#"><span class=""><i class="icon icon-image-inverted"></i></span></a></li>
+                <li><a onclick="abrirventanap('{% url 'devson:propiedades' %}', getidsocket())"><span class=""><i class="icon icon-sound-mix"></i></span></a></li>
                 <li><a href="#"><span class=""><i class="icon icon-help-with-circle"></i></span></a></li>
             </ul> 
         </div>
