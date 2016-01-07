@@ -42,7 +42,19 @@ def abrir(request):
 
 @login_required()
 def guardar(request):
-    return render(request, 'devson/guardar.html')
+    print request.POST
+    nodoscreados = request.POST.get('nodoscreados','')
+    print nodoscreados
+    estilo = request.POST.get('estilo','')
+    print estilo
+    nombreproyecto = request.POST.get('nombreproyecto','')
+    print nombreproyecto
+    usuarioconectado = request.POST.get('usuarioconectado','')
+    print usuarioconectado
+    context = {'nodoscreados': nodoscreados,'estilo': estilo,
+        'nombreproyecto': nombreproyecto,'usuarioconectado': usuarioconectado}
+    print 'Se esta solicitando ir al interfaz de guardar nuevo proyecto'
+    return render(request, 'devson/guardar.html',context)
 
 @login_required()
 @csrf_exempt

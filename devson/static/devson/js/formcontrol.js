@@ -281,11 +281,20 @@ $(document).ready(function () {
     $("#guardarproyecto").click(function () {
         setTimeout(function () {
             console.log('Se enviara proyecto a guardar: ' + nombreproyecto + " de " + usuarioconectado);
-            socket.emit('enviar proyecto', nodoscreados, paranodo, estilo, paraestilo, nombreproyecto, usuarioconectado);
+            //socket.emit('enviar proyecto', nodoscreados, paranodo, estilo, paraestilo, nombreproyecto, usuarioconectado);
         }, 1100);
     });
 
-
+    $('#postguardar').submit(function(e) {
+        //setTimeout(function () {
+        alert('q pasa '+nodoscreados," "+paranodo+" "+JSON.stringify(nodoscreados,paranodo));
+            $(this).append('<input type="hidden" name="nodoscreados" value="'+JSON.stringify(nodoscreados,paranodo)+'" />');
+            $(this).append('<input type="hidden" name="estilo" value="'+JSON.stringify(estilo,paraestilo)+'" />');
+            $(this).append('<input type="hidden" name="nombreproyecto" value="'+nombreproyecto+'" />');
+            $(this).append('<input type="hidden" name="usuarioconectado" value="'+usuarioconectado+'" />');
+            return true;
+        //}, 800);
+    });
 
 });
 

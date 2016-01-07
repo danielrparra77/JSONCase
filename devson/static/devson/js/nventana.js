@@ -26,12 +26,20 @@ function abrirventana(a,idsock) {
 }
 
 function abrirventanag(a) {
+    var winName='Guardar Proyecto';
+    var winURL=a;
+    $(function () {
+        $("#postguardar").attr("action", winURL);
+        $("#postguardar").attr("target", winName);
+    });
     var w = 496;
     var h = 258;
     var left = (screen.width / 2) - (w / 2);
     var top = (screen.height / 2) - (h / 2);
-    newwindow = window.open(a, 'Guardar Proyecto', 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=no,copyhistory=no,width=' + w + ',height=' + h + ',top=' + top + ',left=' + left);
+    var windowoption='toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=no,copyhistory=no,width=' + w + ',height=' + h + ',top=' + top + ',left=' + left;              
+    newwindow = window.open('', winName,windowoption);
     newwindow.creator = self;
+    $("#postguardar").submit();
 }
 
 function abrirventanap(a,idsock) {

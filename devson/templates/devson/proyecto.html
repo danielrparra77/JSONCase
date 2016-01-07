@@ -178,6 +178,9 @@
             {% csrf_token %}
             <input type="hidden" id="idsock" name="idsock"/>
         </form>
+        <form id="postguardar" class="formu" method="POST">
+            {% csrf_token %}
+        </form>
         <script type="text/javascript">
             //Posicion en la que se encuentran el contenedor de los divs
             var xcontainment = 0;
