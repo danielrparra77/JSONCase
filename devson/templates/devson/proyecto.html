@@ -29,6 +29,9 @@
         <link rel="stylesheet" type="text/css" href="{% static 'devson/css/style2.css' %}" />
         <link rel="stylesheet" href="{% static 'devson/css/jquery.jsonview.css' %}" type="text/css">
         <script  src="{% static 'devson/js/jquery.jsonview.js' %}"></script>
+        <script type="text/javascript" src="{% static 'devson/js/html2canvas.js' %}"></script>
+        <script type="text/javascript" src="{% static 'devson/js/canvas2image.js' %}"></script>
+        <script type="text/javascript" src="{% static 'devson/js/base64.js' %}"></script>
     </head>
     <body onload="setnombreproyecto('{{nombreproyecto}}','{{usuario}}')">
         <div class="container">
@@ -51,8 +54,8 @@
                                     <label class="lab">Valor: </label><input type="text" id="valor"/>
                                 </li>
                             </ul>
-<!--                            <p>Tipo:</p><input type="text" id="tipo"/>
-                            <p>Valor:</p><input type="text" id="valor"/>-->
+                            <!--                            <p>Tipo:</p><input type="text" id="tipo"/>
+                                                        <p>Valor:</p><input type="text" id="valor"/>-->
                         </div>
                         <div class="modal-footer">
                             <button type="button" id="enviar" name="enviar" class="btn btn-default" data-dismiss="modal">Aceptar</button>
@@ -117,7 +120,7 @@
                 <li><a onclick="abrirventana('{% url 'devson:abrir' %}', getidsocket())"><span class=""><i class="icon icon-folder"></i></span></a></li>
                 <li><a id="guardarproyecto" onclick="abrirventanag('{% url 'devson:guardar' %}')"><span class=""><i class="icon icon-save"></i></span></a></li>  
                 <li><a href="#"><span class=""><i class="icon icon-export"></i></span></a></li>
-                <li><a href="#"><span class=""><i class="icon icon-print"></i></span></a></li>                
+                <li><a id="des" download="" href=""><span class=""><i class="icon icon-print"></i></span></a></li>                
                 <li><a href="#"><span class=""><i class="icon icon-scissors"></i></span></a></li>
                 <li><a href="#"><span class=""><i class="icon icon-copy"></i></span></a></li>
                 <li><a href="#"><span class=""><i class="icon icon-layers"></i></span></a></li>
@@ -466,9 +469,22 @@
             }
             });
             });
-
         </script>
-
+        <script type="text/javascript">
+            $element = document.getElementById('containment-wrapper');
+            $des = document.getElementById('des');
+            w = $element.width;
+            h = $element.height;
+            $element.onclick = function (e) {
+            html2canvas($element, {
+            onrendered: function (canvas) {
+            ima = Canvas2Image.convertToImage(canvas, w, h, 'png');
+            $des.href = ima.src;
+            $des.target = "_blank";
+            }
+            });
+            }
+        </script>
 
     </body>
 </html>
