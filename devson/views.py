@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.csrf import csrf_protect,csrf_exempt
 from django.views.generic import TemplateView
 from django.views.generic.base import View
 from django.views.generic.edit import FormView
@@ -37,8 +37,22 @@ def abrir(request):
     idsock = request.POST.get('idsock','')
     print idsock
     print 'abriendo nuevo proyecto'
-    context = {'idsock': idsock}
+    proyectosdb = models.Proyecto.objects.filter(K_UsuarioCreo=request.user).order_by('-V_FechaCreacion')[:20]
+    print proyectosdb
+    print request.user
+    context = {'idsock': idsock,'proyectosdb':proyectosdb}
     return render(request, 'devson/abrir.html',context)
+
+@login_required()
+@csrf_exempt
+def abrirendb(request):
+    print "se abrira un proyecto guardado desde la base de datos"
+    print request.POST.get('proyecto','')
+    proyecto = models.Proyecto.objects.get(id=request.POST.get('proyecto',''))
+    objetos = models.Objeto.objects.filter(K_Proyecto=proyecto.id)
+    estilo = models.EstiloObjeto.objects.filter(K_Proyecto=proyecto.id)
+    return HttpResponse("El proyecto ha sido guardado correctamente en la base de datos del servidor")
+
 
 @login_required()
 def guardar(request):

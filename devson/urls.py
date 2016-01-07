@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^(?P<usuario>[^/]+)/nuevoproyecto/propiedadesnodo/(?P<nodo>[^/]+)/$', views.propiedadesnodo, name='propiedadesnodo'),
     url(r'^node_api$', views.node_api, name='node_api'),
     url(r'^abrir/$', views.abrir, name='abrir'),
+    url(r'^abrirendb/$', views.abrirendb, name='abrirendb'),
     url(r'^guardarendb/$', views.guardarendb, name='guardarendb'),
     url(r'^guardar/$', views.guardar, name='guardar'),
     url(r'^propiedades/$', views.propiedades, name='propiedades'),
