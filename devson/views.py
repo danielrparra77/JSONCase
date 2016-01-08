@@ -49,9 +49,49 @@ def abrirendb(request):
     print "se abrira un proyecto guardado desde la base de datos"
     print request.POST.get('proyecto','')
     proyecto = models.Proyecto.objects.get(id=request.POST.get('proyecto',''))
+    estilos = models.EstiloObjeto.objects.filter(K_Proyecto=proyecto.id)
+    jproyecto ={}
+    jproyecto['nombre'] = proyecto.K_NombreProyecto
+    jproyecto['usuario'] = proyecto.K_UsuarioCreo
+    jestilo = {}
+    for estilo in estilos:
+        jestilo[estilo.V_Estilo] = estilo.V_Valor
     objetos = models.Objeto.objects.filter(K_Proyecto=proyecto.id)
-    estilo = models.EstiloObjeto.objects.filter(K_Proyecto=proyecto.id)
-    return HttpResponse("El proyecto ha sido guardado correctamente en la base de datos del servidor")
+    jobjetcs = []
+    for objeto in objetos:
+        valor = models.ValorObjeto.objects.filter(K_Objeto=objeto.id)
+        print "se encontraron tantos valores "+str(valor.count())
+        jobjeto = {}
+        jobjeto['idnodo'] = objeto.V_IdLocal
+        jobjeto['x'] = objeto.V_CoordenadaX
+        jobjeto['y'] = objeto.V_CoordenadaY
+        jobjeto['idhijos'] = []
+        jobjeto['caracteristica'] = objeto.N_ClaseObjeto
+        jobjeto['tiponodo'] = objeto.K_TipoObjeto
+        if not objeto.N_SiRaiz:
+            print objeto.K_HijoDe.V_IdLocal
+            jobjeto['padre'] = objeto.K_HijoDe.V_IdLocal
+        else:
+            jobjeto['padre'] = ''
+        if not valor.count() == 1:
+            jobjeto['valor'] = []
+            for itvalor in valor:
+                jobjeto['valor'].append(itvalor.K_ValorObjeto)
+        else:
+            valor = models.ValorObjeto.objects.get(K_Objeto=objeto.id)
+            jobjeto['valor'] = valor.K_ValorObjeto
+        jobjetcs.append(jobjeto)
+    for padre in jobjetcs:
+        for hijo in jobjetcs:
+            if hijo['padre'] == padre['idnodo']:
+                padre['idhijos'].append(hijo['idnodo'])
+    jproyecto['proyecto'] = jobjetcs
+    jproyecto['estilo'] = jestilo
+                
+    return HttpResponse(
+            json.dumps({"proyecto": jproyecto}),
+            content_type="application/json"
+        )
 
 
 @login_required()

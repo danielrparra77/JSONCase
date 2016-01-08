@@ -379,7 +379,10 @@
             setnombreproyecto(nombreproyecto, getusuarioactivo());
             editarnombregraficoproyecto();
             //Cambio en los estilos actuales
-            estiloproyecto = jQuery.parseJSON(estiloproyecto);
+            console.log('a');
+            if (typeof estiloproyecto =="string")
+                estiloproyecto = jQuery.parseJSON(estiloproyecto);
+            console.log('b');
             setfondonodo(estiloproyecto["fondonodo"]);
             setcolorlineanodo(estiloproyecto["colorlineanodo"]);
             setgrosornodo(estiloproyecto["grosornodo"]);
@@ -391,8 +394,10 @@
             settamanofuente(estiloproyecto["tamanofuente"]);
             setgrosorconexion(estiloproyecto["grosorconexion"]);
             setcolorconexion(estiloproyecto["colorconexion"]);
+            console.log("se termino de agregar estilos");
             //Ciclo para crear todos los nodos que hay en el proyecto
-            proyecto = jQuery.parseJSON(proyecto);
+            if (typeof proyecto =="string")
+                proyecto = jQuery.parseJSON(proyecto);
             for (nodo in proyecto){
             console.log(nodo + " este es el nodo " + proyecto[nodo]);
             var jsonnodo = (proyecto[nodo]);

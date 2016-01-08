@@ -95,8 +95,15 @@
                  data: {
                         'proyecto': $('input[name="proyecto"]:checked', '#cagarproyectodb').val() // from form
                         },
-                 success: function(){
-                     alert("ha funcionado correctamente el ajax"); 
+                 success: function(json){
+                     archivoabrir = JSON.stringify(json.proyecto);
+                     if (archivoabrir!='' && idsock !=''){
+                         console.log("se abrira el proyecto "+" en "+archivoabrir);
+                         socket.emit('abrir proyecto',archivoabrir,idsock);
+                     }
+                 },
+                 error: function(){
+                     alert ("hubo un error cargando el proyecto favor intentelo mas tarde.");
                  }
             });
             return false;
