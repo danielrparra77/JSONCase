@@ -33,7 +33,7 @@ class Objeto(models.Model):
     N_ClaseObjeto = models.CharField(max_length=4)
     N_SiRaiz = models.BooleanField()
     K_Proyecto = models.ForeignKey(Proyecto)
-    K_TipoObjeto = models.CharField(max_length=10)
+    K_TipoObjeto = models.CharField(max_length=200)
     K_HijoDe = models.ForeignKey("self", null=True)
     
 """

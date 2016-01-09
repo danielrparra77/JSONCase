@@ -48,7 +48,7 @@
                             <input type="hidden" id="idnodoeditando" value=""/>
                             <ul class="tiva">
                                 <li class="ti">
-                                    <label class="lab">Tipo: </label><input type="text" id="tipo"/>
+                                    <label class="lab">Nombre: </label><input type="text" id="tipo"/>
                                 </li>
                                 <li class="va">
                                     <label class="lab">Valor: </label><input type="text" id="valor"/>
@@ -81,7 +81,7 @@
                         <li><a href="{% url 'devson:cliente' %}">Nuevo</a></li>
                         <li><a onclick="abrirventana('{% url 'devson:abrir' %}', getidsocket())">Abrir</a></li>
                         <li><a id="guardarproyecto" onclick="abrirventanag('{% url 'devson:guardar' %}')">Guardar</a></li>
-                        <li><a href="#">Exportar como</a></li>
+                        <li><a id="exportarproyecto" href="#">Exportar como</a></li>
                     </ul>
                 </li>
                 <li>
@@ -224,8 +224,10 @@
             $(document).on("click", ".ui-widget-contentcomp", function(){
             if (String(objetoseleccionado) == 'Propiedades') {
             idnodo = $(this).attr("id");
-            if (mostrarmodal(idnodo))
+            if (mostrarmodal(idnodo)){
                     $("#myModal").modal();
+                    $('#valor').prop( "disabled", true );
+            }
             }
             });
             $(document).on("click", ".ui-widget-contentsimple", function(){
@@ -317,7 +319,7 @@
             if (String(caracteristica) == 'Nodo'){
             nombrenodo = $("<label>", {
             "class": "nombrenodo",
-            }).html('object');
+            }).html(tiponodo);
             nombrenodo.appendTo(newDiv);
             botonagregarhijo = $("<div>", {
             "class": "button_add",
@@ -472,6 +474,24 @@
             default:
                     document.write("Error entregando datos de estilos, se recomienda recargar pagina<br />")
             }
+            });
+            $('#exportarproyecto').click(function() {
+                $.ajax({
+                     type:"POST",
+                     url:"{% url 'devson:exportar'%}",
+                     data: {
+                            'proyecto': getproyecto()
+                            },
+                     success: function(json){
+                         archivoabrir = JSON.stringify(json.proyecto);
+                         if (archivoabrir!=''){
+                             console.log("se exportara el proyecto "+" en "+archivoabrir);
+                         }
+                     },
+                     error: function(){
+                         alert ("hubo un error exportando el proyecto favor intentelo mas tarde.");
+                     }
+                });
             });
             });
         </script>
