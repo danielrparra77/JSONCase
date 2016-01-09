@@ -378,6 +378,7 @@
             //Cambio en el nombre del proyecto del interfaz
             console.log("abriendo proyecto " + nombreproyecto);
             jsPlumb.empty("containment-wrapper");
+            reiniciarnodos();
             setnombreproyecto(nombreproyecto, getusuarioactivo());
             editarnombregraficoproyecto();
             //Cambio en los estilos actuales
@@ -396,12 +397,17 @@
             settamanofuente(estiloproyecto["tamanofuente"]);
             setgrosorconexion(estiloproyecto["grosorconexion"]);
             setcolorconexion(estiloproyecto["colorconexion"]);
+            jsPlumb.registerConnectionType("lineas", {
+            paintStyle:{ strokeStyle: getcolorconexion(), lineWidth: getgrosorconexion()  },
+                    hoverPaintStyle:{fillStyle: "lightblue"}
+            });
+            jsPlumb.select().addType("lineas");
             console.log("se termino de agregar estilos");
             //Ciclo para crear todos los nodos que hay en el proyecto
             if (typeof proyecto =="string")
                 proyecto = jQuery.parseJSON(proyecto);
             for (nodo in proyecto){
-            console.log(nodo + " este es el nodo " + proyecto[nodo]);
+            //console.log(nodo + " este es el nodo " + proyecto[nodo]);
             var jsonnodo = (proyecto[nodo]);
             crearnuevonodo(jsonnodo["idnodo"], jsonnodo["x"],
                     jsonnodo["y"], jsonnodo["tiponodo"], jsonnodo["valor"], jsonnodo["caracteristica"], true);
@@ -409,7 +415,7 @@
             //Ciclo para conectar todos los nodos
             for (nodo in proyecto){
             var jsonnodo = (proyecto[nodo]);
-            console.log("hijos " + jsonnodo["idhijos"]);
+            //console.log("hijos " + jsonnodo["idhijos"]);
             if (jsonnodo["idhijos"].length > 0){
             for (valor in jsonnodo["idhijos"]){
             var endpointpadre = agregarpuntosdefinanodo(
@@ -476,6 +482,7 @@
             }
             });
             $('#exportarproyecto').click(function() {
+                alert("revisnado "+sintaxisnodos());
                 $.ajax({
                      type:"POST",
                      url:"{% url 'devson:exportar'%}",

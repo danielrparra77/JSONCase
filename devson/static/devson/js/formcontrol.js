@@ -26,6 +26,12 @@ paraestilo[9] = "grosorconexion";
 paraestilo[10] = "colorconexion";
 var estilo = new Object();
 estilo.fondonodo = '#ffffff';
+
+function reiniciarnodos(){
+    nodoscreados = [];
+    endpoints = []; 
+}
+
 function setfondonodo(n) {
     estilo.fondonodo = n;
 }
@@ -291,6 +297,9 @@ $(document).ready(function () {
     });
 
     $('#postguardar').submit(function(e) {
+        if (!sintaxisnodos())
+            return false;
+        else{
         //setTimeout(function () {
         var stringproyecto = JSON.stringify(nodoscreados,paranodo);
         var stringestilo = JSON.stringify(estilo,paraestilo);
@@ -301,6 +310,7 @@ $(document).ready(function () {
             $(this).append('<input type="hidden" name="usuarioconectado" value="'+usuarioconectado+'" />');
             return true;
         //}, 800);
+        }
     });
     
 });
@@ -318,6 +328,33 @@ function cambiarnombretiponodo(idnodo, tiponodo) {
 //        nombrenodo.appendTo($("#"+idnodo));
         //$('#nomproyectoderecha').text(nombreproyecto);
     });
+}
+
+//Esta funcion verifica si no hay inconvenientes en la estructura creada
+function sintaxisnodos(){
+    r = true;
+    var nombresnodos = [];
+    //alert(nodoscreados.length+" tamano");
+    nodoscreados.forEach(function (nodo) {
+        nombresnodos.push(nodo.tiponodo);
+    });
+    if (hasDuplicates(nombresnodos)){
+        alert('favor revisar los nombres de los nodos, que no existan nombres iguales');
+        r = false;
+    }
+    return r;
+}
+
+function hasDuplicates(array) {
+    var valuesSoFar = Object.create(null);
+    for (var i = 0; i < array.length; ++i) {
+        var value = array[i];
+        if (value in valuesSoFar) {
+            return true;
+        }
+        valuesSoFar[value] = true;
+    }
+    return false;
 }
 
 //
