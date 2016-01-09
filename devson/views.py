@@ -43,6 +43,32 @@ def abrir(request):
     context = {'idsock': idsock,'proyectosdb':proyectosdb}
     return render(request, 'devson/abrir.html',context)
 
+
+@login_required()
+@csrf_exempt
+def exportar(request):
+    print "se exportara el proyecto a formato json"
+    print request.POST.get('proyecto','')
+    proyecto = request.POST.get('proyecto','')
+    proyecto = json.loads(proyecto)
+    jproyecto = {}
+#    jnodos = []
+#    for nodo in proyecto:
+#        jnodo = {}
+#        jnodo['idnodo'] = nodo['idnodo']
+#        jnodo[nodo['tiponodo']] = nodo['valor']
+#        jnodos.append(jnodo)
+    for padre in proyecto:
+        if padre['padre']=='':
+            jproyecto[padre['tiponodo']] = {}
+            for hijo in proyecto:
+                if hijo['padre'] == padre['idnodo']:
+                   print 'algo' 
+    return HttpResponse(
+            json.dumps({"proyecto": 'nada aun'}),
+            content_type="application/json"
+        )
+
 @login_required()
 @csrf_exempt
 def abrirendb(request):

@@ -109,9 +109,13 @@ paranodo[1] = "x";
 paranodo[2] = "y";
 paranodo[3] = "idhijos";
 paranodo[4] = "caracteristica";
-paranodo[5] = "tiponodo";
+paranodo[5] = "tiponodo";//aunque en los parametros se digan  tiponodo los usuarios pensaran que es el nombre del nodo
 paranodo[6] = "valor";
 paranodo[7] = "padre";
+
+function getproyecto(){
+    return JSON.stringify(nodoscreados,paranodo);;
+}
 
 function insertarobject(x) {
     objetoseleccionado = x;
@@ -240,10 +244,11 @@ function getidsocket(){
 function mostrarmodal(idnodo) {
     var retorono = false;
     nodoscreados.forEach(function (nodo) {
-        if (nodo.idnodo == idnodo && nodo.caracteristica == 'Hoja') {
+        if (nodo.idnodo == idnodo) {
             $(function () {
                 $('#idnodoeditando').val(idnodo);
                 $('#tipo').val(nodo.tiponodo);
+                $('#valor').prop( "disabled", false );
                 $('#valor').val(nodo.valor);
                 retorono = true;
             });
@@ -297,7 +302,7 @@ $(document).ready(function () {
             return true;
         //}, 800);
     });
-
+    
 });
 
 
