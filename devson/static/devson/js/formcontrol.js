@@ -297,9 +297,9 @@ $(document).ready(function () {
     });
 
     $('#postguardar').submit(function(e) {
-        if (!sintaxisnodos())
-            return false;
-        else{
+        //if (!sintaxisnodos())
+        //    return false;
+        //else{
         //setTimeout(function () {
         var stringproyecto = JSON.stringify(nodoscreados,paranodo);
         var stringestilo = JSON.stringify(estilo,paraestilo);
@@ -310,7 +310,7 @@ $(document).ready(function () {
             $(this).append('<input type="hidden" name="usuarioconectado" value="'+usuarioconectado+'" />');
             return true;
         //}, 800);
-        }
+        //}
     });
     
 });
