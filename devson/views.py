@@ -20,6 +20,7 @@ from django.contrib.sessions.models import Session
 from django.contrib.auth.decorators import login_required
 import redis
 import json
+import jsonproyect
 from . import models
 from datetime import datetime
 
@@ -51,21 +52,12 @@ def exportar(request):
     print request.POST.get('proyecto','')
     proyecto = request.POST.get('proyecto','')
     proyecto = json.loads(proyecto)
-    jproyecto = {}
+    jproyecto = jsonproyect.crearjson(proyecto)
+    print jproyecto
+    print 'se termino de exportar'
 #    jnodos = []
-#    for nodo in proyecto:
-#        jnodo = {}
-#        jnodo['idnodo'] = nodo['idnodo']
-#        jnodo[nodo['tiponodo']] = nodo['valor']
-#        jnodos.append(jnodo)
-    for padre in proyecto:
-        if padre['padre']=='':
-            jproyecto[padre['tiponodo']] = {}
-            for hijo in proyecto:
-                if hijo['padre'] == padre['idnodo']:
-                   print 'algo' 
     return HttpResponse(
-            json.dumps({"proyecto": 'nada aun'}),
+            json.dumps({"proyecto": jproyecto}),
             content_type="application/json"
         )
 
