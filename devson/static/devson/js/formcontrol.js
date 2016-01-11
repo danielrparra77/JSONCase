@@ -27,9 +27,9 @@ paraestilo[10] = "colorconexion";
 var estilo = new Object();
 estilo.fondonodo = '#ffffff';
 
-function reiniciarnodos(){
+function reiniciarnodos() {
     nodoscreados = [];
-    endpoints = []; 
+    endpoints = [];
 }
 
 function setfondonodo(n) {
@@ -119,19 +119,20 @@ paranodo[5] = "tiponodo";//aunque en los parametros se digan  tiponodo los usuar
 paranodo[6] = "valor";
 paranodo[7] = "padre";
 
-function getproyecto(){
-    return JSON.stringify(nodoscreados,paranodo);;
+function getproyecto() {
+    return JSON.stringify(nodoscreados, paranodo);
+    ;
 }
 
 function insertarobject(x) {
     objetoseleccionado = x;
 }
 
-function getusuarioactivo(){
+function getusuarioactivo() {
     return usuarioconectado;
 }
 
-function getnombreproyecto(){
+function getnombreproyecto() {
     return nombreproyecto;
 }
 
@@ -156,14 +157,14 @@ function mostrarIframe(id) {
 
 //Funcion usada para agregar un nodo la la lista de nodos, x y y indican cual es la posicion en la que se encuantran
 //la caracteristica dice si el nodo es nodo o si es hoja
-function agregarnodo(idnodo, y, x, caracteristica,tiponodo,valor) {
+function agregarnodo(idnodo, y, x, caracteristica, tiponodo, valor) {
     var nuevonodo = new Object();
     nuevonodo.idnodo = idnodo;
     nuevonodo.x = x;
     nuevonodo.y = y;
     nuevonodo.idhijos = [];
     nuevonodo.caracteristica = caracteristica;
-    if (tiponodo !='no hay tipo')
+    if (tiponodo != 'no hay tipo')
         nuevonodo.tiponodo = tiponodo;
     else
         nuevonodo.tiponodo = '';
@@ -171,15 +172,24 @@ function agregarnodo(idnodo, y, x, caracteristica,tiponodo,valor) {
     nuevonodo.padre = '';
     nodoscreados.push(nuevonodo);
     $(function () {
-        $('#jsonview').jsonView(nodoscreados, {"status": "close"});
+
+        getjson().done(function (result) {
+            //archivoguardar = JSON.stringify(result);
+            //alert(nodoscreados+" | "+result+" | "+archivoguardar);
+            $('#jsonview').jsonView(result, {"status": "close"});
+        }).fail(function () {
+            alert("no se pudo exportar el archivo a formato json, favor reviselo.");
+            return null;
+        });
+       
     });
 }
 
 //Funcion para encontrar el nodo a copiar
 function buscarnodo(idnodo) {
-    var nodobus=new Array;
-    for (i=0;i<nodoscreados.length;i++){
-        if(nodoscreados[i].idnodo==idnodo){
+    var nodobus = new Array;
+    for (i = 0; i < nodoscreados.length; i++) {
+        if (nodoscreados[i].idnodo == idnodo) {
             alert("Lo encontre " + idnodo);
             nodobus.push(idnodo);
             nodobus.push(nodoscreados[i].x);
@@ -187,7 +197,7 @@ function buscarnodo(idnodo) {
             nodobus.push(nodoscreados[i].caracteristica);
             nodobus.push(nodoscreados[i].tiponodo);
             nodobus.push(nodoscreados[i].valor);
-            return nodobus;  
+            return nodobus;
         }
     }
 }
@@ -207,7 +217,14 @@ function unirpadreahijo(idpadre, idhijo) {
         }
     });
     $(function () {
-        $('#jsonview').jsonView(nodoscreados, {"status": "close"});
+        getjson().done(function (result) {
+            //archivoguardar = JSON.stringify(result);
+            //alert(nodoscreados+" | "+result+" | "+archivoguardar);
+            $('#jsonview').jsonView(result, {"status": "close"});
+        }).fail(function () {
+            alert("no se pudo exportar el archivo a formato json, favor reviselo.");
+            return null;
+        });
     });
 }
 
@@ -226,7 +243,14 @@ function separarpadrehijo(idpadre, idhijo) {
         it += 1;
     });
     $(function () {
-        $('#jsonview').jsonView(nodoscreados, {"status": "close"});
+        getjson().done(function (result) {
+            //archivoguardar = JSON.stringify(result);
+            //alert(nodoscreados+" | "+result+" | "+archivoguardar);
+            $('#jsonview').jsonView(result, {"status": "close"});
+        }).fail(function () {
+            alert("no se pudo exportar el archivo a formato json, favor reviselo.");
+            return null;
+        }); 
     });
 }
 
@@ -239,11 +263,18 @@ function actualizarposicionnodo(idnodo, posx, posy) {
         }
     });
     $(function () {
-        $('#jsonview').jsonView(nodoscreados, {"status": "close"});
+        getjson().done(function (result) {
+            //archivoguardar = JSON.stringify(result);
+            //alert(nodoscreados+" | "+result+" | "+archivoguardar);
+            $('#jsonview').jsonView(result, {"status": "close"});
+        }).fail(function () {
+            alert("no se pudo exportar el archivo a formato json, favor reviselo.");
+            return null;
+        }); 
     });
 }
 
-function getnodo(idnodo){
+function getnodo(idnodo) {
     var nodoencontrado = null;
     nodoscreados.forEach(function (nodo) {
         if (nodo.idnodo == idnodo) {
@@ -261,10 +292,10 @@ var idsocket = '';
 socket.on('connect', function () {
     console.log("connect");
     idsocket = socket.io.engine.id;
-    console.log("id socket "+idsocket);
+    console.log("id socket " + idsocket);
 });
 
-function getidsocket(){
+function getidsocket() {
     return idsocket;
 }
 
@@ -276,7 +307,7 @@ function mostrarmodal(idnodo) {
             $(function () {
                 $('#idnodoeditando').val(idnodo);
                 $('#tipo').val(nodo.tiponodo);
-                $('#valor').prop( "disabled", false );
+                $('#valor').prop("disabled", false);
                 $('#valor').val(nodo.valor);
                 retorono = true;
             });
@@ -318,48 +349,48 @@ $(document).ready(function () {
         }, 1100);
     });
 
-    $('#postguardar').submit(function(e) {
+    $('#postguardar').submit(function (e) {
         //if (!sintaxisnodos())
         //    return false;
         //else{
         //setTimeout(function () {
-        var stringproyecto = JSON.stringify(nodoscreados,paranodo);
-        var stringestilo = JSON.stringify(estilo,paraestilo);
+        var stringproyecto = JSON.stringify(nodoscreados, paranodo);
+        var stringestilo = JSON.stringify(estilo, paraestilo);
         //alert('q pasa '+nodoscreados+" "+paranodo+" "+JSON.stringify(nodoscreados,paranodo));
-            $(this).append('<input type="hidden" name="nodoscreados" value='+stringproyecto+' />');
-            $(this).append('<input type="hidden" name="estilo" value='+stringestilo+' />');
-            $(this).append('<input type="hidden" name="nombreproyecto" value="'+nombreproyecto+'" />');
-            $(this).append('<input type="hidden" name="usuarioconectado" value="'+usuarioconectado+'" />');
-            return true;
+        $(this).append('<input type="hidden" name="nodoscreados" value=' + stringproyecto + ' />');
+        $(this).append('<input type="hidden" name="estilo" value=' + stringestilo + ' />');
+        $(this).append('<input type="hidden" name="nombreproyecto" value="' + nombreproyecto + '" />');
+        $(this).append('<input type="hidden" name="usuarioconectado" value="' + usuarioconectado + '" />');
+        return true;
         //}, 800);
         //}
     });
-    
-    
-    $('#exportarproyecto').click(function() {
+
+
+    $('#exportarproyecto').click(function () {
         archivoguardar = '';
-        getjson().done(function(result) {
+        getjson().done(function (result) {
             archivoguardar = JSON.stringify(result);
-            if (archivoguardar != ''){
+            if (archivoguardar != '') {
                 console.log("se exportara el proyecto " + " en " + archivoguardar);
                 nombreArchivo = getnombreproyecto() + ".json";
                 var reader = new FileReader();
                 reader.onload = function (event) {
-                var save = document.createElement('a');
-                save.href = event.target.result;
-                save.target = '_blank';
-                save.download = nombreArchivo || 'archivo.dat';
-                var clicEvent = new MouseEvent('click', {
-                'view': window,
+                    var save = document.createElement('a');
+                    save.href = event.target.result;
+                    save.target = '_blank';
+                    save.download = nombreArchivo || 'archivo.dat';
+                    var clicEvent = new MouseEvent('click', {
+                        'view': window,
                         'bubbles': true,
                         'cancelable': true
-                });
-                save.dispatchEvent(clicEvent);
-                (window.URL || window.webkitURL).revokeObjectURL(save.href);
+                    });
+                    save.dispatchEvent(clicEvent);
+                    (window.URL || window.webkitURL).revokeObjectURL(save.href);
                 };
                 reader.readAsDataURL(new Blob([archivoguardar], {type: "application/json"}));
             }
-        }).fail(function() {
+        }).fail(function () {
             alert("no se pudo exportar el archivo a formato json, favor reviselo.");
             return null;
         });
@@ -383,14 +414,14 @@ function cambiarnombretiponodo(idnodo, tiponodo) {
 }
 
 //Esta funcion verifica si no hay inconvenientes en la estructura creada
-function sintaxisnodos(){
+function sintaxisnodos() {
     r = true;
     var nombresnodos = [];
     //alert(nodoscreados.length+" tamano");
     nodoscreados.forEach(function (nodo) {
         nombresnodos.push(nodo.tiponodo);
     });
-    if (hasDuplicates(nombresnodos)){
+    if (hasDuplicates(nombresnodos)) {
         alert('favor revisar los nombres de los nodos, que no existan nombres iguales');
         r = false;
     }
