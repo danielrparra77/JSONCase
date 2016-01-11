@@ -175,6 +175,24 @@ function agregarnodo(idnodo, y, x, caracteristica,tiponodo,valor) {
     });
 }
 
+//Funcion para encontrar el nodo a copiar
+function buscarnodo(idnodo) {
+    var nodobus=new Array;
+    for (i=0;i<nodoscreados.length;i++){
+        if(nodoscreados[i].idnodo==idnodo){
+            alert("Lo encontre " + idnodo);
+            nodobus.push(idnodo);
+            nodobus.push(nodoscreados[i].x);
+            nodobus.push(nodoscreados[i].y);
+            nodobus.push(nodoscreados[i].caracteristica);
+            nodobus.push(nodoscreados[i].tiponodo);
+            nodobus.push(nodoscreados[i].valor);
+            return nodobus;  
+        }
+    }
+}
+
+
 //Funcion usada para que el padre sepa que hijo acaba de tener
 function unirpadreahijo(idpadre, idhijo) {
     nodoscreados.forEach(function (nodo) {
