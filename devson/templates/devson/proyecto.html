@@ -183,6 +183,8 @@
         <form id="postguardar" class="formu" method="POST">
             {% csrf_token %}
         </form>
+        <form id="postjson" class="formu" action="{% url 'devson:exportar'%}" method="POST">
+        </form>
         <script type="text/javascript">
             //Posicion en la que se encuentran el contenedor de los divs
             var xcontainment = 0;
@@ -511,42 +513,24 @@
                     document.write("Error entregando datos de estilos, se recomienda recargar pagina<br />")
             }
             });
-            $('#exportarproyecto').click(function() {
-            //alert("revisnado "+sintaxisnodos());
-            $.ajax({
-            type:"POST",
-                    url:"{% url 'devson:exportar'%}",
-                    data: {
-                    'proyecto': getproyecto()
-                    },
-                    success: function(json){
-                    archivoguardar = JSON.stringify(json.proyecto);
-                    if (archivoguardar != ''){
-                    console.log("se exportara el proyecto " + " en " + archivoguardar);
-                    nombreArchivo = getnombreproyecto() + ".json";
-                    var reader = new FileReader();
-                    reader.onload = function (event) {
-                    var save = document.createElement('a');
-                    save.href = event.target.result;
-                    save.target = '_blank';
-                    save.download = nombreArchivo || 'archivo.dat';
-                    var clicEvent = new MouseEvent('click', {
-                    'view': window,
-                            'bubbles': true,
-                            'cancelable': true
+            });
+            function getjson(){
+                return $.ajax({
+                    type:"POST",
+                            url:"{% url 'devson:exportar'%}",
+                            data: {
+                            'proyecto': getproyecto()
+                            }
+                            //,
+                            //success: function(jout){
+                            //    return jout;
+                            //},
+                            //error: function(){
+                            //alert ("hubo un error exportando el proyecto favor intentelo mas tarde.");
+                            //return null;
+                            //}
                     });
-                    save.dispatchEvent(clicEvent);
-                    (window.URL || window.webkitURL).revokeObjectURL(save.href);
-                    };
-                    reader.readAsDataURL(new Blob([archivoguardar], {type: "application/json"}));
-                    }
-                    },
-                    error: function(){
-                    alert ("hubo un error exportando el proyecto favor intentelo mas tarde.");
-                    }
-            });
-            });
-            });
+            }
         </script>
         <script type="text/javascript">
             $element = document.getElementById('containment-wrapper');
