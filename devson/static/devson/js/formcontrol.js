@@ -131,6 +131,10 @@ function getusuarioactivo(){
     return usuarioconectado;
 }
 
+function getnombreproyecto(){
+    return nombreproyecto;
+}
+
 //Funcion usada para actualizar el nuevo proyecto
 function setnombreproyecto(nuevo, usuario) {
     nombreproyecto = nuevo;

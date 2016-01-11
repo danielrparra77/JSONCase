@@ -490,9 +490,25 @@
                             'proyecto': getproyecto()
                             },
                      success: function(json){
-                         archivoabrir = JSON.stringify(json.proyecto);
-                         if (archivoabrir!=''){
-                             console.log("se exportara el proyecto "+" en "+archivoabrir);
+                         archivoguardar = JSON.stringify(json.proyecto);
+                         if (archivoguardar!=''){
+                             console.log("se exportara el proyecto "+" en "+archivoguardar);
+                             nombreArchivo=getnombreproyecto()+".json";
+                             var reader = new FileReader();
+                             reader.onload = function (event) {
+                                var save = document.createElement('a');
+                                save.href = event.target.result;
+                                save.target = '_blank';
+                                save.download = nombreArchivo || 'archivo.dat';
+                                var clicEvent = new MouseEvent('click', {
+                                    'view': window,
+                                        'bubbles': true,
+                                        'cancelable': true
+                                });
+                                save.dispatchEvent(clicEvent);
+                                (window.URL || window.webkitURL).revokeObjectURL(save.href);
+                            };
+                            reader.readAsDataURL(new Blob([archivoguardar], {type: "application/json"}));
                          }
                      },
                      error: function(){
