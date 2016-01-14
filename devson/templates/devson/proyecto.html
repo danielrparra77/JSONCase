@@ -82,6 +82,7 @@
                         <li><a onclick="abrirventana('{% url 'devson:abrir' %}', getidsocket())">Abrir</a></li>
                         <li><a id="guardarproyecto" onclick="abrirventanag('{% url 'devson:guardar' %}')">Guardar</a></li>
                         <li><a id="exportarproyecto" href="#">Exportar como</a></li>
+                        <li><a id="exportarsql" href="#">Exportar como SQL</a></li>
                     </ul>
                 </li>
                 <li>
@@ -514,12 +515,23 @@
             }
             });
             });
+            function expotarsql(exportar){
+                return $.ajax({
+                    type:"POST",
+                            url:"{% url 'devson:exportar'%}",
+                            data: {
+                            'proyecto': getproyecto(),
+                            'exportar':exportar
+                            }
+                    });
+            }
             function getjson(){
                 return $.ajax({
                     type:"POST",
                             url:"{% url 'devson:exportar'%}",
                             data: {
-                            'proyecto': getproyecto()
+                            'proyecto': getproyecto(),
+                            'exportar':'json'
                             }
                             //,
                             //success: function(jout){

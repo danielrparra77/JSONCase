@@ -20,7 +20,7 @@ from django.contrib.sessions.models import Session
 from django.contrib.auth.decorators import login_required
 import redis
 import json
-import jsonproyect
+import jsonproyect, sqlproyect
 from . import models
 from datetime import datetime
 
@@ -48,11 +48,17 @@ def abrir(request):
 @login_required()
 @csrf_exempt
 def exportar(request):
-    print "se exportara el proyecto a formato json"
+    print "se exportara el proyecto"
     print request.POST.get('proyecto','')
     proyecto = request.POST.get('proyecto','')
+    tipoexportacion = request.POST.get('exportar','')
     proyecto = json.loads(proyecto)
-    jproyecto = jsonproyect.crearjson(proyecto)
+    if tipoexportacion=='json':
+        jproyecto = jsonproyect.crearjson(proyecto)
+    elif tipoexportacion=='sql':
+        jproyecto = sqlproyect.crearsql(proyecto)
+    else:
+        jproyecto = {'vacio':None}
     print jproyecto
     print 'se termino de exportar'
 #    jnodos = []
