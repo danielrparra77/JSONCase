@@ -98,7 +98,7 @@ ul, ol{
     display: none;
     position: absolute;
     background: #000000;
-    /**left: 0;**/
+    /**left: 50px;**/
     -webkit-transition: all .3s ease;
     -moz-transition: all .3s ease;
     -ms-transition: all .3s ease;
@@ -119,7 +119,7 @@ ul, ol{
 }
 
 .nav li ul li ul{
-    right: -140px;
+    /**right: -140px;**/
     top: 0px;
     min-width: 140px;
 }
@@ -445,3 +445,66 @@ button.submit:active{
     overflow:auto;
     height: 425px;
 }
+
+.nav4{
+    display: block;
+    width: auto;
+    background: #000000;
+    position: relative;     
+}
+
+.nav4 li a{
+    background-color: #000000;
+    color: #FFFFFF;
+    text-decoration: none;
+    line-height: 20px;
+    padding: 10px 15px;
+    display: inline-block;
+    position: relative;
+    text-align: center;
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -ms-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
+}
+
+.nav4 li a:hover{
+    background-color: #434343;
+    z-index: 1;
+}
+
+.nav4 > li{
+    display: table-cell;
+    float: left;
+}
+
+.nav4 li ul{
+    display: none;
+    position: absolute;
+    background: #FFFFFF;
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -ms-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease; 
+}
+
+.nav4 li:hover > ul{
+    display: inline-block;
+    position: absolute;
+    min-width: 140px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
