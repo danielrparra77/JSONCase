@@ -38,16 +38,17 @@ def creartabla(nombre,columnas,proyecto):
     tablas = ''
     restricciones = []
     tabla = 'CREATE TABLE '+nombre+' ('+"\r\n"
-    tabla += 'PK_'+nombre+' int primary key '+"\r\n"
+    tabla += 'PK_'+nombre+' int'+"\r\n"
+    restricciones.append('ALTER TABLE '+nombre+' ADD CONTRAINT CPK_'+nombre+ ' PRIMARY KEY(PK_'+nombre+");\r\n")
     for hijo in proyecto:
         if hijo['idnodo'] in columnas:
             if hijo['caracteristica'] == 'Hoja':
                 tabla += ','+hijo['tiponodo']+' '+hijo['valor']+"\r\n"
             else:
                 tabla += ',K_'+hijo['tiponodo']+' int'+"\n"
-                restricciones.append('ALTER TABLE '+nombre+' ADD CONTRAINT FK_'+hijo['tiponodo']+ ' FOREING KEY('+'K_'+hijo['tiponodo']+') REFERENCES '+hijo['tiponodo']+'.PK_'+hijo['tiponodo']+"\r\n")
+                restricciones.append('ALTER TABLE '+nombre+' ADD CONTRAINT FK_'+hijo['tiponodo']+ ' FOREING KEY('+'K_'+hijo['tiponodo']+') REFERENCES '+hijo['tiponodo']+'.PK_'+hijo['tiponodo']+";\r\n")
                 tablas+=creartabla(hijo['tiponodo'],hijo['idhijos'],proyecto)
-    tabla+=')'+"\r\n"
+    tabla+=');'+"\r\n"
     for restriccion in restricciones:
         tabla+=str(restriccion)
     tablas+=tabla
