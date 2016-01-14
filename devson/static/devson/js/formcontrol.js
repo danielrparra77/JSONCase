@@ -369,7 +369,9 @@ $(document).ready(function () {
     $('#exportarsql').click(function () {
         archivoguardar = '';
         expotarsql('sql').done(function (result) {
-            archivoguardar = JSON.stringify(result['proyecto']['sql']);
+            //console.log("lo que recibi "+result['proyecto']['sql']);
+            archivoguardar = result['proyecto']['sql'];
+            archivoguardar = String(archivoguardar);
             if (archivoguardar != '') {
                 console.log("se exportara el proyecto " + " en " + archivoguardar);
                 nombreArchivo = getnombreproyecto() + ".sql";
