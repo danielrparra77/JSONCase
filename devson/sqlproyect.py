@@ -23,8 +23,11 @@ def crearsql(proyecto):
                     return {'error':'columnas duplicadas'}
                 else:
                     tablas = creartabla(padre['tiponodo'],padre['idhijos'],proyecto)
-                    for tabla in tablas:
-                        sql+=str(tabla)
+                    print("mis tablas "+str(tablas))
+                    #for tabla in tablas:
+                        #while type(tabla) is not str:
+                            #tabla = tabla[0]
+                    sql+=str(tablas)
     return {'sql':sql}
 
 """
@@ -32,20 +35,20 @@ def crearsql(proyecto):
     por llaves foraneas
 """
 def creartabla(nombre,columnas,proyecto):
-    tablas = []
+    tablas = ''
     restricciones = []
-    tabla = 'CREATE TABLE '+nombre+' ('
-    tabla += 'PK_'+nombre+' int primary key '
+    tabla = 'CREATE TABLE '+nombre+' ('+"\r\n"
+    tabla += 'PK_'+nombre+' int primary key '+"\r\n"
     for hijo in proyecto:
         if hijo['idnodo'] in columnas:
             if hijo['caracteristica'] == 'Hoja':
-                tabla += ','+hijo['tiponodo']+' '+hijo['valor']
+                tabla += ','+hijo['tiponodo']+' '+hijo['valor']+"\r\n"
             else:
-                tabla += ',K_'+hijo['tiponodo']+' '+hijo['valor']
-                restricciones.append('ALTER TABLE '+nombre+' ADD CONTRAINT FK_'+hijo['tiponodo']+ ' FOREING KEY('+'K_'+hijo['tiponodo']+') REFERENCES '+hijo['tiponodo']+'.PK_'+hijo['tiponodo'])
-                tablas.append(creartabla(hijo['tiponodo'],hijo['idhijos'],proyecto))
-    tabla+=')'
+                tabla += ',K_'+hijo['tiponodo']+' int'+"\n"
+                restricciones.append('ALTER TABLE '+nombre+' ADD CONTRAINT FK_'+hijo['tiponodo']+ ' FOREING KEY('+'K_'+hijo['tiponodo']+') REFERENCES '+hijo['tiponodo']+'.PK_'+hijo['tiponodo']+"\r\n")
+                tablas+=creartabla(hijo['tiponodo'],hijo['idhijos'],proyecto)
+    tabla+=')'+"\r\n"
     for restriccion in restricciones:
         tabla+=str(restriccion)
-    tablas.append(tabla)
+    tablas+=tabla
     return tablas

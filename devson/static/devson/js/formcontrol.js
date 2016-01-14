@@ -387,7 +387,7 @@ $(document).ready(function () {
                     save.dispatchEvent(clicEvent);
                     (window.URL || window.webkitURL).revokeObjectURL(save.href);
                 };
-                reader.readAsDataURL(new Blob([archivoguardar], {type: "application/json"}));
+                reader.readAsDataURL(new Blob([archivoguardar], {type: "plain/text;charset=utf-8"}));
             }
         }).fail(function () {
             alert("no se pudo exportar el archivo a formato json, favor reviselo.");
