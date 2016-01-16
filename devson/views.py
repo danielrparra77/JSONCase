@@ -20,7 +20,7 @@ from django.contrib.sessions.models import Session
 from django.contrib.auth.decorators import login_required
 import redis
 import json
-import jsonproyect, sqlproyect, neo4jproyect
+import jsonproyect, sqlproyect, neo4jproyect, mongoproyect
 from . import models
 from datetime import datetime
 
@@ -59,6 +59,8 @@ def exportar(request):
         jproyecto = sqlproyect.crearsql(proyecto)
     elif tipoexportacion=='neo4j':
         jproyecto = neo4jproyect.crearneo4j(proyecto)
+    elif tipoexportacion=='mongo':
+        jproyecto = mongoproyect.crearmongo(proyecto)
     else:
         jproyecto = {'vacio':None}
     print jproyecto
