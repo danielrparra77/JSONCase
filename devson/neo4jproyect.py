@@ -68,17 +68,21 @@ def crearnodohojasnodos(nombre,valor,columnas,proyecto):
     subgrafos = ''
     apuntadores = []
     nodosdentro = []#los nodos que est nodo tiene seran creados
-    subgrafos = 'CREATE ('+nombre+':'+valor+')\r\n'
-    nodo = 'CREATE ('+nombre+')-[:'+valor+" {\r\n"
+    subgrafos = 'CREATE ('+nombre+':'+valor+'{\r\n'
+    #nodo = 'CREATE ('+nombre+')-[:'+valor+" {\r\n"
+    nodo = 'CREATE ('+nombre+')-[:'+valor
     for hijo in proyecto:
         if hijo['idnodo'] in columnas:
                 if hijo['caracteristica'] == 'Hoja':
-                    nodo += "\r\n"+hijo['tiponodo']+':['+hijo['valor']+"],"
+                    subgrafos += "\r\n"+hijo['tiponodo']+':'+hijo['valor']+","
+                    #nodo += "\r\n"+hijo['tiponodo']+':['+hijo['valor']+"],"
                 else:
                     apuntadores.append('->('+hijo['tiponodo']+")\r\n") # a que nodos este nodo apunta
                     nodosdentro.append(crearnodo(hijo['tiponodo'],hijo['valor'],hijo['idhijos'],proyecto))
-    nodo = nodo [:-1]#para eliminar la ultima coma de las hojas
-    nodo+='}]'+"\r\n"
+    subgrafos = subgrafos [:-1]#para eliminar la ultima coma
+    subgrafos+='})'+"\r\n"
+    #nodo = nodo [:-1]#para eliminar la ultima coma de las hojas
+    nodo+=']'+"\r\n"
     for nodointerno in nodosdentro:
         subgrafos+=str(nodointerno)
     for apuntador in apuntadores:
