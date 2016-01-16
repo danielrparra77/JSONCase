@@ -86,7 +86,12 @@
                             <ul>
                                 <li><a id="exportarproyecto">JSON</a></li>
                                 <li><a id="exportarsql">SQL</a></li>
-                                <li><a >No SQL</a></li>
+                                <li>
+                                    <a >No SQL</a>
+                                    <ul>
+                                        <li><a id="exportarneo4j">Neo4J</a></li>
+                                    </ul>
+                                </li>
                             </ul>
                         </li>
                     </ul>
@@ -578,7 +583,7 @@
             }
             });
             });
-            function expotarsql(exportar){
+            function expotar(exportar){
             return $.ajax({
             type:"POST",
                     url:"{% url 'devson:exportar'%}",
