@@ -10,5 +10,6 @@ import jsonproyect
 def crearmongo(proyecto):
     jproyecto = jsonproyect.crearjson(proyecto)
     stringjproyecto = json.dumps(jproyecto, separators=(',',':'))
-    cabecera = 'db.genbetadev.find()\r\n'
-    return {'json':(cabecera+stringjproyecto)}
+    cabecera = 'db.genbetadev.insert(\r\n'
+    cola = '\r\n)'
+    return {'json':(cabecera+stringjproyecto+cola)}
