@@ -55,8 +55,8 @@ def crearnodohojas(nombre,valor,columnas,proyecto):
             hojas.append('CREATE ('+hijo['tiponodo']+':'+hijo['valor']+')\r\n')
     nodo = nodo [:-1]#para eliminar la ultima coma
     nodo+='})'+"\r\n"
-    for hoja in hojas:
-        subgrafos+=str(hoja)
+    #for hoja in hojas:
+        #subgrafos+=str(hoja)
     subgrafos+=nodo
     return subgrafos
 
