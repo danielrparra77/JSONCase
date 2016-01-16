@@ -47,12 +47,16 @@ CREATE (AndyW:Person {name:'Andy Wachowski', born:1967})
 """
 def crearnodohojas(nombre,valor,columnas,proyecto):
     subgrafos = ''
+    hojas = []
     nodo = 'CREATE ('+nombre+':'+valor+"{"
     for hijo in proyecto:
         if hijo['idnodo'] in columnas:
             nodo += "\r\n"+hijo['tiponodo']+':'+hijo['valor']+","
+            hojas.append('CREATE ('+hijo['tiponodo']+':'+hijo['valor']+')\r\n')
     nodo = nodo [:-1]#para eliminar la ultima coma
     nodo+='})'+"\r\n"
+    for hoja in hojas:
+        subgrafos+=str(hoja)
     subgrafos+=nodo
     return subgrafos
 

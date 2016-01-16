@@ -299,7 +299,7 @@
             idnodo = $(this).attr("id");
             if (mostrarmodal(idnodo)){
             $("#myModal").modal();
-            $('#valor').prop("disabled", true);
+            $('#valor').prop("disabled", false);//Se queda asi por si luego se piensa bloquear el valor de un nodo no hoja
             }
             }
 
