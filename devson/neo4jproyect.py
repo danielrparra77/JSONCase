@@ -51,8 +51,8 @@ def crearnodohojas(nombre,valor,columnas,proyecto):
     nodo = 'CREATE ('+nombre+':'+valor+"{"
     for hijo in proyecto:
         if hijo['idnodo'] in columnas:
-            nodo += "\r\n"+hijo['tiponodo']+':'+hijo['valor']+","
-            hojas.append('CREATE ('+hijo['tiponodo']+':'+hijo['valor']+')\r\n')
+            nodo += "\r\n"+hijo['tiponodo']+":'"+hijo['valor']+"',"
+            hojas.append('CREATE ('+hijo['tiponodo']+":'"+hijo['valor']+"')\r\n")
     nodo = nodo [:-1]#para eliminar la ultima coma
     nodo+='})'+"\r\n"
     #for hoja in hojas:
