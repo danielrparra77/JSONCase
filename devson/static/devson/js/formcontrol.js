@@ -492,7 +492,7 @@ $(document).ready(function () {
     
     $('#exportarproyecto').click(function () {
         archivoguardar = '';
-        getjson().done(function (result) {
+        expotar('json').done(function (result) {
             archivoguardar = JSON.stringify(result);
             if (archivoguardar != '') {
                 console.log("se exportara el proyecto " + " en " + archivoguardar);
