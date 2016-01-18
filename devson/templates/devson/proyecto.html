@@ -585,7 +585,7 @@
             }
             });
             });
-            function expotar(exportar){
+            function exportar(exportar){
             return $.ajax({
             type:"POST",
                     url:"{% url 'devson:exportar'%}",
@@ -596,14 +596,14 @@
                     }
             });
             }
-            function getjson(){
-            return $.ajax({
-            type:"POST",
-                    url:"{% url 'devson:exportar'%}",
-                    data: {
-                    'proyecto': getproyecto(),
-                            'exportar':'json'
-                    }
+            //function getjson(){
+            //return $.ajax({
+            //type:"POST",
+                    //url:"{% url 'devson:exportar'%}",
+                    //data: {
+                    //'proyecto': getproyecto(),
+                            //'exportar':'json'
+                    //}
             //,
             //success: function(jout){
             //    return jout;
@@ -612,8 +612,8 @@
             //alert ("hubo un error exportando el proyecto favor intentelo mas tarde.");
             //return null;
             //}
-            });
-            }
+            //});
+            //}
         </script>
         <script type="text/javascript">
             $element = document.getElementById('containment-wrapper');
