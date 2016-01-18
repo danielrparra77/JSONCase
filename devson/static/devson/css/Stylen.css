@@ -105,7 +105,7 @@ label{
     margin-left: -125px;
 }
 
-#abrirproyecto, #guardardb{
+#abrirproyecto, #abrirproyectodb, #guardardb{
     width: 220px;
     display: inline-block;
     padding: 5px 8px;
@@ -121,7 +121,45 @@ label{
     padding: 6px 20px;
 }
 
-#abrirproyecto:hover, #guardardb:hover{
+#abrirproyecto:hover, #abrirproyectodb:hover, #guardardb:hover{
     opacity: .85;
     cursor: pointer;
+}
+
+
+#cagarproyectodb{
+    margin: auto;
+    width: 455px;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.formu ul{
+    list-style: none;
+    width: 750px;
+    margin: 0;
+    padding: 0;
+}
+
+.formu li{
+    padding: 20px;
+    position: relative;
+}
+
+.formu li:first-child, .formu li:last-child{
+    border-bottom: 1px solid #FFFFFF;
+}
+
+#cagarproyectodb .rad{
+    width: 50px;
+    margin-top: 3px;
+    display: inline-block;
+    padding: 5px 8px;
+    background: #FFFFFF;
+    border: 0px solid #555;
+    box-shadow: 0 0 3px #EEE;
+    border-radius: 2px;
+    -moz-transition: padding .25s;
+    -webkit-transition: padding .25;
+    -o-transition: padding .25;
 }

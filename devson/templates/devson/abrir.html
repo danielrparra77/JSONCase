@@ -31,8 +31,8 @@
                 <tr>
                     <td>{{ proyecto.K_NombreProyecto }}</td>
                     <td>{{ proyecto.V_FechaCreacion }}</td>
-                    <td><input type="radio" name="proyecto" id="proyecto{{ forloop.counter }}" value="{{ proyecto.id }}" /></td>                    
-                {% endfor %}
+                    <td><input type="radio" name="proyecto" class="rad" id="proyecto{{ forloop.counter }}" value="{{ proyecto.id }}" /></td>                    
+                    {% endfor %}
                 </tr>
             </table>
         </div>
@@ -49,68 +49,70 @@
                 <label class="boton">Examinar</label>  
             </div>        
         </div>
-        <hr> <br>
-        <input type="button" id="abrirproyecto" onclick="setTimeout(function(){window.close();},1000)" value="Abrir proyecto local" class="submit"/>
+        <br>
+        <input type="button" id="abrirproyecto" onclick="setTimeout(function () {
+                    window.close();
+                }, 1000)" value="Abrir proyecto local" class="submit"/>
         <input type="hidden" id="fileOutput"/>
     </form>
     <script type="text/javascript">
-    var nombre = "";//nombre del proyecto
-    var idsock = "";
-    var socket = io.connect('http://localhost:8010/');
-    function processFiles(files) {
-        var file = files[0];
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            var output = document.getElementById("fileOutput");
-            $(function(){
-                nombre = ($("#archivo_oculto").val()).split("\\");
-                nombre = nombre[nombre.length-1];
-                nombre = nombre.split(".")[0];
-            });
-            output.value = e.target.result;
-        };
-        reader.readAsText(file);
-    }
-    
-    socket.on('connect', function(){
-        console.log("connect");
-        idsock = '{{idsock}}';
-        console.log('aqui vamos '+idsock);
-        //socket.id = '{{idsock}}';
-    });
-    
-    $(document).ready(function(){
-        $("#abrirproyecto").click(function(){
-            var archivoabrir = $('#fileOutput').val();
-            if (archivoabrir!='' && idsock !=''){
-                console.log("se abrira el proyecto "+" en "+archivoabrir);
-                socket.emit('abrir proyecto',archivoabrir,idsock);
-            }
-        });
-        $('#cagarproyectodb').submit(function(e) {
-            console.log($('input[name="proyecto"]:checked', '#cagarproyectodb').val());
-            $.ajax({
-                 type:"POST",
-                 url:"{% url 'devson:abrirendb'%}",
-                 data: {
-                        'proyecto': $('input[name="proyecto"]:checked', '#cagarproyectodb').val() // from form
-                        },
-                 success: function(json){
-                     archivoabrir = JSON.stringify(json.proyecto);
-                     if (archivoabrir!='' && idsock !=''){
-                         console.log("se abrira el proyecto "+" en "+archivoabrir);
-                         socket.emit('abrir proyecto',archivoabrir,idsock);
-                     }
-                 },
-                 error: function(){
-                     alert ("hubo un error cargando el proyecto favor intentelo mas tarde.");
-                 }
-            });
-            return false;
-        });
-    });
+        var nombre = "";//nombre del proyecto
+        var idsock = "";
+        var socket = io.connect('http://localhost:8010/');
+        function processFiles(files) {
+            var file = files[0];
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var output = document.getElementById("fileOutput");
+                $(function () {
+                    nombre = ($("#archivo_oculto").val()).split("\\");
+                    nombre = nombre[nombre.length - 1];
+                    nombre = nombre.split(".")[0];
+                });
+                output.value = e.target.result;
+            };
+            reader.readAsText(file);
+        }
 
-</script>
+        socket.on('connect', function () {
+            console.log("connect");
+            idsock = '{{idsock}}';
+            console.log('aqui vamos ' + idsock);
+            //socket.id = '{{idsock}}';
+        });
+
+        $(document).ready(function () {
+            $("#abrirproyecto").click(function () {
+                var archivoabrir = $('#fileOutput').val();
+                if (archivoabrir != '' && idsock != '') {
+                    console.log("se abrira el proyecto " + " en " + archivoabrir);
+                    socket.emit('abrir proyecto', archivoabrir, idsock);
+                }
+            });
+            $('#cagarproyectodb').submit(function (e) {
+                console.log($('input[name="proyecto"]:checked', '#cagarproyectodb').val());
+                $.ajax({
+                    type: "POST",
+                    url: "{% url 'devson:abrirendb'%}",
+                    data: {
+                        'proyecto': $('input[name="proyecto"]:checked', '#cagarproyectodb').val() // from form
+                    },
+                    success: function (json) {
+                        archivoabrir = JSON.stringify(json.proyecto);
+                        if (archivoabrir != '' && idsock != '') {
+                            console.log("se abrira el proyecto " + " en " + archivoabrir);
+                            socket.emit('abrir proyecto', archivoabrir, idsock);
+                        }
+                    },
+                    error: function () {
+                        alert("hubo un error cargando el proyecto favor intentelo mas tarde.");
+                    }
+                });
+                return false;
+            });
+        });
+
+    </script>
 </body>
 </html>
 
