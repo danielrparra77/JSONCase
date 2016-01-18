@@ -89,6 +89,7 @@
                                 <li>
                                     <a >No SQL</a>
                                     <ul>
+                                        <li><a id="exportarcassandra">Cassandra</a></li>
                                         <li><a id="exportarmongo">MongoDB</a></li>
                                         <li><a id="exportarneo4j">Neo4J</a></li>
                                     </ul>
@@ -590,7 +591,8 @@
                     url:"{% url 'devson:exportar'%}",
                     data: {
                     'proyecto': getproyecto(),
-                            'exportar':exportar
+                    'exportar':exportar,
+                    'nombreproyecto': getnombreproyecto()
                     }
             });
             }
