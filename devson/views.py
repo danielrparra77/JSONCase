@@ -20,7 +20,7 @@ from django.contrib.sessions.models import Session
 from django.contrib.auth.decorators import login_required
 import redis
 import json
-import jsonproyect, sqlproyect, neo4jproyect, mongoproyect
+import jsonproyect, sqlproyect, neo4jproyect, mongoproyect,cassandraproyect
 from . import models
 from datetime import datetime
 
@@ -61,6 +61,9 @@ def exportar(request):
         jproyecto = neo4jproyect.crearneo4j(proyecto)
     elif tipoexportacion=='mongo':
         jproyecto = mongoproyect.crearmongo(proyecto)
+    elif tipoexportacion=='cassandra':
+        nombreproyecto = request.POST.get('nombreproyecto','')
+        jproyecto = cassandraproyect.crearcassandra(proyecto,nombreproyecto)
     else:
         jproyecto = {'vacio':None}
     print jproyecto

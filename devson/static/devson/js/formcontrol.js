@@ -392,7 +392,7 @@ $(document).ready(function () {
                 reader.readAsDataURL(new Blob([archivoguardar], {type: "plain/text;charset=utf-8"}));
             }
         }).fail(function () {
-            alert("no se pudo exportar el archivo a formato json, favor reviselo.");
+            alert("no se pudo exportar el archivo a formato sql, favor reviselo.");
             return null;
         });
     });
@@ -423,7 +423,38 @@ $(document).ready(function () {
                 reader.readAsDataURL(new Blob([archivoguardar], {type: "plain/text;charset=utf-8"}));
             }
         }).fail(function () {
-            alert("no se pudo exportar el archivo a formato json, favor reviselo.");
+            alert("no se pudo exportar el archivo a Neo4J, favor reviselo.");
+            return null;
+        });
+    });
+    
+    $('#exportarcassandra').click(function () {
+        archivoguardar = '';
+        expotar('cassandra').done(function (result) {
+            console.log("lo que recibi "+result['proyecto']['cassandra']);
+            archivoguardar = result['proyecto']['cassandra'];
+            archivoguardar = String(archivoguardar);
+            if (archivoguardar != '') {
+                console.log("se exportara el proyecto " + " en " + archivoguardar);
+                nombreArchivo ="cassa_"+getnombreproyecto() + ".txt";
+                var reader = new FileReader();
+                reader.onload = function (event) {
+                    var save = document.createElement('a');
+                    save.href = event.target.result;
+                    save.target = '_blank';
+                    save.download = nombreArchivo || 'archivo.dat';
+                    var clicEvent = new MouseEvent('click', {
+                        'view': window,
+                        'bubbles': true,
+                        'cancelable': true
+                    });
+                    save.dispatchEvent(clicEvent);
+                    (window.URL || window.webkitURL).revokeObjectURL(save.href);
+                };
+                reader.readAsDataURL(new Blob([archivoguardar], {type: "plain/text;charset=utf-8"}));
+            }
+        }).fail(function () {
+            alert("no se pudo exportar el archivo a Neo4J, favor reviselo.");
             return null;
         });
     });
@@ -454,7 +485,7 @@ $(document).ready(function () {
                 reader.readAsDataURL(new Blob([archivoguardar], {type: "plain/text;charset=utf-8"}));
             }
         }).fail(function () {
-            alert("no se pudo exportar el archivo a formato json, favor reviselo.");
+            alert("no se pudo exportar el archivo a mongoDB, favor reviselo.");
             return null;
         });
     });

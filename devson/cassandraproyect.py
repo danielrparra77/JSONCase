@@ -3,20 +3,22 @@
 # and open the template in the editor.
 
 __author__ = "Daniel Romero"
-__date__ = "$13/01/2016 08:30:51 PM$"
+__date__ = "$18/01/2016 02:52:52 PM$"
+
 import json
 import jsonproyect
 
-def crearsql(proyecto):
+def crearcassandra(proyecto,nombreproyecto):
     jproyecto = {}
-    sql = ''
+    cassandratablas = 'CREATE KEYSPACE Keyspace '+nombreproyecto+"\r\n"
+    cassandratablas += "WITH replication = {'class': 'SimpleStrategy', 'replication_factor' : 3};"+"\r\n"
     for padre in proyecto:
         if padre['padre']=='':
             if padre['caracteristica'] == 'Hoja':
                 tabla = 'CREATE TABLE '+padre['tiponodo']+' ('
-                tabla += 'PK_'+padre['tiponodo']+' int primary key, '
-                tabla += padre['tiponodo']+' '+padre['valor']+');'+"\r\n"
-                sql+=tabla
+                tabla += 'id uuid PRIMARY KEY, '
+                tabla += padre['tiponodo']+' '+padre['valor']+')'+"\r\n"
+                cassandratablas+=tabla
             else:
                 tiposhijos = [nodo["tiponodo"] for nodo in proyecto]
                 if len(tiposhijos)!=len(set(tiposhijos)):#si duplicado
@@ -27,8 +29,8 @@ def crearsql(proyecto):
                     #for tabla in tablas:
                         #while type(tabla) is not str:
                             #tabla = tabla[0]
-                    sql+=str(tablas)
-    return {'sql':sql}
+                    cassandratablas+=str(tablas)
+    return {'cassandra':cassandratablas}
 
 """
     En este metodo se crearan todas las tablas que esten conetadas
@@ -36,20 +38,15 @@ def crearsql(proyecto):
 """
 def creartabla(nombre,columnas,proyecto):
     tablas = ''
-    restricciones = []
     tabla = 'CREATE TABLE '+nombre+' ('+"\r\n"
-    tabla += 'PK_'+nombre+' int'+"\r\n"
-    restricciones.append('ALTER TABLE '+nombre+' ADD CONTRAINT CPK_'+nombre+ ' PRIMARY KEY(PK_'+nombre+");\r\n")
+    tabla += 'id uuid PRIMARY KEY'+"\r\n"
     for hijo in proyecto:
         if hijo['idnodo'] in columnas:
             if hijo['caracteristica'] == 'Hoja':
                 tabla += ','+hijo['tiponodo']+' '+hijo['valor']+"\r\n"
             else:
-                tabla += ',K_'+hijo['tiponodo']+' int'+"\n"
-                restricciones.append('ALTER TABLE '+nombre+' ADD CONTRAINT FK_'+hijo['tiponodo']+ ' FOREING KEY('+'K_'+hijo['tiponodo']+') REFERENCES '+hijo['tiponodo']+'.PK_'+hijo['tiponodo']+";\r\n")
+                tabla += ',K_'+hijo['tiponodo']+' uuid'+"\n"
                 tablas+=creartabla(hijo['tiponodo'],hijo['idhijos'],proyecto)
-    tabla+=');'+"\r\n"
-    for restriccion in restricciones:
-        tabla+=str(restriccion)
+    tabla+=')'+"\r\n"
     tablas+=tabla
     return tablas
