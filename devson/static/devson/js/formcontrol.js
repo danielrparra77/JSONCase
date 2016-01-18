@@ -190,7 +190,7 @@ function buscarnodo(idnodo) {
     var nodobus = new Array;
     for (i = 0; i < nodoscreados.length; i++) {
         if (nodoscreados[i].idnodo == idnodo) {
-            alert("Lo encontre " + idnodo);
+            //alert("Lo encontre " + idnodo);
             nodobus.push(idnodo);
             nodobus.push(nodoscreados[i].x);
             nodobus.push(nodoscreados[i].y);
