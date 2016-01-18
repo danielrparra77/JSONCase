@@ -172,8 +172,8 @@ function agregarnodo(idnodo, y, x, caracteristica, tiponodo, valor) {
     nuevonodo.padre = '';
     nodoscreados.push(nuevonodo);
     $(function () {
-
-        getjson().done(function (result) {
+        exportar('json').done(function (result) {
+            //getjson().done(function (result) {
             //archivoguardar = JSON.stringify(result);
             //alert(nodoscreados+" | "+result+" | "+archivoguardar);
             $('#jsonview').jsonView(result, {"status": "close"});
@@ -181,7 +181,7 @@ function agregarnodo(idnodo, y, x, caracteristica, tiponodo, valor) {
             alert("no se pudo exportar el archivo a formato json, favor reviselo.");
             return null;
         });
-       
+
     });
 }
 
@@ -217,7 +217,8 @@ function unirpadreahijo(idpadre, idhijo) {
         }
     });
     $(function () {
-        getjson().done(function (result) {
+        exportar('json').done(function (result) {
+            //getjson().done(function (result) {
             //archivoguardar = JSON.stringify(result);
             //alert(nodoscreados+" | "+result+" | "+archivoguardar);
             $('#jsonview').jsonView(result, {"status": "close"});
@@ -243,14 +244,15 @@ function separarpadrehijo(idpadre, idhijo) {
         it += 1;
     });
     $(function () {
-        getjson().done(function (result) {
+        exportar('json').done(function (result) {
+            //getjson().done(function (result) {
             //archivoguardar = JSON.stringify(result);
             //alert(nodoscreados+" | "+result+" | "+archivoguardar);
             $('#jsonview').jsonView(result, {"status": "close"});
         }).fail(function () {
             alert("no se pudo exportar el archivo a formato json, favor reviselo.");
             return null;
-        }); 
+        });
     });
 }
 
@@ -263,14 +265,15 @@ function actualizarposicionnodo(idnodo, posx, posy) {
         }
     });
     $(function () {
-        getjson().done(function (result) {
+        exportar('json').done(function (result) {
+            //getjson().done(function (result) {
             //archivoguardar = JSON.stringify(result);
             //alert(nodoscreados+" | "+result+" | "+archivoguardar);
             $('#jsonview').jsonView(result, {"status": "close"});
         }).fail(function () {
             alert("no se pudo exportar el archivo a formato json, favor reviselo.");
             return null;
-        }); 
+        });
     });
 }
 
@@ -396,7 +399,7 @@ $(document).ready(function () {
             return null;
         });
     });
-    
+
     $('#exportarneo4j').click(function () {
         archivoguardar = '';
         expotar('neo4j').done(function (result) {
@@ -405,7 +408,7 @@ $(document).ready(function () {
             archivoguardar = String(archivoguardar);
             if (archivoguardar != '') {
                 console.log("se exportara el proyecto " + " en " + archivoguardar);
-                nombreArchivo ="neo_"+getnombreproyecto() + ".txt";
+                nombreArchivo = "neo_" + getnombreproyecto() + ".txt";
                 var reader = new FileReader();
                 reader.onload = function (event) {
                     var save = document.createElement('a');
@@ -427,16 +430,16 @@ $(document).ready(function () {
             return null;
         });
     });
-    
+
     $('#exportarcassandra').click(function () {
         archivoguardar = '';
         expotar('cassandra').done(function (result) {
-            console.log("lo que recibi "+result['proyecto']['cassandra']);
+            console.log("lo que recibi " + result['proyecto']['cassandra']);
             archivoguardar = result['proyecto']['cassandra'];
             archivoguardar = String(archivoguardar);
             if (archivoguardar != '') {
                 console.log("se exportara el proyecto " + " en " + archivoguardar);
-                nombreArchivo ="cassa_"+getnombreproyecto() + ".txt";
+                nombreArchivo = "cassa_" + getnombreproyecto() + ".txt";
                 var reader = new FileReader();
                 reader.onload = function (event) {
                     var save = document.createElement('a');
@@ -458,7 +461,7 @@ $(document).ready(function () {
             return null;
         });
     });
-    
+
     $('#exportarmongo').click(function () {
         archivoguardar = '';
         expotar('mongo').done(function (result) {
@@ -467,7 +470,7 @@ $(document).ready(function () {
             archivoguardar = String(archivoguardar);
             if (archivoguardar != '') {
                 console.log("se exportara el proyecto " + " en " + archivoguardar);
-                nombreArchivo ="mongo_"+getnombreproyecto() + ".txt";
+                nombreArchivo = "mongo_" + getnombreproyecto() + ".txt";
                 var reader = new FileReader();
                 reader.onload = function (event) {
                     var save = document.createElement('a');
@@ -489,7 +492,7 @@ $(document).ready(function () {
             return null;
         });
     });
-    
+
     $('#exportarproyecto').click(function () {
         archivoguardar = '';
         expotar('json').done(function (result) {
