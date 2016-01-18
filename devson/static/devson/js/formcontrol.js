@@ -344,6 +344,18 @@ $(document).ready(function () {
                 cambiarnombretiponodo(idnodo, nodo.tiponodo);
             }
         });
+        $(function () {
+        exportar('json').done(function (result) {
+            //getjson().done(function (result) {
+            //archivoguardar = JSON.stringify(result);
+            //alert(nodoscreados+" | "+result+" | "+archivoguardar);
+            $('#jsonview').jsonView(result, {"status": "close"});
+        }).fail(function () {
+            alert("no se pudo exportar el archivo a formato json, favor reviselo.");
+            return null;
+        });
+
+        });
     });
     $("#guardarproyecto").click(function () {
         setTimeout(function () {
@@ -371,7 +383,7 @@ $(document).ready(function () {
 
     $('#exportarsql').click(function () {
         archivoguardar = '';
-        expotar('sql').done(function (result) {
+        exportar('sql').done(function (result) {
             //console.log("lo que recibi "+result['proyecto']['sql']);
             archivoguardar = result['proyecto']['sql'];
             archivoguardar = String(archivoguardar);
@@ -402,7 +414,7 @@ $(document).ready(function () {
 
     $('#exportarneo4j').click(function () {
         archivoguardar = '';
-        expotar('neo4j').done(function (result) {
+        exportar('neo4j').done(function (result) {
             //console.log("lo que recibi "+result['proyecto']['sql']);
             archivoguardar = result['proyecto']['grafo'];
             archivoguardar = String(archivoguardar);
@@ -433,7 +445,7 @@ $(document).ready(function () {
 
     $('#exportarcassandra').click(function () {
         archivoguardar = '';
-        expotar('cassandra').done(function (result) {
+        exportar('cassandra').done(function (result) {
             console.log("lo que recibi " + result['proyecto']['cassandra']);
             archivoguardar = result['proyecto']['cassandra'];
             archivoguardar = String(archivoguardar);
@@ -464,7 +476,7 @@ $(document).ready(function () {
 
     $('#exportarmongo').click(function () {
         archivoguardar = '';
-        expotar('mongo').done(function (result) {
+        exportar('mongo').done(function (result) {
             //console.log("lo que recibi "+result['proyecto']['sql']);
             archivoguardar = result['proyecto']['json'];
             archivoguardar = String(archivoguardar);
@@ -495,7 +507,7 @@ $(document).ready(function () {
 
     $('#exportarproyecto').click(function () {
         archivoguardar = '';
-        expotar('json').done(function (result) {
+        exportar('json').done(function (result) {
             archivoguardar = JSON.stringify(result);
             if (archivoguardar != '') {
                 console.log("se exportara el proyecto " + " en " + archivoguardar);
