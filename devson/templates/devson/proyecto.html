@@ -262,6 +262,7 @@
             //Posicion en la que se encuentran el contenedor de los divs
             var xcontainment = 0;
             var ycontainment = 0;
+            var nodoseleccionado; //esta es la variable del ultimo nodo que el usuario ha hecho click
             var common = {
             isSource: false,
                     isTarget: false,
@@ -287,7 +288,7 @@
             $('#containment-wrapper').click(function (e) {
             //falta revisar como obtener las coordenadas correctas del evento
             xcontainment = $(this).position().left;
-            ycontainment = $(this).position().top
+            ycontainment = $(this).position().top;
                     var x = e.pageX - xcontainment;
             var y = e.pageY - ycontainment;
             if (String(objetoseleccionado) == 'Nodo')
@@ -305,19 +306,6 @@
             }
             }
 
-            //copiar y pegar
-            idnodo = $(this).attr("id");
-            var buscado;
-            $(document).on("click", "#copiar", function () {
-            var buscado;
-            buscado = buscarnodo(idnodo);
-            //alert(buscado);
-            buscado[0] = String("nodo" + idnodocreado);
-            //alert(buscado);
-            $(document).on("click", "#pegar", function () {
-            crearnuevonodo(buscado[0], buscado[1], buscado[2], buscado[4], buscado[5], buscado[3], false);
-            });
-            });
             });
             $(document).on("click", ".ui-widget-contentsimple", function(){
             if (String(objetoseleccionado) == 'Propiedades') {
@@ -332,12 +320,17 @@
             var buscado;
             $(document).on("click", "#copiar", function () {
             var buscado;
-            buscado = buscarnodo(idnodo);
+            buscado = getnodo(nodoseleccionado);
             //alert(buscado);
-            buscado[0] = String("nodo" + idnodocreado);
-            //alert(buscado);
+            $(document).off("click", "#pegar");
             $(document).on("click", "#pegar", function () {
-            crearnuevonodo(buscado[0], buscado[1], buscado[2], buscado[4], buscado[5], buscado[3], false);
+            x = $('#containment-wrapper').position().left;
+            y = $('#containment-wrapper').position().top;
+            buscado.idnodo = String("nodo" + idnodocreado);
+            alert(String(buscado.caracteristica)+' '+String(buscado.tiponodo)+' '+String(buscado.caracteristica=='Hoja' && buscado.tiponodo==''))
+            if (buscado.caracteristica=='Hoja' && buscado.tiponodo=='')
+                buscado.tiponodo='no hay tipo';
+            crearnuevonodo(buscado.idnodo, x, y, buscado.tiponodo, buscado.valor, buscado.caracteristica, false);
             });
             });
             });
@@ -380,6 +373,8 @@
             });
             //crear nuevo nodo, si abrir indica que si se creo nodo por abrirse un proyecto
             function crearnuevonodo(idnodo, x, y, tiponodo, valor, caracteristica, siabrir){
+            alert('creando '+idnodo+' '+x+' '+y+' '+tiponodo+' '+valor+' '+caracteristica+' '+siabrir);
+            nodoseleccionado = idnodo;
             if (String(caracteristica) == 'Nodo'){
             newDiv = $("<div/>", {
             "class": "ui-widget-contentcomp",
@@ -404,14 +399,18 @@
             jsPlumb.draggable($('#' + idnodo), {containment:"#containment-wrapper",
                     stop: function(e){
                     // Evento cuando se actualizo la psocion de un div para registrar el cambio.
-                    var divcambiado = idnodo;
+                    nodoseleccionado = idnodo;
                     var p = $("#" + idnodo);
                     var position = p.position();
                     var nuevox = position.left;
                     var nuevoy = position.top;
-                    actualizarposicionnodo(divcambiado, nuevox, nuevoy);
-                    console.log("cambio la pos del div " + divcambiado + " en " + nuevox + " " + nuevoy + " " + e);
+                    actualizarposicionnodo(nodoseleccionado, nuevox, nuevoy);
+                    console.log("cambio la pos del div " + nodoseleccionado + " en " + nuevox + " " + nuevoy + " " + e);
                     }
+            });
+            $( '#' + idnodo).click(function() {
+                nodoseleccionado = idnodo;
+                //alert( "Handler for .click() called. "+nodoseleccionado );
             });
             //             newDiv.animate({ left: x+'px',top: y+'px' });
             //            newImg = $("<img>", {
