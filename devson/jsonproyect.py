@@ -8,18 +8,37 @@ import json
 
 def crearjson(proyecto):
     jproyecto = {}
-    for padre in proyecto:
-        if padre['padre']=='':
-            if padre['caracteristica'] == 'Hoja':
-                jproyecto[padre['tiponodo']] = padre['valor']
-            else:
-                tiposhijos = [nodo["tiponodo"] for nodo in proyecto]
-#                    if item["classifiers"][0]["subcategory"] ==  "County"] si se requiere de alguna condicion especial
-                if len(tiposhijos)!=len(set(tiposhijos)):#si duplicado
-                    jproyecto[padre['tiponodo']] = crearnodoarray(padre['idhijos'],proyecto)
+    tiposhijos = [nodo["tiponodo"] for nodo in proyecto
+        if nodo["padre"] ==  '']
+    if len(tiposhijos)!=len(set(tiposhijos)):#si duplicado
+        jproyecto = []
+        for padre in proyecto:
+            if padre['padre']=='':
+                jnodo = {}
+                if padre['caracteristica'] == 'Hoja':
+                    jnodo[padre['tiponodo']] = padre['valor']
                 else:
-                    jproyecto[padre['tiponodo']] = crearnodo(padre['idhijos'],proyecto)
-    return jproyecto
+                    tiposhijos = [nodo["tiponodo"] for nodo in proyecto
+                        if nodo["padre"] ==  padre['idnodo']]
+                    if len(tiposhijos)!=len(set(tiposhijos)):#si duplicado
+                        jnodo[padre['tiponodo']] = crearnodoarray(padre['idhijos'],proyecto)
+                    else:
+                        jnodo[padre['tiponodo']] = crearnodo(padre['idhijos'],proyecto)
+                jproyecto.append(jnodo)
+        return jproyecto
+    else:
+        for padre in proyecto:
+            if padre['padre']=='':
+                if padre['caracteristica'] == 'Hoja':
+                    jproyecto[padre['tiponodo']] = padre['valor']
+                else:
+                    tiposhijos = [nodo["tiponodo"] for nodo in proyecto
+                        if nodo["padre"] ==  padre['idnodo']]
+                    if len(tiposhijos)!=len(set(tiposhijos)):#si duplicado
+                        jproyecto[padre['tiponodo']] = crearnodoarray(padre['idhijos'],proyecto)
+                    else:
+                        jproyecto[padre['tiponodo']] = crearnodo(padre['idhijos'],proyecto)
+        return jproyecto
 """
 Con este metodo se pretende craer un objeto json con la composicion de sus hijos
 el parametro sirepite indica si aalguno de sus hijos tienen el mismo nombre
@@ -32,7 +51,8 @@ def crearnodo(idnodoshijos,proyecto):
                 jnodo[hijo['tiponodo']] = hijo['valor']
             else:
                 tiposhijos = [nodo["tiponodo"] for nodo in proyecto
-                    if nodo["idnodo"] in idnodoshijos]
+                    if nodo["idnodo"] in hijo['idhijos']]
+                print 'tipos hijos '+str(tiposhijos)+' '+hijo['tiponodo']
                 if len(tiposhijos)==len(set(tiposhijos)):
                     jnodo[hijo['tiponodo']] = crearnodo(hijo['idhijos'],proyecto)
                 else:
@@ -51,7 +71,7 @@ def crearnodoarray(idnodoshijos,proyecto):
                 jhijo[hijo['tiponodo']] = hijo['valor']
             else:
                 tiposhijos = [nodo["tiponodo"] for nodo in proyecto
-                    if nodo["idnodo"] in idnodoshijos]
+                    if nodo["idnodo"] in hijo['idhijos']]
                 if len(tiposhijos)!=len(set(tiposhijos)):
                     jhijo[hijo['tiponodo']] = crearnodoarray(hijo['idhijos'],proyecto)
                 else:

@@ -174,7 +174,7 @@
                     </ul> 
                 </li>
                 <li>
-                    <a href="#"><span class=""><i class="icon icon-trash"></i></span></a>
+                    <a id="eliminar"><span class=""><i class="icon icon-trash"></i></span></a>
                     <ul>
                         <li>Eliminar objeto</li>
                     </ul> 
@@ -289,7 +289,7 @@
             //falta revisar como obtener las coordenadas correctas del evento
             xcontainment = $(this).position().left;
             ycontainment = $(this).position().top;
-                    var x = e.pageX - xcontainment;
+            var x = e.pageX - xcontainment;
             var y = e.pageY - ycontainment;
             if (String(objetoseleccionado) == 'Nodo')
                     crearnuevonodo(String("nodo" + idnodocreado), x, y, 'object', '', String(objetoseleccionado), false);
@@ -302,24 +302,29 @@
             idnodo = $(this).attr("id");
             if (mostrarmodal(idnodo)){
             $("#myModal").modal();
-            $('#valor').prop("disabled", false);//Se queda asi por si luego se piensa bloquear el valor de un nodo no hoja
+            $('#valor').prop("disabled", false); //Se queda asi por si luego se piensa bloquear el valor de un nodo no hoja
             }
             }
 //copiar y pegar
             idnodo = $(this).attr("id");
             var buscado;
+            $(document).off("click", "#eliminar");
             $(document).on("click", "#copiar", function () {
             var buscado;
             buscadooriginal = getnodo(nodoseleccionado);
-            var buscado = jQuery.extend(true, {}, buscadooriginal);//clon del objeto
+            var buscado = jQuery.extend(true, {}, buscadooriginal); //clon del objeto
             //alert(buscado);
             $(document).off("click", "#pegar");
             $(document).on("click", "#pegar", function () {
             buscado.idnodo = String("nodo" + idnodocreado);
             crearnuevonodo(buscado.idnodo, 0, 0, buscado.tiponodo, buscado.valor, buscado.caracteristica, false);
             buscado = getnodo(nodoseleccionado);
-            
             });
+            });
+            //Eliminar
+            $(document).on("click", "#eliminar", function () {
+            buscadooriginal = getnodo(nodoseleccionado);
+            eliminarnodo(buscadooriginal.idnodo);
             });
             });
             $(document).on("click", ".ui-widget-contentsimple", function(){
@@ -333,20 +338,26 @@
             //copiar y pegar
             idnodo = $(this).attr("id");
             var buscado;
+            $(document).off("click", "#eliminar");
             $(document).on("click", "#copiar", function () {
             var buscado;
             buscadooriginal = getnodo(nodoseleccionado);
-            var buscado = jQuery.extend(true, {}, buscadooriginal);//clon del objeto
+            var buscado = jQuery.extend(true, {}, buscadooriginal); //clon del objeto
             //alert(buscado);
             $(document).off("click", "#pegar");
             $(document).on("click", "#pegar", function () {
             buscado.idnodo = String("nodo" + idnodocreado);
             //alert(String(buscado.caracteristica)+' '+String(buscado.tiponodo)+' '+String(buscado.caracteristica=='Hoja' && buscado.tiponodo==''))
-            if (buscado.caracteristica=='Hoja' && buscado.tiponodo=='')
-                buscado.tiponodo='no hay tipo';
+            if (buscado.caracteristica == 'Hoja' && buscado.tiponodo == '')
+                    buscado.tiponodo = 'no hay tipo';
             crearnuevonodo(buscado.idnodo, 0, 0, buscado.tiponodo, buscado.valor, buscado.caracteristica, false);
             buscado = getnodo(nodoseleccionado);
             });
+            });
+            //Eliminar
+            $(document).on("click", "#eliminar", function () {
+            buscadooriginal = getnodo(nodoseleccionado);
+            eliminarnodo(buscadooriginal.idnodo);
             });
             });
             //Evento de conexion detectada para separar a un padre de su hijo
@@ -423,9 +434,9 @@
                     console.log("cambio la pos del div " + nodoseleccionado + " en " + nuevox + " " + nuevoy + " " + e);
                     }
             });
-            $( '#' + idnodo).click(function() {
-                nodoseleccionado = idnodo;
-                //alert( "Handler for .click() called. "+nodoseleccionado );
+            $('#' + idnodo).click(function() {
+            nodoseleccionado = idnodo;
+            //alert( "Handler for .click() called. "+nodoseleccionado );
             });
             //             newDiv.animate({ left: x+'px',top: y+'px' });
             //            newImg = $("<img>", {
@@ -605,19 +616,19 @@
                     url:"{% url 'devson:exportar'%}",
                     data: {
                     'proyecto': getproyecto(),
-                    'exportar':exportar,
-                    'nombreproyecto': getnombreproyecto()
+                            'exportar':exportar,
+                            'nombreproyecto': getnombreproyecto()
                     }
             });
             }
             //function getjson(){
             //return $.ajax({
             //type:"POST",
-                    //url:"{% url 'devson:exportar'%}",
-                    //data: {
-                    //'proyecto': getproyecto(),
-                            //'exportar':'json'
-                    //}
+            //url:"{% url 'devson:exportar'%}",
+            //data: {
+            //'proyecto': getproyecto(),
+            //'exportar':'json'
+            //}
             //,
             //success: function(jout){
             //    return jout;
