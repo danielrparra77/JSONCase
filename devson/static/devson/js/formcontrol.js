@@ -124,6 +124,20 @@ function getproyecto() {
     ;
 }
 
+function getproyectopanel(){
+    var nodospanel = jQuery.extend(true, {}, nodoscreados);
+    nodospanel.forEach(function (nodo) {
+        if (nodo.caracteristica == 'Hoja' && nodo.tiponodo == '') {
+            nodo.tiponodo = 'no hay tipo';
+        }
+        if (nodo.caracteristica == 'Nodo' && nodo.tiponodo == '') {
+            nodo.tiponodo = 'no hay tipo';
+        }
+    });
+    return JSON.stringify(nodospanel, paranodo);
+    
+}
+
 function insertarobject(x) {
     objetoseleccionado = x;
 }

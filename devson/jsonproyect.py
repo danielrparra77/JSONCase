@@ -31,7 +31,12 @@ def crearnodo(idnodoshijos,proyecto):
             if hijo['caracteristica'] == 'Hoja':
                 jnodo[hijo['tiponodo']] = hijo['valor']
             else:
-                jnodo[hijo['tiponodo']] = crearnodo(hijo['idhijos'],proyecto)
+                tiposhijos = [nodo["tiponodo"] for nodo in proyecto
+                    if nodo["idnodo"] in idnodoshijos]
+                if len(tiposhijos)==len(set(tiposhijos)):
+                    jnodo[hijo['tiponodo']] = crearnodo(hijo['idhijos'],proyecto)
+                else:
+                    jnodo[hijo['tiponodo']] = crearnodoarray(hijo['idhijos'],proyecto)
     return jnodo
 """
 Con este metodo se pretende crear un nodo a partir de un array para que los elementos
@@ -45,6 +50,11 @@ def crearnodoarray(idnodoshijos,proyecto):
             if hijo['caracteristica'] == 'Hoja':
                 jhijo[hijo['tiponodo']] = hijo['valor']
             else:
-                jhijo[hijo['tiponodo']] = crearnodoarray(hijo['idhijos'],proyecto)
+                tiposhijos = [nodo["tiponodo"] for nodo in proyecto
+                    if nodo["idnodo"] in idnodoshijos]
+                if len(tiposhijos)!=len(set(tiposhijos)):
+                    jhijo[hijo['tiponodo']] = crearnodoarray(hijo['idhijos'],proyecto)
+                else:
+                    jhijo[hijo['tiponodo']] = crearnodo(hijo['idhijos'],proyecto)
             jnodo.append(jhijo)
     return jnodo
