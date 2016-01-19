@@ -202,6 +202,36 @@ function buscarnodo(idnodo) {
     }
 }
 
+function eliminarnodo(idnodo) {
+    alert("aqui");
+    var cont = 0;
+    nodoscreados.forEach(function (nodo) {
+        if (nodo.idnodo == idnodo) {
+            alert("id" + nodo.idnodo + " tipo" + nodo.tiponodo + " valor" + nodo.valor + " padre" + nodo.padre + " " + nodo.caracteristica);
+            separarpadrehijo(nodo.padre, nodo.idnodo);
+            if (nodo.caracteristica = 'Nodo') {
+                nodo.idhijos.forEach(function (hijo) {
+                    alert("hijo" + hijo);
+                    separarpadrehijo(nodo.idnodo, hijo);
+                });
+            }
+            alert("se va elemento "+cont);
+            nodoscreados.splice(cont, 1);
+        }
+        cont += 1;
+    });
+    $(function () {
+        exportar('json').done(function (result) {
+            $('#jsonview').jsonView(result, {"status": "close"});
+        }).fail(function () {
+            alert("no se pudo exportar el archivo a formato json, favor reviselo.");
+            return null;
+        });
+    });
+
+
+}
+
 
 //Funcion usada para que el padre sepa que hijo acaba de tener
 function unirpadreahijo(idpadre, idhijo) {
