@@ -264,17 +264,17 @@ function actualizarposicionnodo(idnodo, posx, posy) {
             nodo.y = posy;
         }
     });
-    $(function () {
-        exportar('json').done(function (result) {
-            //getjson().done(function (result) {
-            //archivoguardar = JSON.stringify(result);
-            //alert(nodoscreados+" | "+result+" | "+archivoguardar);
-            $('#jsonview').jsonView(result, {"status": "close"});
-        }).fail(function () {
-            alert("no se pudo exportar el archivo a formato json, favor reviselo.");
-            return null;
-        });
-    });
+//    $(function () {
+//        exportar('json').done(function (result) {
+//            //getjson().done(function (result) {
+//            //archivoguardar = JSON.stringify(result);
+//            //alert(nodoscreados+" | "+result+" | "+archivoguardar);
+//            $('#jsonview').jsonView(result, {"status": "close"});
+//        }).fail(function () {
+//            alert("no se pudo exportar el archivo a formato json, favor reviselo.");
+//            return null;
+//        });
+//    });
 }
 
 function getnodo(idnodo) {
@@ -305,7 +305,9 @@ function getidsocket() {
 //En esta funcion se preparara al modal informandole de los datos actuales del nodo
 function mostrarmodal(idnodo) {
     var retorono = false;
+    //alert('propiedades de '+idnodo);
     nodoscreados.forEach(function (nodo) {
+        //alert(nodo.idnodo+' it '+idnodo);
         if (nodo.idnodo == idnodo) {
             $(function () {
                 $('#idnodoeditando').val(idnodo);

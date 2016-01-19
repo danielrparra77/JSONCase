@@ -1,6 +1,6 @@
 (function () {
     $.fn.jsonView = function (jsonData) {
-        console.log("en json view "+jsonData);
+        console.log("en json view "+JSON.stringify(jsonData));
         id = 0;
         var $this = $(this);
         var treeHTML = "<div class=\"jquery-jsonview\">" + json2markup(jsonData) + "</div>";
