@@ -345,15 +345,15 @@ $(document).ready(function () {
             }
         });
         $(function () {
-        exportar('json').done(function (result) {
-            //getjson().done(function (result) {
-            //archivoguardar = JSON.stringify(result);
-            //alert(nodoscreados+" | "+result+" | "+archivoguardar);
-            $('#jsonview').jsonView(result, {"status": "close"});
-        }).fail(function () {
-            alert("no se pudo exportar el archivo a formato json, favor reviselo.");
-            return null;
-        });
+            exportar('json').done(function (result) {
+                //getjson().done(function (result) {
+                //archivoguardar = JSON.stringify(result);
+                //alert(nodoscreados+" | "+result+" | "+archivoguardar);
+                $('#jsonview').jsonView(result, {"status": "close"});
+            }).fail(function () {
+                alert("no se pudo exportar el archivo a formato json, favor reviselo.");
+                return null;
+            });
 
         });
     });
@@ -548,6 +548,18 @@ function cambiarnombretiponodo(idnodo, tiponodo) {
 //            }).html(tiponodo);
 //        nombrenodo.appendTo($("#"+idnodo));
         //$('#nomproyectoderecha').text(nombreproyecto);
+
+        $(function () {
+            exportar('json').done(function (result) {
+                //getjson().done(function (result) {
+                //archivoguardar = JSON.stringify(result);
+                //alert(nodoscreados+" | "+result+" | "+archivoguardar);
+                $('#jsonview').jsonView(result, {"status": "close"});
+            }).fail(function () {
+                alert("no se pudo exportar el archivo a formato json, favor reviselo.");
+                return null;
+            });
+        });
     });
 }
 
