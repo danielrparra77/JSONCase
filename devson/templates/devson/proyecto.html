@@ -305,7 +305,25 @@
             $('#valor').prop("disabled", false);//Se queda asi por si luego se piensa bloquear el valor de un nodo no hoja
             }
             }
-
+//copiar y pegar
+            idnodo = $(this).attr("id");
+            var buscado;
+            $(document).on("click", "#copiar", function () {
+            var buscado;
+            buscado = getnodo(nodoseleccionado);
+            //alert(buscado);
+            $(document).off("click", "#pegar");
+            $(document).on("click", "#pegar", function () {
+            x = $('#containment-wrapper').position().left;
+            y = $('#containment-wrapper').position().top;
+            buscado.idnodo = String("nodo" + idnodocreado);
+            alert(String(buscado.caracteristica)+' '+String(buscado.tiponodo)+' '+String(buscado.caracteristica=='Hoja' && buscado.tiponodo==''))
+            if (buscado.caracteristica=='Hoja' && buscado.tiponodo=='')
+                buscado.tiponodo='no hay tipo';
+            crearnuevonodo(buscado.idnodo, x, y, buscado.tiponodo, buscado.valor, buscado.caracteristica, false);
+            buscado = getnodo(nodoseleccionado);
+            });
+            });
             });
             $(document).on("click", ".ui-widget-contentsimple", function(){
             if (String(objetoseleccionado) == 'Propiedades') {
