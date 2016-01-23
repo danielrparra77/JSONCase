@@ -224,15 +224,16 @@ function eliminarnodo(idnodo) {
             //alert("id" + nodo.idnodo + " tipo" + nodo.tiponodo + " valor" + nodo.valor + " padre" + nodo.padre + " " + nodo.caracteristica);
             console.log("se separaran "+nodo.padre+" con "+nodo.idnodo);
             separarpadrehijo(nodo.padre, nodo.idnodo);
-            if (nodo.caracteristica = 'Nodo') {
+            if (nodo.caracteristica == 'Nodo') {
                 nodo.idhijos.forEach(function (hijo) {
                     //alert("hijo" + hijo);
-                    console.log("se separaran "+nodo.idnodo+" con "+hijo);
                     separarpadrehijo(nodo.idnodo, hijo);
+                    console.log("se separaron "+nodo.idnodo+" con "+hijo+" dejandolo con los hijos "+nodo.idhijos);
                 });
             }
             //alert("se va elemento "+cont);
             nodoscreados.splice(cont, 1);
+            console.log("finalizacion de separacion con "+nodoscreados);
         }
         cont += 1;
     });
@@ -277,17 +278,21 @@ function unirpadreahijo(idpadre, idhijo) {
 
 //Funcion usada para separar a un padre con su hijo
 function separarpadrehijo(idpadre, idhijo) {
-    var it = 0;
     nodoscreados.forEach(function (nodo) {
         if (nodo.idnodo == idpadre) {
-            nodo.idhijos.splice(it, 1);
-            console.log(nodo.idnodo + " mis hijos " + nodo.idhijos);
+            var it = 0;
+            nodo.idhijos.forEach(function (idnodohijo) {
+                if (idnodohijo==idhijo){
+                    nodo.idhijos.splice(it, 1);
+                    console.log(nodo.idnodo + " mis hijos son " + nodo.idhijos);
+                }
+            it += 1;
+            });
         }
         if (nodo.idnodo == idhijo) {
             //alert("hubo una conexion padre "+idpadre+" hijo "+idhijo);
             nodo.padre = '';
         }
-        it += 1;
     });
     $(function () {
         exportar('json').done(function (result) {
