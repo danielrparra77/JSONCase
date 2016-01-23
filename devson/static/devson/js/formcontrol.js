@@ -217,19 +217,21 @@ function buscarnodo(idnodo) {
 }
 
 function eliminarnodo(idnodo) {
-    alert("aqui");
+    //alert("aqui");
     var cont = 0;
     nodoscreados.forEach(function (nodo) {
         if (nodo.idnodo == idnodo) {
-            alert("id" + nodo.idnodo + " tipo" + nodo.tiponodo + " valor" + nodo.valor + " padre" + nodo.padre + " " + nodo.caracteristica);
+            //alert("id" + nodo.idnodo + " tipo" + nodo.tiponodo + " valor" + nodo.valor + " padre" + nodo.padre + " " + nodo.caracteristica);
+            console.log("se separaran "+nodo.padre+" con "+nodo.idnodo);
             separarpadrehijo(nodo.padre, nodo.idnodo);
             if (nodo.caracteristica = 'Nodo') {
                 nodo.idhijos.forEach(function (hijo) {
-                    alert("hijo" + hijo);
+                    //alert("hijo" + hijo);
+                    console.log("se separaran "+nodo.idnodo+" con "+hijo);
                     separarpadrehijo(nodo.idnodo, hijo);
                 });
             }
-            alert("se va elemento "+cont);
+            //alert("se va elemento "+cont);
             nodoscreados.splice(cont, 1);
         }
         cont += 1;

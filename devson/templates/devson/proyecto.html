@@ -325,6 +325,7 @@
             $(document).on("click", "#eliminar", function () {
             buscadooriginal = getnodo(nodoseleccionado);
             eliminarnodo(buscadooriginal.idnodo);
+            desaparecernodo(buscadooriginal.idnodo);
             });
             });
             $(document).on("click", ".ui-widget-contentsimple", function(){
@@ -358,6 +359,7 @@
             $(document).on("click", "#eliminar", function () {
             buscadooriginal = getnodo(nodoseleccionado);
             eliminarnodo(buscadooriginal.idnodo);
+            desaparecernodo(buscadooriginal.idnodo);
             });
             });
             //Evento de conexion detectada para separar a un padre de su hijo
@@ -397,6 +399,17 @@
             jsPlumb.deleteEndpoint(endpoints[endpoints.length - 1]);
             }
             });
+            //funcion usada para eliminar div y conexiones de un nodo
+            
+            function desaparecernodo(idnodo){
+                var targetBoxId = '#' + idnodo;
+                console.log("viendo endpoints "+targetBoxId);
+                jsPlumb.detachAllConnections(idnodo);
+                jsPlumb.removeAllEndpoints(idnodo);
+                jsPlumb.detach(idnodo); // <--
+                $(targetBoxId).remove(); 
+            }
+            
             //crear nuevo nodo, si abrir indica que si se creo nodo por abrirse un proyecto
             function crearnuevonodo(idnodo, x, y, tiponodo, valor, caracteristica, siabrir){
             //alert('creando '+idnodo+' '+x+' '+y+' '+tiponodo+' '+valor+' '+caracteristica+' '+siabrir);
