@@ -18,6 +18,7 @@
         {% block js %}
         <script  src="{% static 'devson/js/bootstrap.min.js' %}"></script>
         <script  src="{% static 'devson/js/formcontrol.js' %}"></script>
+        <script  src="{% static 'devson/js/undomanager.js' %}"></script>
         <script  src="{% static 'devson/js/jquery.jsPlumb-1.6.4-min.js' %}"></script>
         <script  src="{% static 'devson/js/jquery-scrollto.js' %}"></script>
         <script  src="{% static 'devson/js/jsPlumb-2.0.5.js' %}"></script>
@@ -101,8 +102,8 @@
                 <li>
                     <a>Edici&oacute;n</a>
                     <ul>
-                        <li><a>Deshacer</a></li>
-                        <li><a>Rehacer</a></li>
+                        <li><a class="deshacer">Deshacer</a></li>
+                        <li><a class="rehacer">Rehacer</a></li>
                         <!--<li><a href="#">Cortar</a></li>-->
                         <li><a id="copiar">Copiar</a></li>
                         <li><a id="pegar">Pegar</a></li>
@@ -179,13 +180,13 @@
                         <li>Eliminar objeto</li>
                     </ul> 
                 </li>
-                <li><a href="#"><span class=""><i class="icon icon-reply"></i></span></a>
+                <li><a class="deshacer"><span class=""><i class="icon icon-reply"></i></span></a>
                     <ul>
                         <li>Deshacer</li>
                     </ul> 
                 </li>
                 <li>
-                    <a href="#"><span class=""><i class="icon icon-forward"></i></span></a>
+                    <a class="rehacer"><span class=""><i class="icon icon-forward"></i></span></a>
                     <ul>
                         <li>Rehacer</li>
                     </ul> 
@@ -262,6 +263,7 @@
             //Posicion en la que se encuentran el contenedor de los divs
             var xcontainment = 0;
             var ycontainment = 0;
+            var undoManager = new UndoManager();
             var nodoseleccionado; //esta es la variable del ultimo nodo que el usuario ha hecho click
             var common = {
             isSource: false,
@@ -445,10 +447,12 @@
                     var nuevoy = position.top;
                     actualizarposicionnodo(nodoseleccionado, nuevox, nuevoy);
                     console.log("cambio la pos del div " + nodoseleccionado + " en " + nuevox + " " + nuevoy + " " + e);
+            $('#' + idnodo).effect("highlight", {color:"#ff0000"});
                     }
             });
             $('#' + idnodo).click(function() {
             nodoseleccionado = idnodo;
+            $('#' + idnodo).effect("highlight", {color:"#ff0000"});
             //alert( "Handler for .click() called. "+nodoseleccionado );
             });
             //             newDiv.animate({ left: x+'px',top: y+'px' });
@@ -637,6 +641,9 @@
                             'nombreproyecto': getnombreproyecto()
                     }
             });
+            }
+            function getundoredo(){
+                return undoManager;
             }
             //function getjson(){
             //return $.ajax({

@@ -9,7 +9,16 @@ var nodoscreados = [];
 var endpoints = [];
 var nombreproyecto = '';
 var usuarioconectado = '';
-
+$(function () {
+    getundoredo().add({
+        undo: function() {
+            alert("undo");
+        },
+        redo: function() {
+            alert("redo");
+        }
+    });
+});
 
 //valores necesarios para crear objetos json a partir de los estilos
 var paraestilo = new Array();
@@ -587,6 +596,15 @@ $(document).ready(function () {
         });
 
     });
+    
+    $('.deshacer').click(function () {
+        getundoredo().undo();
+    });
+    
+    $('.rehacer').click(function () {
+        getundoredo().redo();
+    });
+    
 });
 
 
