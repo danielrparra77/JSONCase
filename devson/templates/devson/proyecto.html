@@ -293,10 +293,14 @@
             ycontainment = $(this).position().top;
             var x = e.pageX - xcontainment;
             var y = e.pageY - ycontainment;
-            if (String(objetoseleccionado) == 'Nodo')
+            if (String(objetoseleccionado) == 'Nodo'){
+                    undoredonuevonodo(String("nodo" + idnodocreado),x,y,'object','', String(objetoseleccionado),false);
                     crearnuevonodo(String("nodo" + idnodocreado), x, y, 'object', '', String(objetoseleccionado), false);
-            if (String(objetoseleccionado) == 'Hoja')
+            }
+            if (String(objetoseleccionado) == 'Hoja'){
+                    undoredonuevonodo(String("nodo" + idnodocreado),x,y,'no hay tipo','', String(objetoseleccionado),false);
                     crearnuevonodo(String("nodo" + idnodocreado), x, y, 'no hay tipo', '', String(objetoseleccionado), false);
+            }
             });
             //Oyente para que el usuario pueda solicitar editar caracteristicas de un nodo
             $(document).on("click", ".ui-widget-contentcomp", function(){
@@ -630,6 +634,20 @@
                     document.write("Error entregando datos de estilos, se recomienda recargar pagina<br />")
             }
             });
+            function undoredonuevonodo(idnodo,x,y,tipo,valor,caracteristica,siabrir){
+                $(function () {
+                getundoredo().add({
+                        undo: function() {
+                            buscadooriginal = getnodo(idnodo);
+                            eliminarnodo(buscadooriginal.idnodo);
+                            desaparecernodo(buscadooriginal.idnodo);
+                        },
+                        redo: function() {
+                            crearnuevonodo(idnodo, x, y, tipo, valor, caracteristica, siabrir);
+                        }
+                    });
+                });
+            }
             });
             function exportar(exportar){
             return $.ajax({
