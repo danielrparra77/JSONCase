@@ -330,6 +330,9 @@
             //Eliminar
             $(document).on("click", "#eliminar", function () {
             buscadooriginal = getnodo(nodoseleccionado);
+            undoredoborrarnodo(buscadooriginal.idnodo, buscadooriginal.x,
+                            buscadooriginal.y, buscadooriginal.tiponodo, buscadooriginal.valor,
+                            buscadooriginal.caracteristica, false,buscadooriginal.idhijos,buscadooriginal.padre);
             eliminarnodo(buscadooriginal.idnodo);
             desaparecernodo(buscadooriginal.idnodo);
             });
@@ -364,6 +367,9 @@
             //Eliminar
             $(document).on("click", "#eliminar", function () {
             buscadooriginal = getnodo(nodoseleccionado);
+            undoredoborrarnodo(buscadooriginal.idnodo, buscadooriginal.x,
+                            buscadooriginal.y, buscadooriginal.tiponodo, buscadooriginal.valor,
+                            buscadooriginal.caracteristica, false,buscadooriginal.idhijos,buscadooriginal.padre);
             eliminarnodo(buscadooriginal.idnodo);
             desaparecernodo(buscadooriginal.idnodo);
             });
@@ -648,7 +654,47 @@
                     });
                 });
             }
+            function undoredoborrarnodo(idnodo,x,y,tipo,valor,caracteristica,siabrir,idhijoso,padre){
+                $(function () {
+                var idhijos = idhijoso.slice(0);
+                console.log("padres encontrados en undo-redo borrar "+padre+" hijos "+idhijos);
+                    getundoredo().add({
+                        undo: function() {
+                            if (tipo == '' && caracteristica =='Hoja')
+                                tipo = 'no hay tipo';
+                            crearnuevonodo(idnodo,x,y,tipo,valor,caracteristica,true);
+                            console.log("padre por deshacer borrar "+padre+" para hijos "+idhijos);
+                            if (padre != ''){
+                                var endpointpadre = agregarpuntosdefinanodo(
+                                            padre, true);
+                                var endpointhijo = agregarpuntosdefinanodo(
+                                            idnodo, false);
+                                uuidpadre = endpointpadre.getUuid();
+                                uuidhijo = endpointhijo.getUuid();
+                                jsPlumb.connect({ uuids:[uuidpadre, uuidhijo] });
+                            }
+                            for (valor in idhijos){
+                                //alert("mi valor "+idhijos[valor]+" de "+idhijos);
+                                var endpointpadre = agregarpuntosdefinanodo(
+                                        idnodo, true); //se asume que siempre el padre es un nodo
+                                var endpoints = jsPlumb.getEndpoints(idhijos[valor]);
+                                jsPlumb.deleteEndpoint(endpoints[endpoints.length - 1]);
+                                var endpointhijo = agregarpuntosdefinanodo(
+                                        idhijos[valor], false);
+                                uuidpadre = endpointpadre.getUuid();
+                                uuidhijo = endpointhijo.getUuid();
+                                jsPlumb.connect({ uuids:[uuidpadre, uuidhijo] });
+                            }
+                        },
+                        redo: function() {
+                            eliminarnodo(idnodo);
+                            desaparecernodo(idnodo);
+                        }
+                    });
+                });
+            }            
             });
+
             function exportar(exportar){
             return $.ajax({
             type:"POST",
