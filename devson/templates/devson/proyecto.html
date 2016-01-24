@@ -668,7 +668,7 @@
                         redo: function() {
                             var endpoints = getendpointdisponibles(idnodo);
                             //remove last one
-                            if (endpoints.length > 1) {
+                            if (endpoints.length > 0) {
                                 jsPlumb.deleteEndpoint(endpoints[endpoints.length - 1]);
                             }
                         }
@@ -682,7 +682,7 @@
                         undo: function() {
                             var endpoints = getendpointdisponibles(idnodo);
                             //remove last one
-                            if (endpoints.length > 1) {
+                            if (endpoints.length > 0) {
                                 jsPlumb.deleteEndpoint(endpoints[endpoints.length - 1]);
                             }
                         },
