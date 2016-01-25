@@ -399,6 +399,7 @@ $(document).ready(function () {
     $("#enviar").click(function () {
         var idnodo = $('#idnodoeditando').val();
         //alert("enviando "+idnodo);
+        undoredopropiedadesnodo(idnodo,$('#tipo').val(),$('#valor').val());
         nodoscreados.forEach(function (nodo) {
             if (nodo.idnodo == idnodo) {
                 nodo.tiponodo = $('#tipo').val();
@@ -607,7 +608,38 @@ $(document).ready(function () {
     
 });
 
-
+function undoredopropiedadesnodo(idnodo,nuevotipo,nuevovalor){
+    var viejotipo = '',viejovalor = '';
+    nodoscreados.forEach(function (nodo) {
+        if (nodo.idnodo == idnodo) {
+            viejotipo = nodo.tiponodo;
+            viejovalor = nodo.valor;
+            cambiarnombretiponodo(idnodo, nodo.tiponodo);
+        }
+    });
+    $(function () {
+        getundoredo().add({
+            undo: function() {
+                nodoscreados.forEach(function (nodo) {
+                    if (nodo.idnodo == idnodo) {
+                        nodo.tiponodo = viejotipo;
+                        nodo.valor = viejovalor;
+                        cambiarnombretiponodo(idnodo, nodo.tiponodo);
+                    }
+                });
+            },
+            redo: function() {
+                nodoscreados.forEach(function (nodo) {
+                    if (nodo.idnodo == idnodo) {
+                        nodo.tiponodo = nuevotipo;
+                        nodo.valor = nuevovalor;
+                        cambiarnombretiponodo(idnodo, nodo.tiponodo);
+                    }
+                });
+            }
+        });
+    });
+}
 
 //Esta funcion cambiara graficamente el tipo de nodo en la grafica
 function cambiarnombretiponodo(idnodo, tiponodo) {
