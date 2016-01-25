@@ -18,6 +18,7 @@
         {% block js %}
         <script  src="{% static 'devson/js/bootstrap.min.js' %}"></script>
         <script  src="{% static 'devson/js/formcontrol.js' %}"></script>
+        <script  src="{% static 'devson/js/undomanager.js' %}"></script>
         <script  src="{% static 'devson/js/jquery.jsPlumb-1.6.4-min.js' %}"></script>
         <script  src="{% static 'devson/js/jquery-scrollto.js' %}"></script>
         <script  src="{% static 'devson/js/jsPlumb-2.0.5.js' %}"></script>
@@ -101,8 +102,8 @@
                 <li>
                     <a>Edici&oacute;n</a>
                     <ul>
-                        <li><a id="deshacer">Deshacer</a></li>
-                        <li><a id="rehacer">Rehacer</a></li>
+                        <li><a class="deshacer">Deshacer</a></li>
+                        <li><a class="rehacer">Rehacer</a></li>
                         <!--<li><a href="#">Cortar</a></li>-->
                         <li><a id="copiar">Copiar</a></li>
                         <li><a id="pegar">Pegar</a></li>
@@ -179,13 +180,13 @@
                         <li>Eliminar objeto</li>
                     </ul> 
                 </li>
-                <li><a id="deshacer"><span class=""><i class="icon icon-reply"></i></span></a>
+                <li><a class="deshacer"><span class=""><i class="icon icon-reply"></i></span></a>
                     <ul>
                         <li>Deshacer</li>
                     </ul> 
                 </li>
                 <li>
-                    <a id="rehacer"><span class=""><i class="icon icon-forward"></i></span></a>
+                    <a class="rehacer"><span class=""><i class="icon icon-forward"></i></span></a>
                     <ul>
                         <li>Rehacer</li>
                     </ul> 
@@ -262,6 +263,7 @@
             //Posicion en la que se encuentran el contenedor de los divs
             var xcontainment = 0;
             var ycontainment = 0;
+            var undoManager = new UndoManager();
             var nodoseleccionado; //esta es la variable del ultimo nodo que el usuario ha hecho click
             var common = {
             isSource: false,
@@ -299,10 +301,14 @@
             ycontainment = $(this).position().top;
             var x = e.pageX - xcontainment;
             var y = e.pageY - ycontainment;
-            if (String(objetoseleccionado) == 'Nodo')
+            if (String(objetoseleccionado) == 'Nodo'){
+                    undoredonuevonodo(String("nodo" + idnodocreado),x,y,'object','', String(objetoseleccionado),false);
                     crearnuevonodo(String("nodo" + idnodocreado), x, y, 'object', '', String(objetoseleccionado), false);
-            if (String(objetoseleccionado) == 'Hoja')
+            }
+            if (String(objetoseleccionado) == 'Hoja'){
+                    undoredonuevonodo(String("nodo" + idnodocreado),x,y,'no hay tipo','', String(objetoseleccionado),false);
                     crearnuevonodo(String("nodo" + idnodocreado), x, y, 'no hay tipo', '', String(objetoseleccionado), false);
+            }
             });
             //Oyente para que el usuario pueda solicitar editar caracteristicas de un nodo
             $(document).on("click", ".ui-widget-contentcomp", function(){
@@ -332,6 +338,9 @@
             //Eliminar
             $(document).on("click", "#eliminar", function () {
             buscadooriginal = getnodo(nodoseleccionado);
+            undoredoborrarnodo(buscadooriginal.idnodo, buscadooriginal.x,
+                            buscadooriginal.y, buscadooriginal.tiponodo, buscadooriginal.valor,
+                            buscadooriginal.caracteristica, false,buscadooriginal.idhijos,buscadooriginal.padre);
             eliminarnodo(buscadooriginal.idnodo);
             desaparecernodo(buscadooriginal.idnodo);
             });
@@ -366,6 +375,9 @@
             //Eliminar
             $(document).on("click", "#eliminar", function () {
             buscadooriginal = getnodo(nodoseleccionado);
+            undoredoborrarnodo(buscadooriginal.idnodo, buscadooriginal.x,
+                            buscadooriginal.y, buscadooriginal.tiponodo, buscadooriginal.valor,
+                            buscadooriginal.caracteristica, false,buscadooriginal.idhijos,buscadooriginal.padre);
             eliminarnodo(buscadooriginal.idnodo);
             desaparecernodo(buscadooriginal.idnodo);
             });
@@ -373,6 +385,7 @@
             //Evento de conexion detectada para separar a un padre de su hijo
             jsPlumb.bind("beforeDetach", function(e) {
             console.log("separando " + e.sourceId + " " + e.targetId);
+            undoredoborrarconexion(e.sourceId, e.targetId);
             separarpadrehijo(e.sourceId, e.targetId);
             return true;
             });
@@ -390,20 +403,23 @@
             jsPlumb.bind("connection", function(e) {
             console.log("uniendo " + e.sourceId + " " + e.targetId);
             unirpadreahijo(e.sourceId, e.targetId);
+            undoredoagregarconexion(e.sourceId, e.targetId,e.connection);
             });
             //Cuando un nodo quiere tener un hijo
             $(document).on("click", ".button_add", function(){
             //$(".button_add").live("click", function () {
             var parentnodeid = $(this).parent().attr("id");
+            undoredoagregarendpoint(parentnodeid);
             agregarpuntosdefinanodo(parentnodeid, true);
             });
             //Remove anchor 
             $(document).on("click", ".button_remove", function(){
             var parentnode = $(this).parent();
+            undoredoquitarendpoint(parentnode);
             //get list of current endpoints
-            var endpoints = jsPlumb.getEndpoints(parentnode);
+            var endpoints = getendpointdisponibles(parentnode);
             //remove last one
-            if (endpoints.length > 2) {
+            if (endpoints.length > 1) {
             jsPlumb.deleteEndpoint(endpoints[endpoints.length - 1]);
             }
             });
@@ -453,10 +469,12 @@
                     var nuevoy = position.top;
                     actualizarposicionnodo(nodoseleccionado, nuevox, nuevoy);
                     console.log("cambio la pos del div " + nodoseleccionado + " en " + nuevox + " " + nuevoy + " " + e);
+            $('#' + idnodo).effect("highlight", {color:"#ff0000"});
                     }
             });
             $('#' + idnodo).click(function() {
             nodoseleccionado = idnodo;
+            $('#' + idnodo).effect("highlight", {color:"#ff0000"});
             //alert( "Handler for .click() called. "+nodoseleccionado );
             });
             //             newDiv.animate({ left: x+'px',top: y+'px' });
@@ -634,7 +652,168 @@
                     document.write("Error entregando datos de estilos, se recomienda recargar pagina<br />")
             }
             });
+            function undoredonuevonodo(idnodo,x,y,tipo,valor,caracteristica,siabrir){
+                $(function () {
+                getundoredo().add({
+                        undo: function() {
+                            buscadooriginal = getnodo(idnodo);
+                            eliminarnodo(buscadooriginal.idnodo);
+                            desaparecernodo(buscadooriginal.idnodo);
+                        },
+                        redo: function() {
+                            crearnuevonodo(idnodo, x, y, tipo, valor, caracteristica, siabrir);
+                        }
+                    });
+                });
+            }
+            
+            function undoredoquitarendpoint(idnodo){
+                $(function () {
+                    getundoredo().add({
+                        undo: function() {
+                            agregarpuntosdefinanodo(idnodo, true);
+                        },
+                        redo: function() {
+                            var endpoints = getendpointdisponibles(idnodo);
+                            //remove last one
+                            if (endpoints.length > 0) {
+                                jsPlumb.deleteEndpoint(endpoints[endpoints.length - 1]);
+                            }
+                        }
+                    });
+                });
+            }
+            
+            function undoredoagregarendpoint(idnodo){
+                $(function () {
+                    getundoredo().add({
+                        undo: function() {
+                            var endpoints = getendpointdisponibles(idnodo);
+                            //remove last one
+                            if (endpoints.length > 0) {
+                                jsPlumb.deleteEndpoint(endpoints[endpoints.length - 1]);
+                            }
+                        },
+                        redo: function() {
+                            agregarpuntosdefinanodo(idnodo, true);
+                        }
+                    });
+                });
+            }
+            
+            function undoredoagregarconexion(idnodopadre,idnodohijo,conexion){
+                $(function () {
+                    getundoredo().add({
+                        undo: function() {
+                            conexion = jsPlumb.select({source:idnodopadre,target:idnodohijo}).detach();
+                            separarpadrehijo(idnodopadre, idnodohijo);
+                        },
+                        redo: function() {
+                            var endpointspadre = getendpointdisponibles(idnodopadre);
+                            var endpointshijo = getendpointdisponibles(idnodohijo);
+                            jsPlumb.deleteEndpoint(endpointspadre[endpointspadre.length - 1]);
+                            jsPlumb.deleteEndpoint(endpointshijo[endpointshijo.length - 1]);
+                            var endpointpadre = agregarpuntosdefinanodo(
+                                idnodopadre, true); //se asume que siempre el padre es un nodo
+                            var endpointhijo = agregarpuntosdefinanodo(
+                                idnodohijo, false); //se asume que siempre el padre es un nodo
+                            uuidpadre = endpointpadre.getUuid();
+                            uuidhijo = endpointhijo.getUuid();
+                            conexion = jsPlumb.connect({ uuids:[uuidpadre, uuidhijo] });
+                            unirpadreahijo(idnodopadre, idnodohijo);
+                        }
+                    });
+                });
+            }
+            
+            function undoredoborrarconexion(idnodopadre,idnodohijo){
+                var conexion = null;
+                $(function () {
+                    getundoredo().add({
+                        undo: function() {
+                            conexdisponibles = jsPlumb.getConnections({ source:idnodopadre });
+                            var endpointspadre = getendpointdisponibles(idnodopadre);
+                            var endpointshijo = getendpointdisponibles(idnodohijo);
+                            jsPlumb.deleteEndpoint(endpointspadre[endpointspadre.length - 1]);
+                            jsPlumb.deleteEndpoint(endpointshijo[endpointshijo.length - 1]);
+                            var endpointpadre = agregarpuntosdefinanodo(
+                                idnodopadre, true); //se asume que siempre el padre es un nodo
+                            var endpointhijo = agregarpuntosdefinanodo(
+                                idnodohijo, false); //se asume que siempre el padre es un nodo
+                            uuidpadre = endpointpadre.getUuid();
+                            uuidhijo = endpointhijo.getUuid();
+                            conexion = jsPlumb.connect({ uuids:[uuidpadre, uuidhijo] });
+                            unirpadreahijo(idnodopadre, idnodohijo);                            
+                        },
+                        redo: function() {
+                            conexion = jsPlumb.select({source:idnodopadre,target:idnodohijo}).detach();
+                            separarpadrehijo(idnodopadre, idnodohijo);
+                        }
+                    });
+                });
+            }
+            
+            function getendpointdisponibles(idnodo){
+                var retorno = jsPlumb.getEndpoints(idnodo);
+                var aux = [];
+                var it = 0;
+                jsPlumb.getEndpoints(idnodo).forEach(function(endpoint) {
+                    var conexdisponibles = jsPlumb.getConnections({ source:idnodo }).forEach(function(endpointsource) {
+                        var endpointsource=endpointsource.endpoints; // Array of [source, target] Endpoint objects.
+                        if (endpointsource[0]==endpoint)
+                            retorno.splice(it,1);
+                    });
+                    var conexdisponibles = jsPlumb.getConnections({ target:idnodo }).forEach(function(endpointtarget) {
+                        var endpointtarget=endpointtarget.endpoints; // Array of [source, target] Endpoint objects.
+                        if (endpointtarget[0]==endpoint)
+                            retorno.splice(it,1);
+                    });
+                    it+=1;
+                });
+                return retorno;
+            }
+            
+            function undoredoborrarnodo(idnodo,x,y,tipo,valor,caracteristica,siabrir,idhijoso,padre){
+                $(function () {
+                var idhijos = idhijoso.slice(0);
+                console.log("padres encontrados en undo-redo borrar "+padre+" hijos "+idhijos);
+                    getundoredo().add({
+                        undo: function() {
+                            if (tipo == '' && caracteristica =='Hoja')
+                                tipo = 'no hay tipo';
+                            crearnuevonodo(idnodo,x,y,tipo,valor,caracteristica,true);
+                            console.log("padre por deshacer borrar "+padre+" para hijos "+idhijos);
+                            if (padre != ''){
+                                var endpointpadre = agregarpuntosdefinanodo(
+                                            padre, true);
+                                var endpointhijo = agregarpuntosdefinanodo(
+                                            idnodo, false);
+                                uuidpadre = endpointpadre.getUuid();
+                                uuidhijo = endpointhijo.getUuid();
+                                jsPlumb.connect({ uuids:[uuidpadre, uuidhijo] });
+                            }
+                            for (valor in idhijos){
+                                //alert("mi valor "+idhijos[valor]+" de "+idhijos);
+                                var endpointpadre = agregarpuntosdefinanodo(
+                                        idnodo, true); //se asume que siempre el padre es un nodo
+                                var endpoints = jsPlumb.getEndpoints(idhijos[valor]);
+                                jsPlumb.deleteEndpoint(endpoints[endpoints.length - 1]);
+                                var endpointhijo = agregarpuntosdefinanodo(
+                                        idhijos[valor], false);
+                                uuidpadre = endpointpadre.getUuid();
+                                uuidhijo = endpointhijo.getUuid();
+                                jsPlumb.connect({ uuids:[uuidpadre, uuidhijo] });
+                            }
+                        },
+                        redo: function() {
+                            eliminarnodo(idnodo);
+                            desaparecernodo(idnodo);
+                        }
+                    });
+                });
+            }            
             });
+
             function exportar(exportar){
             return $.ajax({
             type:"POST",
@@ -645,6 +824,9 @@
                             'nombreproyecto': getnombreproyecto()
                     }
             });
+            }
+            function getundoredo(){
+                return undoManager;
             }
             //function getjson(){
             //return $.ajax({
