@@ -101,8 +101,8 @@
                 <li>
                     <a>Edici&oacute;n</a>
                     <ul>
-                        <li><a>Deshacer</a></li>
-                        <li><a>Rehacer</a></li>
+                        <li><a id="deshacer">Deshacer</a></li>
+                        <li><a id="rehacer">Rehacer</a></li>
                         <!--<li><a href="#">Cortar</a></li>-->
                         <li><a id="copiar">Copiar</a></li>
                         <li><a id="pegar">Pegar</a></li>
@@ -179,13 +179,13 @@
                         <li>Eliminar objeto</li>
                     </ul> 
                 </li>
-                <li><a href="#"><span class=""><i class="icon icon-reply"></i></span></a>
+                <li><a id="deshacer"><span class=""><i class="icon icon-reply"></i></span></a>
                     <ul>
                         <li>Deshacer</li>
                     </ul> 
                 </li>
                 <li>
-                    <a href="#"><span class=""><i class="icon icon-forward"></i></span></a>
+                    <a id="rehacer"><span class=""><i class="icon icon-forward"></i></span></a>
                     <ul>
                         <li>Rehacer</li>
                     </ul> 
@@ -284,6 +284,14 @@
             //$('.ui-widget-content').draggable({
             //    containment: 'parent'
             //});
+            $(document).off("click", "#deshacer");
+            $(document).off("click", "#rehacer");
+            $(document).on("click", "#deshacer", function () {
+            deshacer();
+            });
+            $(document).on("click", "#rehacer", function () {
+            rehacer();
+            });
             jsPlumb.setContainer($("#containment-wrapper"));
             $('#containment-wrapper').click(function (e) {
             //falta revisar como obtener las coordenadas correctas del evento
@@ -400,16 +408,16 @@
             }
             });
             //funcion usada para eliminar div y conexiones de un nodo
-            
+
             function desaparecernodo(idnodo){
-                var targetBoxId = '#' + idnodo;
-                console.log("viendo endpoints "+targetBoxId);
-                jsPlumb.detachAllConnections(idnodo);
-                jsPlumb.removeAllEndpoints(idnodo);
-                jsPlumb.detach(idnodo); // <--
-                $(targetBoxId).remove(); 
+            var targetBoxId = '#' + idnodo;
+            console.log("viendo endpoints " + targetBoxId);
+            jsPlumb.detachAllConnections(idnodo);
+            jsPlumb.removeAllEndpoints(idnodo);
+            jsPlumb.detach(idnodo); // <--
+            $(targetBoxId).remove();
             }
-            
+
             //crear nuevo nodo, si abrir indica que si se creo nodo por abrirse un proyecto
             function crearnuevonodo(idnodo, x, y, tiponodo, valor, caracteristica, siabrir){
             //alert('creando '+idnodo+' '+x+' '+y+' '+tiponodo+' '+valor+' '+caracteristica+' '+siabrir);
@@ -493,13 +501,13 @@
             function agregarpuntosdefinanodo(idnodo, espadre) {
             var endpoint = common;
             if (espadre){
-                    endpoint.isSource = true;
-                    endpoint.isTarget = true;
-                }
+            endpoint.isSource = true;
+            endpoint.isTarget = true;
+            }
             else{
-                    endpoint.isSource = false;
-                    endpoint.isTarget = true;
-                }
+            endpoint.isSource = false;
+            endpoint.isTarget = true;
+            }
             var endp = jsPlumb.addEndpoint(String(idnodo), {
             anchor:"AutoDefault",
                     uuid:"ep" + String(idnodo)

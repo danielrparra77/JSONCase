@@ -124,7 +124,7 @@ function getproyecto() {
     ;
 }
 
-function getproyectopanel(){
+function getproyectopanel() {
     var nodospanel = jQuery.extend(true, {}, nodoscreados);
     nodospanel.forEach(function (nodo) {
         if (nodo.caracteristica == 'Hoja' && nodo.tiponodo == '') {
@@ -135,7 +135,7 @@ function getproyectopanel(){
         }
     });
     return JSON.stringify(nodospanel, paranodo);
-    
+
 }
 
 function insertarobject(x) {
@@ -168,11 +168,12 @@ function mostrarIframe(id) {
     else
         document.getElementById(id).style.visibility = "hidden";
 }
-
+var ihp = 0;
 //Funcion usada para agregar un nodo la la lista de nodos, x y y indican cual es la posicion en la que se encuantran
 //la caracteristica dice si el nodo es nodo o si es hoja
 function agregarnodo(idnodo, y, x, caracteristica, tiponodo, valor) {
     var nuevonodo = new Object();
+    var pasoact = new Object();
     nuevonodo.idnodo = idnodo;
     nuevonodo.x = x;
     nuevonodo.y = y;
@@ -222,18 +223,18 @@ function eliminarnodo(idnodo) {
     nodoscreados.forEach(function (nodo) {
         if (nodo.idnodo == idnodo) {
             //alert("id" + nodo.idnodo + " tipo" + nodo.tiponodo + " valor" + nodo.valor + " padre" + nodo.padre + " " + nodo.caracteristica);
-            console.log("se separaran "+nodo.padre+" con "+nodo.idnodo);
+            console.log("se separaran " + nodo.padre + " con " + nodo.idnodo);
             separarpadrehijo(nodo.padre, nodo.idnodo);
             if (nodo.caracteristica == 'Nodo') {
                 nodo.idhijos.forEach(function (hijo) {
                     //alert("hijo" + hijo);
                     separarpadrehijo(nodo.idnodo, hijo);
-                    console.log("se separaron "+nodo.idnodo+" con "+hijo+" dejandolo con los hijos "+nodo.idhijos);
+                    console.log("se separaron " + nodo.idnodo + " con " + hijo + " dejandolo con los hijos " + nodo.idhijos);
                 });
             }
             //alert("se va elemento "+cont);
             nodoscreados.splice(cont, 1);
-            console.log("finalizacion de separacion con "+nodoscreados);
+            console.log("finalizacion de separacion con " + nodoscreados);
         }
         cont += 1;
     });
@@ -245,11 +246,15 @@ function eliminarnodo(idnodo) {
             return null;
         });
     });
-
-
 }
 
+function deshacer() {
+    alert("deshacer");
+}
 
+function rehacer() {
+    alert("rehacer");
+}
 //Funcion usada para que el padre sepa que hijo acaba de tener
 function unirpadreahijo(idpadre, idhijo) {
     nodoscreados.forEach(function (nodo) {
@@ -282,11 +287,11 @@ function separarpadrehijo(idpadre, idhijo) {
         if (nodo.idnodo == idpadre) {
             var it = 0;
             nodo.idhijos.forEach(function (idnodohijo) {
-                if (idnodohijo==idhijo){
+                if (idnodohijo == idhijo) {
                     nodo.idhijos.splice(it, 1);
                     console.log(nodo.idnodo + " mis hijos son " + nodo.idhijos);
                 }
-            it += 1;
+                it += 1;
             });
         }
         if (nodo.idnodo == idhijo) {
