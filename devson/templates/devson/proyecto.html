@@ -687,11 +687,13 @@
                             $("#"+idnodo).css({ left: viejox+'px' });
                             $("#"+idnodo).css({ top: viejoy+'px' });
                             jsPlumb.repaintEverything();
+                            actualizarposicionnodo(idnodo, viejox, viejoy);
                         },
                         redo: function() {
                             $("#"+idnodo).css({ left: nuevox+'px' });
                             $("#"+idnodo).css({ top: nuevoy+'px' });
                             jsPlumb.repaintEverything();
+                            actualizarposicionnodo(idnodo, nuevox, nuevoy);
                         }
                     });
                 });
