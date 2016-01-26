@@ -467,6 +467,7 @@
                     var position = p.position();
                     var nuevox = position.left;
                     var nuevoy = position.top;
+                    undoredocambiarposnodo(nodoseleccionado, nuevox, nuevoy);
                     actualizarposicionnodo(nodoseleccionado, nuevox, nuevoy);
                     console.log("cambio la pos del div " + nodoseleccionado + " en " + nuevox + " " + nuevoy + " " + e);
             $('#' + idnodo).effect("highlight", {color:"#ff0000"});
@@ -679,6 +680,28 @@
                             if (endpoints.length > 0) {
                                 jsPlumb.deleteEndpoint(endpoints[endpoints.length - 1]);
                             }
+                        }
+                    });
+                });
+            }
+            //nuevox y nuevoy la nueva posicion q tomo el nodo
+            function undoredocambiarposnodo(idnodo,nuevox,nuevoy){
+                var nodo = getnodo(nodoseleccionado);
+                var viejox = nodo.x;
+                var viejoy = nodo.y;
+                $(function () {
+                    getundoredo().add({
+                        undo: function() {
+                            $("#"+idnodo).css({ left: viejox+'px' });
+                            $("#"+idnodo).css({ top: viejoy+'px' });
+                            jsPlumb.repaintEverything();
+                            actualizarposicionnodo(idnodo, viejox, viejoy);
+                        },
+                        redo: function() {
+                            $("#"+idnodo).css({ left: nuevox+'px' });
+                            $("#"+idnodo).css({ top: nuevoy+'px' });
+                            jsPlumb.repaintEverything();
+                            actualizarposicionnodo(idnodo, nuevox, nuevoy);
                         }
                     });
                 });
