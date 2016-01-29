@@ -195,18 +195,16 @@ function agregarnodo(idnodo, y, x, caracteristica, tiponodo, valor) {
     nuevonodo.valor = valor;
     nuevonodo.padre = '';
     nodoscreados.push(nuevonodo);
-    $(function () {
-        exportar('json').done(function (result) {
-            //getjson().done(function (result) {
-            //archivoguardar = JSON.stringify(result);
-            //alert(nodoscreados+" | "+result+" | "+archivoguardar);
-            $('#jsonview').jsonView(result, {"status": "close"});
-        }).fail(function () {
-            alert("no se pudo exportar el archivo a formato json, favor reviselo.");
-            return null;
+    setTimeout(function(){
+        $(function () {
+            exportar('json').done(function (result) {
+                $('#jsonview').jsonView(result, {"status": "close"});
+            }).fail(function () {
+                alert("no se pudo exportar el archivo a formato json, favor reviselo.");
+                return null;
+            });
         });
-
-    });
+    }, 500);
 }
 
 //Funcion para encontrar el nodo a copiar
@@ -247,14 +245,16 @@ function eliminarnodo(idnodo) {
         }
         cont += 1;
     });
-    $(function () {
-        exportar('json').done(function (result) {
-            $('#jsonview').jsonView(result, {"status": "close"});
-        }).fail(function () {
-            alert("no se pudo exportar el archivo a formato json, favor reviselo.");
-            return null;
+    setTimeout(function(){
+        $(function () {
+            exportar('json').done(function (result) {
+                $('#jsonview').jsonView(result, {"status": "close"});
+            }).fail(function () {
+                alert("no se pudo exportar el archivo a formato json, favor reviselo.");
+                return null;
+            });
         });
-    });
+    }, 500);
 }
 
 function deshacer() {
@@ -277,17 +277,16 @@ function unirpadreahijo(idpadre, idhijo) {
             nodo.padre = idpadre;
         }
     });
-    $(function () {
-        exportar('json').done(function (result) {
-            //getjson().done(function (result) {
-            //archivoguardar = JSON.stringify(result);
-            //alert(nodoscreados+" | "+result+" | "+archivoguardar);
-            $('#jsonview').jsonView(result, {"status": "close"});
-        }).fail(function () {
-            alert("no se pudo exportar el archivo a formato json, favor reviselo.");
-            return null;
+    setTimeout(function(){
+        $(function () {
+            exportar('json').done(function (result) {
+                $('#jsonview').jsonView(result, {"status": "close"});
+            }).fail(function () {
+                alert("no se pudo exportar el archivo a formato json, favor reviselo.");
+                return null;
+            });
         });
-    });
+    }, 500);
 }
 
 //Funcion usada para separar a un padre con su hijo
@@ -308,17 +307,16 @@ function separarpadrehijo(idpadre, idhijo) {
             nodo.padre = '';
         }
     });
-    $(function () {
-        exportar('json').done(function (result) {
-            //getjson().done(function (result) {
-            //archivoguardar = JSON.stringify(result);
-            //alert(nodoscreados+" | "+result+" | "+archivoguardar);
-            $('#jsonview').jsonView(result, {"status": "close"});
-        }).fail(function () {
-            alert("no se pudo exportar el archivo a formato json, favor reviselo.");
-            return null;
+    setTimeout(function(){
+        $(function () {
+            exportar('json').done(function (result) {
+                $('#jsonview').jsonView(result, {"status": "close"});
+            }).fail(function () {
+                alert("no se pudo exportar el archivo a formato json, favor reviselo.");
+                return null;
+            });
         });
-    });
+    }, 500);
 }
 
 //Funcion usada para accrutalizar las posiciones de los nodos
@@ -412,18 +410,16 @@ $(document).ready(function () {
                 cambiarnombretiponodo(idnodo, nodo.tiponodo);
             }
         });
-        $(function () {
-            exportar('json').done(function (result) {
-                //getjson().done(function (result) {
-                //archivoguardar = JSON.stringify(result);
-                //alert(nodoscreados+" | "+result+" | "+archivoguardar);
-                $('#jsonview').jsonView(result, {"status": "close"});
-            }).fail(function () {
-                alert("no se pudo exportar el archivo a formato json, favor reviselo.");
-                return null;
+        setTimeout(function(){
+            $(function () {
+                exportar('json').done(function (result) {
+                    $('#jsonview').jsonView(result, {"status": "close"});
+                }).fail(function () {
+                    alert("no se pudo exportar el archivo a formato json, favor reviselo.");
+                    return null;
+                });
             });
-
-        });
+        }, 500);
     });
     $("#guardarproyecto").click(function () {
         setTimeout(function () {
@@ -657,17 +653,16 @@ function cambiarnombretiponodo(idnodo, tiponodo) {
 //        nombrenodo.appendTo($("#"+idnodo));
         //$('#nomproyectoderecha').text(nombreproyecto);
 
-        $(function () {
-            exportar('json').done(function (result) {
-                //getjson().done(function (result) {
-                //archivoguardar = JSON.stringify(result);
-                //alert(nodoscreados+" | "+result+" | "+archivoguardar);
-                $('#jsonview').jsonView(result, {"status": "close"});
-            }).fail(function () {
-                alert("no se pudo exportar el archivo a formato json, favor reviselo.");
-                return null;
+        setTimeout(function(){
+            $(function () {
+                exportar('json').done(function (result) {
+                    $('#jsonview').jsonView(result, {"status": "close"});
+                }).fail(function () {
+                    alert("no se pudo exportar el archivo a formato json, favor reviselo.");
+                    return null;
+                });
             });
-        });
+        }, 500);
     });
 }
 
