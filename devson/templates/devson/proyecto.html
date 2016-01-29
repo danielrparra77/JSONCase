@@ -467,7 +467,7 @@
                     var position = p.position();
                     var nuevox = position.left;
                     var nuevoy = position.top;
-                    undoredocambiarposnodo(nodoseleccionado, nuevox, nuevoy);
+                    //undoredocambiarposnodo(nodoseleccionado, nuevox, nuevoy);
                     actualizarposicionnodo(nodoseleccionado, nuevox, nuevoy);
                     console.log("cambio la pos del div " + nodoseleccionado + " en " + nuevox + " " + nuevoy + " " + e);
             $('#' + idnodo).effect("highlight", {color:"#ff0000"});
@@ -529,7 +529,8 @@
             }
             var endp = jsPlumb.addEndpoint(String(idnodo), {
             anchor:"AutoDefault",
-                    uuid:"ep" + String(idnodo)
+                    uuid:"ep" + String(idnodo),
+                    container:String(idnodo)
             }, endpoint);
             var nuevoendpoint = new Array();
             nuevoendpoint[0] = idnodo;
@@ -658,8 +659,11 @@
                 getundoredo().add({
                         undo: function() {
                             buscadooriginal = getnodo(idnodo);
+                            x = buscadooriginal.x;
+                            y = buscadooriginal.y;
                             eliminarnodo(buscadooriginal.idnodo);
                             desaparecernodo(buscadooriginal.idnodo);
+                            //jsPlumb.repaintEverything();
                         },
                         redo: function() {
                             crearnuevonodo(idnodo, x, y, tipo, valor, caracteristica, siabrir);
@@ -702,6 +706,7 @@
                             $("#"+idnodo).css({ top: nuevoy+'px' });
                             jsPlumb.repaintEverything();
                             actualizarposicionnodo(idnodo, nuevox, nuevoy);
+                            jsPlumb.repaintEverything();
                         }
                     });
                 });
@@ -829,6 +834,9 @@
                             }
                         },
                         redo: function() {
+                            buscadooriginal = getnodo(nodoseleccionado);
+                            x = buscadooriginal.x;
+                            y = buscadooriginal.y;
                             eliminarnodo(idnodo);
                             desaparecernodo(idnodo);
                         }
