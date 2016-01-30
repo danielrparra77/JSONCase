@@ -19,6 +19,8 @@
         <script  src="{% static 'devson/js/bootstrap.min.js' %}"></script>
         <script  src="{% static 'devson/js/formcontrol.js' %}"></script>
         <script  src="{% static 'devson/js/undomanager.js' %}"></script>
+        <script  src="{% static 'devson/js/canvg.js' %}"></script>
+        <script  src="{% static 'devson/js/canvas-to-blob.js' %}"></script>
         <script  src="{% static 'devson/js/jquery.jsPlumb-1.6.4-min.js' %}"></script>
         <script  src="{% static 'devson/js/jquery-scrollto.js' %}"></script>
         <script  src="{% static 'devson/js/jsPlumb-2.0.5.js' %}"></script>
@@ -601,6 +603,7 @@
             }
             }
             }
+            actualizarimagen();
             });
             socket.on('recibir estilos', function(color, colorlinea, grosorlinea,
                     tamano, fuente, tipo){
@@ -842,9 +845,44 @@
                         }
                     });
                 });
-            }            
+            }
+            
+            //fragmento para imprimir imagenes
+            $element = document.getElementById('containment-wrapper');
+            $des = document.getElementById('des');
+            w = $element.width;
+            h = $element.height;
+            $element.onclick = function (e) {
+                actualizarimagen();
+            }
             });
-
+            
+            function actualizarimagen(){
+                var el = $('#containment-wrapper');
+            html2canvas(el, {
+                onrendered: function(canvas) {
+                    ctx = canvas.getContext('2d');
+                    $flows = $('> svg', el);
+                    //print("flows "+$flows);
+                    $flows.each( function() {
+                        $svg = $(this);
+                        offset = $svg.position();
+                        svgStr = this.outerHTML;
+                        ctx.drawSvg(svgStr, offset.left, offset.top);
+                    });
+                    $endpoints = $('._jsPlumb_endpoint > svg', el);
+                    $endpoints.each(function() {
+                        $svg = $(this)
+                        offset = $svg.parent().position();
+                        svgStr = this.outerHTML;
+                        ctx.drawSvg(svgStr, offset.left, offset.top);
+                    });
+                    ima = Canvas2Image.convertToImage(canvas, w, h, 'png');
+                    $des.href = ima.src;
+                }
+            });
+            }
+            
             function exportar(exportar){
             return $.ajax({
             type:"POST",
@@ -879,19 +917,7 @@
             //}
         </script>
         <script type="text/javascript">
-            $element = document.getElementById('containment-wrapper');
-            $des = document.getElementById('des');
-            w = $element.width;
-            h = $element.height;
-            $element.onclick = function (e) {
-            html2canvas($element, {
-            onrendered: function (canvas) {
-            ima = Canvas2Image.convertToImage(canvas, w, h, 'png');
-            $des.href = ima.src;
-            $des.target = "_blank";
-            }
-            });
-            }
+            
         </script>
 
     </body>
