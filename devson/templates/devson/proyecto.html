@@ -114,10 +114,10 @@
                 <li>
                     <a>Formato</a>
                     <ul>
-                        <li><a onclick="abrirventanap('{% url 'devson:propiedades' %}', getidsocket())">Objeto simple</a></li>
-                        <li><a onclick="abrirventanap('{% url 'devson:propiedades' %}', getidsocket())">Objeto compuesto</a></li>
-                        <li><a onclick="abrirventanap('{% url 'devson:propiedades' %}', getidsocket())">Relaci&oacute;n</a></li>
-                        <li><a onclick="abrirventanap('{% url 'devson:propiedades' %}', getidsocket())">Texto</a></li>
+                        <li><a onclick="abrirventanap('{% url 'devson:propiedades' %}', getidsocket(),'simple')">Objeto simple</a></li>
+                        <li><a onclick="abrirventanap('{% url 'devson:propiedades' %}', getidsocket(),'compuesto')">Objeto compuesto</a></li>
+                        <li><a onclick="abrirventanap('{% url 'devson:propiedades' %}', getidsocket(),'relacion')">Relaci&oacute;n</a></li>
+                        <li><a onclick="abrirventanap('{% url 'devson:propiedades' %}', getidsocket(),'texto')">Texto</a></li>
                     </ul>                
                 </li>
                 <li>
@@ -255,6 +255,7 @@
         <form id="postabrirventana" class="formu" method="POST">
             {% csrf_token %}
             <input type="hidden" id="idsock" name="idsock"/>
+            <input type="hidden" id="caracteristicaventata" name="caracteristicaventata"/>
         </form>
         <form id="postguardar" class="formu" method="POST">
             {% csrf_token %}

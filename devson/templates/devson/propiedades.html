@@ -8,14 +8,14 @@
         <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
         <link type="image/x-icon" rel="shortcut icon" href="{% static 'devson/images/devsoni.ico' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'devson/css/estilo.css' %}"/>
-        <!-- <meta http-equiv="refresh" content="3" >-->
+        <!--<meta http-equiv="refresh" content="3" >-->
         <script src="http://localhost:8010/socket.io/socket.io.js"></script>
         <script src="{% static 'devson/js/cambiarPestana.js' %}"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
         <title>Propiedades</title>
     </head>
-    <body onload="cambiarPestanna(pestanas, pestana1);">
+    <body onload="setcaracteristica('{{caracteristica}}');">
         <div class="contenedor">
             <div id="pestanas">
                 <ul id=lista>
@@ -162,5 +162,23 @@
     </body>
     <script type="text/javascript">
         setidsock('{{idsock}}');
+        function setcaracteristica(caracteristica){
+            $(function () {
+                switch (caracteristica) {
+                    case 'simple':
+                        cambiarPestanna(pestanas, pestana2);
+                        break;
+                    case 'compuesto':
+                        cambiarPestanna(pestanas, pestana1);
+                        break;
+                    case 'relacion':
+                        cambiarPestanna(pestanas, pestana3);
+                        break;
+                    case 'texto':
+                        cambiarPestanna(pestanas, pestana4);
+                        break;
+                }
+            });
+        }
     </script>    
 </html>
