@@ -859,6 +859,10 @@
             });
             
             function actualizarimagen(){
+            tamanogrande = maxtamano();
+            console.log(tamanogrande+" tamano grande");
+            w = tamanogrande[0];
+            h = tamanogrande[1];
                 var el = $('#containment-wrapper');
             html2canvas(el, {
                 onrendered: function(canvas) {
@@ -873,7 +877,7 @@
                     });
                     $endpoints = $('._jsPlumb_endpoint > svg', el);
                     $endpoints.each(function() {
-                        $svg = $(this)
+                        $svg = $(this);
                         offset = $svg.parent().position();
                         svgStr = this.outerHTML;
                         ctx.drawSvg(svgStr, offset.left, offset.top);
