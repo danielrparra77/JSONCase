@@ -42,13 +42,14 @@ function abrirventanag(a) {
     $("#postguardar").submit();
 }
 
-function abrirventanap(a,idsock) {
+function abrirventanap(a,idsock,ventana) {
     var winName='Propiedades';
     var winURL=a;
     $(function () {
         $("#postabrirventana").attr("action", winURL);
         $("#postabrirventana").attr("target", winName);
         $("#idsock").val(idsock);
+        $("#caracteristicaventata").val(ventana);
     });
     var w = 742;
     var h = 632;

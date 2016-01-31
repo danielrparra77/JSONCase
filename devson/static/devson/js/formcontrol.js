@@ -340,6 +340,17 @@ function actualizarposicionnodo(idnodo, posx, posy) {
 //    });
 }
 
+function maxtamano(){
+    var x = 0, y = 0;
+    nodoscreados.forEach(function (nodo) {
+        if (nodo.x > x)
+            x = nodo.x;
+        if (nodo.y > y)
+            y = nodo.y;
+    });
+    return [x,y];
+}
+
 function getnodo(idnodo) {
     var nodoencontrado = null;
     nodoscreados.forEach(function (nodo) {

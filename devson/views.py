@@ -220,9 +220,11 @@ def guardarendb(request):
 @login_required()
 def propiedades(request):
     idsock = request.POST.get('idsock','')
+    caracteristica = request.POST.get('caracteristicaventata','')
     print idsock
     print 'viendo propiedades de los nodos'
-    context = {'idsock': idsock}
+    context = {'idsock': idsock,
+        'caracteristica': caracteristica}
     return render(request, 'devson/propiedades.html',context)
 
 @login_required()
