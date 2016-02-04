@@ -660,6 +660,31 @@
                     document.write("Error entregando datos de estilos, se recomienda recargar pagina<br />")
             }
             });
+            var buscado;
+            var sipegar = false;    
+            $(document).keydown(function(event){
+                if(event.ctrlKey && event.keyCode == 90){
+                    getundoredo().undo();
+                }
+                if(event.ctrlKey && event.keyCode == 89){
+                    getundoredo().redo();
+                }
+                if(event.ctrlKey && event.keyCode == 67){
+                    var buscadooriginal = getnodo(getnodoseleccionado());
+                    buscado = jQuery.extend(true, {}, buscadooriginal); //clon del objeto
+                    //alert("copiando");
+                    sipegar = true;
+                }
+                if(event.ctrlKey && event.keyCode == 86 && sipegar){
+                    //alert("buscando p");
+                    buscado.idnodo = String("nodo" + idnodocreado);
+                    if (buscado.caracteristica == 'Hoja' && buscado.tiponodo == '')
+                            buscado.tiponodo = 'no hay tipo';
+                    crearnuevonodo(buscado.idnodo, 0, 0, buscado.tiponodo, buscado.valor, buscado.caracteristica, false);
+                    undoredonuevonodo(buscado.idnodo, 0, 0, buscado.tiponodo, buscado.valor, buscado.caracteristica,false);
+                    buscado = getnodo(getnodoseleccionado());
+                }
+            });
             function undoredonuevonodo(idnodo,x,y,tipo,valor,caracteristica,siabrir){
                 $(function () {
                 getundoredo().add({
@@ -907,6 +932,9 @@
             }
             function getundoredo(){
                 return undoManager;
+            }
+            function getnodoseleccionado(){
+                return nodoseleccionado;
             }
             //function getjson(){
             //return $.ajax({
