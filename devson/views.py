@@ -30,8 +30,8 @@ def index(request):
 def registro(request):
     return render(request, 'devson/registro.html')
 
-def desarrolladores(request):
-    return render(request, 'devson/desarrolladores.html')
+def autores(request):
+    return render(request, 'devson/autores.html')
 
 @login_required()
 def abrir(request):
