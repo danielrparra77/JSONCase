@@ -618,7 +618,7 @@ $(document).ready(function () {
         getundoredo().redo();
     });
     
-});
+}); 
 
 function undoredopropiedadesnodo(idnodo,nuevotipo,nuevovalor){
     var viejotipo = '',viejovalor = '';

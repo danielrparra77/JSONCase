@@ -335,6 +335,7 @@
             $(document).on("click", "#pegar", function () {
             buscado.idnodo = String("nodo" + idnodocreado);
             crearnuevonodo(buscado.idnodo, 0, 0, buscado.tiponodo, buscado.valor, buscado.caracteristica, false);
+            undoredonuevonodo(buscado.idnodo, 0, 0, buscado.tiponodo, buscado.valor, buscado.caracteristica,false);
             buscado = getnodo(nodoseleccionado);
             });
             });
@@ -372,6 +373,7 @@
             if (buscado.caracteristica == 'Hoja' && buscado.tiponodo == '')
                     buscado.tiponodo = 'no hay tipo';
             crearnuevonodo(buscado.idnodo, 0, 0, buscado.tiponodo, buscado.valor, buscado.caracteristica, false);
+            undoredonuevonodo(buscado.idnodo, 0, 0, buscado.tiponodo, buscado.valor, buscado.caracteristica,false);
             buscado = getnodo(nodoseleccionado);
             });
             });
@@ -658,6 +660,31 @@
                     document.write("Error entregando datos de estilos, se recomienda recargar pagina<br />")
             }
             });
+            var buscado;
+            var sipegar = false;    
+            $(document).keydown(function(event){
+                if(event.ctrlKey && event.keyCode == 90){
+                    getundoredo().undo();
+                }
+                if(event.ctrlKey && event.keyCode == 89){
+                    getundoredo().redo();
+                }
+                if(event.ctrlKey && event.keyCode == 67){
+                    var buscadooriginal = getnodo(getnodoseleccionado());
+                    buscado = jQuery.extend(true, {}, buscadooriginal); //clon del objeto
+                    //alert("copiando");
+                    sipegar = true;
+                }
+                if(event.ctrlKey && event.keyCode == 86 && sipegar){
+                    //alert("buscando p");
+                    buscado.idnodo = String("nodo" + idnodocreado);
+                    if (buscado.caracteristica == 'Hoja' && buscado.tiponodo == '')
+                            buscado.tiponodo = 'no hay tipo';
+                    crearnuevonodo(buscado.idnodo, 0, 0, buscado.tiponodo, buscado.valor, buscado.caracteristica, false);
+                    undoredonuevonodo(buscado.idnodo, 0, 0, buscado.tiponodo, buscado.valor, buscado.caracteristica,false);
+                    buscado = getnodo(getnodoseleccionado());
+                }
+            });
             function undoredonuevonodo(idnodo,x,y,tipo,valor,caracteristica,siabrir){
                 $(function () {
                 getundoredo().add({
@@ -863,11 +890,15 @@
             console.log(tamanogrande+" tamano grande");
             w = tamanogrande[0];
             h = tamanogrande[1];
-                var el = $('#containment-wrapper');
-            html2canvas(el, {
+            $('canvas').css('width', w + 1);
+            $('canvas').css('height', h + 1);
+                var $el = $('#containment-wrapper')[0];
+            html2canvas($el, {
                 onrendered: function(canvas) {
+                    $(this).css('width', w + 1);
+                    $(this).css('height', h + 1);
                     ctx = canvas.getContext('2d');
-                    $flows = $('> svg', el);
+                    $flows = $('> svg', $el);
                     //print("flows "+$flows);
                     $flows.each( function() {
                         $svg = $(this);
@@ -875,7 +906,7 @@
                         svgStr = this.outerHTML;
                         ctx.drawSvg(svgStr, offset.left, offset.top);
                     });
-                    $endpoints = $('._jsPlumb_endpoint > svg', el);
+                    $endpoints = $('._jsPlumb_endpoint > svg', $el);
                     $endpoints.each(function() {
                         $svg = $(this);
                         offset = $svg.parent().position();
@@ -901,6 +932,9 @@
             }
             function getundoredo(){
                 return undoManager;
+            }
+            function getnodoseleccionado(){
+                return nodoseleccionado;
             }
             //function getjson(){
             //return $.ajax({
