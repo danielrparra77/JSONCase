@@ -38,15 +38,25 @@ def crearcassandra(proyecto,nombreproyecto):
 """
 def creartabla(nombre,columnas,proyecto):
     tablas = ''
+    foraneas = []
     tabla = 'CREATE TABLE '+nombre+' ('+"\r\n"
-    tabla += 'id uuid PRIMARY KEY'+"\r\n"
+    tabla += 'id'+nombre+' uuid PRIMARY KEY'+"\r\n"
     for hijo in proyecto:
         if hijo['idnodo'] in columnas:
             if hijo['caracteristica'] == 'Hoja':
                 tabla += ','+hijo['tiponodo']+' '+hijo['valor']+"\r\n"
             else:
-                tabla += ',K_'+hijo['tiponodo']+' uuid'+"\n"
+                #tabla += ',K_'+hijo['tiponodo']+' uuid'+"\r\n"
+                foranea = ''
+                foranea += 'CREATE TABLE '+hijo['tiponodo']+'_'+nombre+' ('+"\r\n"
+                foranea += 'id'+nombre+' uuid'+"\r\n"
+                foranea += ',id'+hijo['tiponodo']+' uuid'+"\r\n"
+                foranea += ',PRIMARY KEY (id'+nombre+',id'+hijo['tiponodo']+")\r\n"
+                foranea += ')'+"\r\n"
+                foraneas.append(foranea)
                 tablas+=creartabla(hijo['tiponodo'],hijo['idhijos'],proyecto)
     tabla+=')'+"\r\n"
     tablas+=tabla
+    for fora in foraneas:
+        tablas+=str(fora)
     return tablas

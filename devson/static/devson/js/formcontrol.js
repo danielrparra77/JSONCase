@@ -544,7 +544,7 @@ $(document).ready(function () {
                 reader.readAsDataURL(new Blob([archivoguardar], {type: "plain/text;charset=utf-8"}));
             }
         }).fail(function () {
-            alert("no se pudo exportar el archivo a Neo4J, favor reviselo.");
+            alert("no se pudo exportar el archivo a Cassandra, favor reviselo.");
             return null;
         });
     });
