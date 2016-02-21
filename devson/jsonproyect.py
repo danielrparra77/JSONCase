@@ -52,7 +52,7 @@ def crearnodo(idnodoshijos,proyecto):
             else:
                 tiposhijos = [nodo["tiponodo"] for nodo in proyecto
                     if nodo["idnodo"] in hijo['idhijos']]
-                print 'tipos hijos '+str(tiposhijos)+' '+hijo['tiponodo']
+                print 'tipos hijos '+str(tiposhijos)+' '+str(hijo['tiponodo'])
                 if len(tiposhijos)==len(set(tiposhijos)):
                     jnodo[hijo['tiponodo']] = crearnodo(hijo['idhijos'],proyecto)
                 else:

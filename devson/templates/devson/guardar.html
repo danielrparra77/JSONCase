@@ -38,6 +38,8 @@
         var proyectoguardar = '{{nodoscreados|safe}}',nombreproyecto = '{{nombreproyecto}}',
                 usuarioconectado = '{{usuarioconectado}}',estilos = '{{estilo|safe}}',
                 parametrosproyecto, proyectocompleto;
+        if ( proyectoguardar.substr(proyectoguardar.length - 3)!='"}]')
+            proyectoguardar+='"}]';
         console.log("proyecto "+proyectoguardar);
         console.log("estilo "+estilos);
         //JSON.parse(proyectoguardar.replace(/&quot;/g,'"')); 

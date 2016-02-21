@@ -17,7 +17,7 @@ var io = require('socket.io').listen(server);
 
 //Configure socket.io to store cookie set by Django
 
-io.on('connection', function (socket) {
+io.sockets.on('connection', function (socket) {
     //Client is sending message through socket.io
     socket.on('enviar sqlquery', function (message) {
         console.log('Message: ' + message);
@@ -26,17 +26,17 @@ io.on('connection', function (socket) {
     socket.on('enviar proyecto', function (proyecto,parametros,estilo,paraestilo,nombreproyecto,usuario) {
         console.log('he recibido una peticion de enviar proyecto: ' + proyecto+" "+parametros+" "+
                 estilo+" "+paraestilo+" "+nombreproyecto+" "+usuario);
-        socket.broadcast.emit('recibir proyecto', proyecto,parametros,estilo,paraestilo,nombreproyecto,usuario);
+        io.socket.broadcast.emit('recibir proyecto', proyecto,parametros,estilo,paraestilo,nombreproyecto,usuario);
     });
     socket.on('abrir proyecto', function (proyecto,idinterfaz) {
         console.log('he recibido una peticion de abrir proyecto: ' + proyecto+' para '+idinterfaz);
-        socket.broadcast.to(idinterfaz).emit('abrir nuevo proyecto', proyecto);
+        io.sockets.to(idinterfaz).emit('abrir nuevo proyecto', proyecto);
     });
     //el tipo de este oyente indica si se dirige a objeto simple compuesto,linea o letra
     socket.on('enviar estilo', function (color,colorlinea,grosorlinea,tamano,fuente,tipo,idinterfaz) {
         console.log('he recibido una peticion de cambiar estilo de '+tipo+': ' +
                 color+' '+colorlinea+' '+grosorlinea+' '+tamano+' '+fuente+' para '+idinterfaz);
-        socket.broadcast.to(idinterfaz).emit('recibir estilos', color,colorlinea,grosorlinea,tamano,fuente,tipo);
+        io.sockets.to(idinterfaz).emit('recibir estilos', color,colorlinea,grosorlinea,tamano,fuente,tipo);
         //cerrarventana();
     });
 });

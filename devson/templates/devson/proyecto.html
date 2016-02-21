@@ -76,6 +76,8 @@
         <header id="page_header">
             <h1><img src="{% static 'devson/images/devson.png' %}" width="80" height="40">Bienvenido a la herramienta CASE DEVSON-UD</h1>
         </header>
+        <input type="file" id="jsonimportado" hidden="true"/>
+        <input type="hidden" id="fileOutput"/>
         <div id="header1">
             <ul class="nav">
                 <li>
@@ -84,6 +86,7 @@
                         <li><a href="{% url 'devson:cliente' %}">Nuevo</a></li>
                         <li><a onclick="abrirventana('{% url 'devson:abrir' %}', getidsocket())">Abrir</a></li>
                         <li><a id="guardarproyecto" onclick="abrirventanag('{% url 'devson:guardar' %}')">Guardar</a></li>
+                        <li><a id="importarjson">Importar Json</a></li>
                         <li>
                             <a>Exportar como</a>
                             <ul>
@@ -241,7 +244,7 @@
                     </li>
                     <li>
                         <a onclick="insertarobject('Propiedades')">
-                            <img src="{% static 'devson/images/proyecto/propiedades.png' %}" width="80" height="80">
+                            <img src="{% static 'devson/images/proyecto/Propiedades.png' %}" width="80" height="80">
                         </a>
                         <ul>
                             <li>Cambiar las propiedades de un nodo</li>
@@ -546,7 +549,95 @@
             return endp;
             //jsPlumb.draggable($("#"+String(idnodo)));
             }
-
+            
+            //oyente para leer archivos importados
+            $(document).on("change", "#jsonimportado", function () {
+                var file = this.files[0];
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var output = document.getElementById("fileOutput");
+                    $(function () {
+                        nombre = ($("#jsonimportado").val()).split("\\");
+                        nombre = nombre[nombre.length - 1];
+                        nombre = nombre.split(".")[0];
+                    });
+                    output.value = e.target.result;
+                };
+                reader.readAsText(file);
+                setTimeout(function(){
+                    var archivoabrir = $('#fileOutput').val();
+                    try {
+                        archivoabrir = jQuery.parseJSON(archivoabrir);
+                        importarjson(archivoabrir);
+                    }
+                     catch(err) {
+                         alert("Este archivo no se puede importar");
+                     }
+                }, 700);
+            });
+            
+            function importarjson(json){
+                //alert("se importara json "+json);
+                jsPlumb.empty("containment-wrapper");
+                reiniciarnodos();
+                var x = 0;
+                $.each(json, function(PropName,PropValue) {
+                    if (typeof PropValue != 'string'){
+                        //if (typeof PropValue == 'string')
+                            //PropValue = jQuery.parseJSON(PropValue);
+                        console.log(PropValue + ' no es una hoja');
+                        importarnodo(PropName,PropValue,"",x,0,json);
+                    }
+                    else {
+                        idnodo = String("nodo" + idnodocreado);
+                        crearnuevonodo(idnodo, x,
+                            0, PropName, PropValue, "Hoja", false);
+                    }
+                    console.log(PropValue + " "+typeof PropValue);
+                    x += 110;
+                });
+            }
+            
+            function importarnodo(nombre,valor,padre,x,y,json){
+                var idnodo = String("nodo" + idnodocreado);
+                crearnuevonodo(idnodo, x,
+                            y, nombre, valor, "Nodo", true);
+                if (padre != ""){
+                    var endpointpadre = agregarpuntosdefinanodo(
+                            padre, true); //se asume que siempre el padre es un nodo
+                    var endpointhijo = agregarpuntosdefinanodo(
+                            idnodo, true);
+                    uuidpadre = endpointpadre.getUuid();
+                    uuidhijo = endpointhijo.getUuid();
+                    jsPlumb.connect({ uuids:[uuidpadre, uuidhijo] });
+                }
+                //if (typeof valor == 'string')
+                            //valor = jQuery.parseJSON(valor);
+                console.log("nombre "+nombre+" valor "+JSON.stringify(valor)+" padre "+padre+" idnodo "+idnodo);
+                $.each(valor, function(PropName,PropValue) {
+                    if (typeof PropValue != 'string'){
+                        //if (typeof PropValue == 'string')
+                            //PropValue = jQuery.parseJSON(PropValue);
+                        //console.log(PropValue + ' no es una hoja '+PropName+" padre "+idnodo);
+                        var idnodopadre = JSON.parse(JSON.stringify(idnodo));
+                        importarnodo(PropName,PropValue,idnodopadre,x,y+80,json);
+                    }
+                    else {
+                        idnodohijo = String("nodo" + idnodocreado);
+                        crearnuevonodo(idnodohijo, x,
+                            y+80, PropName, PropValue, "Hoja", true);
+                        var endpointpadre = agregarpuntosdefinanodo(
+                            idnodo, true); //se asume que siempre el padre es un nodo
+                        var endpointhijo = agregarpuntosdefinanodo(
+                                idnodohijo, false);
+                        uuidpadre = endpointpadre.getUuid();
+                        uuidhijo = endpointhijo.getUuid();
+                        jsPlumb.connect({ uuids:[uuidpadre, uuidhijo] });
+                    }
+                    x += 110;
+                });
+            }
+            
             //Oyente usado para recibir proyecto a abrir
             socket.on('abrir nuevo proyecto', function(proyecto){
             propiedadesproyecto = jQuery.parseJSON(proyecto);

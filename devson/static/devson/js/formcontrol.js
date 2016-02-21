@@ -439,6 +439,11 @@ $(document).ready(function () {
         }, 1100);
     });
 
+    $('#importarjson').click(function (e) {
+        //abrir archivo
+        $("#jsonimportado").click();
+    });
+    
     $('#postguardar').submit(function (e) {
         //if (!sintaxisnodos())
         //    return false;
@@ -619,6 +624,8 @@ $(document).ready(function () {
     });
     
 }); 
+
+
 
 function undoredopropiedadesnodo(idnodo,nuevotipo,nuevovalor){
     var viejotipo = '',viejovalor = '';
