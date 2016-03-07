@@ -219,7 +219,9 @@
             </div>
         </section>
         <section id="canvas">
-            <div id="containment-wrapper"></div>   
+            <div id="divscrollcontainment-wrapper">
+                <div id="containment-wrapper"></div>
+            </div>
         </section>
         <section id="paleta">
             <p align=center><b>Elementos</b></p>
@@ -304,10 +306,11 @@
             jsPlumb.setContainer($("#containment-wrapper"));
             $('#containment-wrapper').click(function (e) {
             //falta revisar como obtener las coordenadas correctas del evento
-            xcontainment = $(this).position().left;
-            ycontainment = $(this).position().top;
-            var x = e.pageX - xcontainment;
-            var y = e.pageY - ycontainment;
+            xcontainment = $("#divscrollcontainment-wrapper").position().left;
+            ycontainment = $("#divscrollcontainment-wrapper").position().top;
+            var scrolltop = $("#divscrollcontainment-wrapper").scrollTop(), scrollleft = $("#divscrollcontainment-wrapper").scrollLeft();
+            var x = e.pageX - xcontainment + scrollleft;
+            var y = e.pageY - ycontainment + scrolltop;
             if (String(objetoseleccionado) == 'Nodo'){
                     undoredonuevonodo(String("nodo" + idnodocreado),x,y,'object','', String(objetoseleccionado),false);
                     crearnuevonodo(String("nodo" + idnodocreado), x, y, 'object', '', String(objetoseleccionado), false);

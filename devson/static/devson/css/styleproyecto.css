@@ -38,10 +38,15 @@ and open the template in the editor.
 }
 #containment-wrapper {
     position: absolute;
-    width: 56.3%;
-    height: 451px;
     border:2px solid #ccc;
+    width: 56000px;
+    height: 56000px;
     padding: 10px;
+}
+#divscrollcontainment-wrapper {
+    position: absolute;
+    width: 58.1%;
+    height: 475px;
     overflow: scroll;
 }
 .nombrenodo {

@@ -153,69 +153,88 @@ def guardarendb(request):
     print request.POST
     proyecto = json.loads(proyecto)
     print proyecto
-    print proyecto["nombre"]
-    mproyecto = models.Proyecto(K_NombreProyecto=proyecto["nombre"],K_UsuarioCreo=proyecto["usuario"],V_FechaCreacion=datetime.now())
-    mproyecto.save()
-    print proyecto["estilo"]
-    estilo = json.loads(proyecto["estilo"])
-    mestilo = []
-    mestilo.append(models.EstiloObjeto(V_Estilo="fondonodo",V_Valor=estilo["fondonodo"],K_Proyecto=mproyecto))
-    mestilo.append(models.EstiloObjeto(V_Estilo="colorlineanodo",V_Valor=estilo["colorlineanodo"],K_Proyecto=mproyecto))
-    mestilo.append(models.EstiloObjeto(V_Estilo="grosornodo",V_Valor=estilo["grosornodo"],K_Proyecto=mproyecto))
-    mestilo.append(models.EstiloObjeto(V_Estilo="fondohoja",V_Valor=estilo["fondohoja"],K_Proyecto=mproyecto))
-    mestilo.append(models.EstiloObjeto(V_Estilo="colorlineahoja",V_Valor=estilo["colorlineahoja"],K_Proyecto=mproyecto))
-    mestilo.append(models.EstiloObjeto(V_Estilo="grosorhoja",V_Valor=estilo["grosorhoja"],K_Proyecto=mproyecto))
-    mestilo.append(models.EstiloObjeto(V_Estilo="fuenteletra",V_Valor=estilo["fuenteletra"],K_Proyecto=mproyecto))
-    mestilo.append(models.EstiloObjeto(V_Estilo="colorfuente",V_Valor=estilo["colorfuente"],K_Proyecto=mproyecto))
-    mestilo.append(models.EstiloObjeto(V_Estilo="tamanofuente",V_Valor=estilo["tamanofuente"],K_Proyecto=mproyecto))
-    mestilo.append(models.EstiloObjeto(V_Estilo="grosorconexion",V_Valor=estilo["grosorconexion"],K_Proyecto=mproyecto))
-    mestilo.append(models.EstiloObjeto(V_Estilo="colorconexion",V_Valor=estilo["colorconexion"],K_Proyecto=mproyecto))
-    print estilo["fondonodo"]
-    nodos = json.loads(proyecto["proyecto"])
-    print nodos
-    mnodo = []
-    mvalor = []
-    #Se crearan todos los nodos
-    for nodo in nodos:
-        print nodo
-        nuevo = models.Objeto(V_IdLocal=nodo["idnodo"],V_CoordenadaX=nodo["x"],V_CoordenadaY=nodo["y"],N_ClaseObjeto=nodo["caracteristica"],
+    try:
+        print proyecto["nombre"]
+        mproyecto = models.Proyecto(K_NombreProyecto=proyecto["nombre"],K_UsuarioCreo=proyecto["usuario"],V_FechaCreacion=datetime.now())
+        mproyecto.save()
+        print proyecto["estilo"]
+        estilo = json.loads(proyecto["estilo"])
+        mestilo = []
+        mestilo.append(models.EstiloObjeto(V_Estilo="fondonodo",V_Valor=estilo["fondonodo"],K_Proyecto=mproyecto))
+        mestilo.append(models.EstiloObjeto(V_Estilo="colorlineanodo",V_Valor=estilo["colorlineanodo"],K_Proyecto=mproyecto))
+        mestilo.append(models.EstiloObjeto(V_Estilo="grosornodo",V_Valor=estilo["grosornodo"],K_Proyecto=mproyecto))
+        mestilo.append(models.EstiloObjeto(V_Estilo="fondohoja",V_Valor=estilo["fondohoja"],K_Proyecto=mproyecto))
+        mestilo.append(models.EstiloObjeto(V_Estilo="colorlineahoja",V_Valor=estilo["colorlineahoja"],K_Proyecto=mproyecto))
+        mestilo.append(models.EstiloObjeto(V_Estilo="grosorhoja",V_Valor=estilo["grosorhoja"],K_Proyecto=mproyecto))
+        mestilo.append(models.EstiloObjeto(V_Estilo="fuenteletra",V_Valor=estilo["fuenteletra"],K_Proyecto=mproyecto))
+        mestilo.append(models.EstiloObjeto(V_Estilo="colorfuente",V_Valor=estilo["colorfuente"],K_Proyecto=mproyecto))
+        mestilo.append(models.EstiloObjeto(V_Estilo="tamanofuente",V_Valor=estilo["tamanofuente"],K_Proyecto=mproyecto))
+        mestilo.append(models.EstiloObjeto(V_Estilo="grosorconexion",V_Valor=estilo["grosorconexion"],K_Proyecto=mproyecto))
+        mestilo.append(models.EstiloObjeto(V_Estilo="colorconexion",V_Valor=estilo["colorconexion"],K_Proyecto=mproyecto))
+        print estilo["fondonodo"]
+        nodos = json.loads(proyecto["proyecto"])
+        print nodos
+        mnodo = []
+        mvalor = []
+        #Se crearan todos los nodos
+        for nodo in nodos:
+            print nodo
+            nuevo = models.Objeto(V_IdLocal=nodo["idnodo"],V_CoordenadaX=nodo["x"],V_CoordenadaY=nodo["y"],N_ClaseObjeto=nodo["caracteristica"],
             N_SiRaiz=(nodo["padre"]==''),K_Proyecto=mproyecto,K_TipoObjeto=nodo["tiponodo"])     
-        nuevo.save()
-        print nodo["valor"]
-        valor = nodo["valor"]
-        if '[' in valor and ']' in valor and valor.index('[')==0 and valor.index(']')==len(valor)-1:
-            valor = valor[1:len(valor)-1].split(',')
-            print "encontre multiples valores "+str(valor)
-            for v in valor:
-                mvalorn = models.ValorObjeto(K_ValorObjeto=v,K_Objeto=nuevo)
-        else:
-            print "encontre valor unico "+valor
-            mvalorn = models.ValorObjeto(K_ValorObjeto=valor,K_Objeto=nuevo)
-        mvalorn.save()
-        mvalor.append(mvalorn)
-        mnodo.append(nuevo)
-    #Se relacionaran los nodos con sus padres
-    print("relacionando con padres")
-    for nodo in mnodo:
-        if not nodo.N_SiRaiz:
-            for node in mnodo:
-                padreencontrado = False
-                for it in nodos:
-                    #print("buscando "+ it['idnodo']+","+nodo.V_IdLocal+","+ node.V_IdLocal+","+it['padre'])
-                    if it['idnodo']==nodo.V_IdLocal and node.V_IdLocal == it['padre']:
-                        print("se encontro una relacion en "+it['idnodo']+" con "+it['padre'])
-                        nodo.K_HijoDe=node
-                        padreencontrado = True
+            nuevo.save()
+            print nodo["valor"]
+            valor = nodo["valor"]
+            if '[' in valor and ']' in valor and valor.index('[')==0 and valor.index(']')==len(valor)-1:
+                valor = valor[1:len(valor)-1].split(',')
+                print "encontre multiples valores "+str(valor)
+                for v in valor:
+                    mvalorn = models.ValorObjeto(K_ValorObjeto=v,K_Objeto=nuevo)
+            else:
+                print "encontre valor unico "+valor
+                mvalorn = models.ValorObjeto(K_ValorObjeto=valor,K_Objeto=nuevo)
+            mvalorn.save()
+            mvalor.append(mvalorn)
+            mnodo.append(nuevo)
+        #Se relacionaran los nodos con sus padres
+        print("relacionando con padres")
+        for nodo in mnodo:
+            if not nodo.N_SiRaiz:
+                for node in mnodo:
+                    padreencontrado = False
+                    for it in nodos:
+                        #print("buscando "+ it['idnodo']+","+nodo.V_IdLocal+","+ node.V_IdLocal+","+it['padre'])
+                        if it['idnodo']==nodo.V_IdLocal and node.V_IdLocal == it['padre']:
+                            print("se encontro una relacion en "+it['idnodo']+" con "+it['padre'])
+                            nodo.K_HijoDe=node
+                            padreencontrado = True
+                            break
+                    if padreencontrado:
                         break
-                if padreencontrado:
-                    break
-    print("se termino de relacionar con padres")
-    for estilo in mestilo:
-        estilo.save()
-    for nodo in mnodo:
-        nodo.save()
-    print("se termino de guardar la informacion")
-    return HttpResponse("El proyecto ha sido guardado correctamente en la base de datos del servidor")
+        print("se termino de relacionar con padres")
+        for estilo in mestilo:
+            estilo.save()
+        for nodo in mnodo:
+            nodo.save()
+        print("se termino de guardar la informacion")
+        return HttpResponse("El proyecto ha sido guardado correctamente en la base de datos del servidor")
+    except Exception as exc:
+        print exc
+        if models.Proyecto.objects.filter(K_NombreProyecto=proyecto["nombre"]).exists():
+            proyectos = models.Proyecto.objects.filter(K_NombreProyecto=proyecto["nombre"])
+            for proyecto in proyectos:
+                if models.Objeto.objects.filter(K_Proyecto=proyecto.id).exists():
+                    objetos = models.Objeto.objects.filter(K_Proyecto=proyecto.id)
+                    for objeto in objetos:
+                        if models.ValorObjeto.objects.filter(K_Objeto=objeto.id).exists():
+                            valores = models.ValorObjeto.objects.filter(K_Objeto=objeto.id)
+                            for valor in valores:
+                                valor.delete()
+                        objeto.delete()
+                if models.EstiloObjeto.objects.filter(K_Proyecto=proyecto.id).exists():
+                    estilos = models.EstiloObjeto.objects.filter(K_Proyecto=proyecto.id)
+                    for estilo in estilos:
+                        estilo.delete()
+                proyecto.delete()
 
 @login_required()
 def propiedades(request):
