@@ -321,12 +321,21 @@
             }
             });
             //Oyente para que el usuario pueda solicitar editar caracteristicas de un nodo
+            $(document).on("dblclick", ".ui-widget-contentcomp", function(){
+            idnodo = $(this).attr("id");
+            if (mostrarmodal(idnodo)){
+            $("#myModal").modal();
+            $('#valor').prop("disabled", false); //Se queda asi por si luego se piensa bloquear el valor de un nodo no hoja
+            insertarobject('');
+            }
+            });
             $(document).on("click", ".ui-widget-contentcomp", function(){
             if (String(objetoseleccionado) == 'Propiedades') {
             idnodo = $(this).attr("id");
             if (mostrarmodal(idnodo)){
             $("#myModal").modal();
             $('#valor').prop("disabled", false); //Se queda asi por si luego se piensa bloquear el valor de un nodo no hoja
+            insertarobject('');
             }
             }
 //copiar y pegar
@@ -355,6 +364,12 @@
             eliminarnodo(buscadooriginal.idnodo);
             desaparecernodo(buscadooriginal.idnodo);
             });
+            });
+            $(document).on("dblclick", ".ui-widget-contentsimple", function(){
+            idnodo = $(this).attr("id");
+            if (mostrarmodal(idnodo))
+                    $("#myModal").modal();
+            insertarobject('');
             });
             $(document).on("click", ".ui-widget-contentsimple", function(){
             if (String(objetoseleccionado) == 'Propiedades') {
