@@ -59,3 +59,24 @@ and open the template in the editor.
     text-align: center;
     border: 1px solid;
 }
+
+#menuderecho{
+      list-style: none;
+      list-style-type: none;
+      list-style-position: outside;
+      background-color: white;
+      position:absolute;    
+}
+#menuderecho ul{
+      position:absolute;   
+      line-height: 30px;
+      font-size: 16px;
+      cursor:pointer;
+}
+#menuderecho ul li{
+      width:250px;     
+      border:1px solid black;
+      -moz-box-shadow: 0 0 5px #888;
+      -webkit-box-shadow: 0 0 5px#888;
+      box-shadow: 0 0 5px #888;
+}

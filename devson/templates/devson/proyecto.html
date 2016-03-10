@@ -268,6 +268,15 @@
         </form>
         <form id="postjson" class="formu" action="{% url 'devson:exportar'%}" method="POST">
         </form>
+        <div id="menuderecho">
+            <ul class ="listaderecho">
+                <li id="copiarderecho" class="itemderecho">Copiar</li>
+                <li id="pegarderecho" class="itemderecho">Pegar</li>
+                <li id="eliminarderecho" class="itemderecho">Eliminar</li>
+                <li id="propiedadesderecho" class="itemderecho">Propiedades</li>
+                <li id="estiloderecho" class="itemderecho">Estilo</li>
+              </ul>
+        </div>
         <script type="text/javascript">
             //Posicion en la que se encuentran el contenedor de los divs
             var xcontainment = 0;
@@ -329,6 +338,9 @@
             insertarobject('');
             }
             });
+            $(document).on("contextmenu", ".ui-widget-contentcomp", function(e){
+                  idnodo = $(this).attr("id");
+            });
             $(document).on("click", ".ui-widget-contentcomp", function(){
             if (String(objetoseleccionado) == 'Propiedades') {
             idnodo = $(this).attr("id");
@@ -364,6 +376,9 @@
             eliminarnodo(buscadooriginal.idnodo);
             desaparecernodo(buscadooriginal.idnodo);
             });
+            });
+            $(document).on("contextmenu", ".ui-widget-contentsimple", function(e){
+                  idnodo = $(this).attr("id");
             });
             $(document).on("dblclick", ".ui-widget-contentsimple", function(){
             idnodo = $(this).attr("id");
@@ -402,11 +417,14 @@
             //Eliminar
             $(document).on("click", "#eliminar", function () {
             buscadooriginal = getnodo(nodoseleccionado);
+            if (buscadooriginal != null){
             undoredoborrarnodo(buscadooriginal.idnodo, buscadooriginal.x,
-                            buscadooriginal.y, buscadooriginal.tiponodo, buscadooriginal.valor,
-                            buscadooriginal.caracteristica, false,buscadooriginal.idhijos,buscadooriginal.padre);
+                buscadooriginal.y, buscadooriginal.tiponodo, buscadooriginal.valor,
+                buscadooriginal.caracteristica, false,buscadooriginal.idhijos,buscadooriginal.padre);
             eliminarnodo(buscadooriginal.idnodo);
             desaparecernodo(buscadooriginal.idnodo);
+            nodoseleccionado = "";
+            }
             });
             });
             //Evento de conexion detectada para separar a un padre de su hijo
@@ -993,6 +1011,73 @@
             $element.onclick = function (e) {
                 actualizarimagen();
             }
+            $(function () {
+                //interaccion del menu derecho
+            //Ocultamos el menu al cargar la pagina
+            $("#menuderecho").hide();
+            /* mostramos el menu si hacemos click derecho
+            con el raton */
+            $(document).bind("contextmenu", function(e){
+                  //alert("bind "+e.pageX+" "+e.pageY);
+                  $("#menuderecho").css({'display':'block', 'left':e.pageX, 'top':e.pageY});
+                  return false;
+            });
+            //cuando hagamos click, el menu desaparecera
+            $(document).click(function(e){
+                  if(e.button == 0){
+                        $("#menuderecho").css("display", "none");
+                  }
+            });
+            //si pulsamos escape, el menu desaparecera
+            $(document).keydown(function(e){
+                  if(e.keyCode == 27){
+                        $("#menuderecho").css("display", "none");
+                  }
+            });
+            //controlamos los botones del menu
+            $("#menuderecho").click(function(e){
+                // El switch utiliza los IDs de los <li> del menu
+                  switch(e.target.id){
+                        case "copiarderecho":
+                              var buscadooriginal = getnodo(idnodo);
+                              if (buscadooriginal != null){
+                              buscado = jQuery.extend(true, {}, buscadooriginal); //clon del objeto
+                              //alert("copiando");
+                              sipegar = true;
+                              }
+                              break;      
+                        case "pegarderecho":
+                            if (sipegar){
+                            buscado.idnodo = String("nodo" + idnodocreado);
+                            if (buscado.caracteristica == 'Hoja' && buscado.tiponodo == '')
+                                buscado.tiponodo = 'no hay tipo';
+                            crearnuevonodo(buscado.idnodo, 0, 0, buscado.tiponodo, buscado.valor, buscado.caracteristica, false);  
+                            undoredonuevonodo(buscado.idnodo, 0, 0, buscado.tiponodo, buscado.valor, buscado.caracteristica,false);
+                            buscado = getnodo(getnodoseleccionado());
+                            }
+                            break;
+                        case "eliminarderecho":
+                            buscadooriginal = getnodo(idnodo);
+                            if (buscadooriginal != null){
+                            undoredoborrarnodo(buscadooriginal.idnodo, buscadooriginal.x,
+                                buscadooriginal.y, buscadooriginal.tiponodo, buscadooriginal.valor,
+                                buscadooriginal.caracteristica, false,buscadooriginal.idhijos,buscadooriginal.padre);
+                            eliminarnodo(buscadooriginal.idnodo);
+                            desaparecernodo(buscadooriginal.idnodo);
+                            nodoseleccionado = "";
+                            }
+                            break;
+                        case "propiedadesderecho":
+                            if (mostrarmodal(idnodo))
+                                    $("#myModal").modal();
+                            insertarobject('');
+                            break;
+                        case "estiloderecho":
+                            abrirventanap('{% url 'devson:propiedades' %}', getidsocket());
+                            break;
+                  }     
+            });
+            });
             });
             
             function actualizarimagen(){
