@@ -15,7 +15,7 @@
         <script  type=text/javascript src="{% static 'devson/js/jsonoutput.js' %}"></script>
     </head>
     <body>
-        <form action="{% url 'devson:guardarendb'%}" class="formu" method="POST">
+        <form class="formu" method="POST">
             {% csrf_token %}
             <div>
                 <p align="center"><b>Nombre del proyecto: </b></p>
@@ -23,7 +23,7 @@
             <div>
                 <p align="center"><b>Guardar en la base de datos</b></p>
                 <input type="hidden" name="proyecto" id="proyecto"/>
-                <input type="submit" id="guardardb" class="submit" value="Guardar en BD"/>
+                <input type="button" id="guardardb" class="submit" value="Guardar en BD"/>
             </div>
             <hr>
         </form>
@@ -82,15 +82,32 @@
                 console.log(archivoguardar);
                 //return $.post( "{% url 'devson:guardarendb'%}", { proyecto: archivoguardar},
                 //function() {this.submit();});
-                //$.ajax({
-                //    url: "{% url 'devson:guardarendb'%}",
-                //    type: 'post',
-                //    dataType: 'json',
-                //    data: { proyecto: archivoguardar},
-                //    success: function(response) {
-                //               window.location.href = response.redirect;
-                //             }
-                //});
+                $.ajax({
+                    url: "{% url 'devson:guardarendb'%}",
+                    type: 'POST',
+                    data: { proyecto: archivoguardar},
+                    success: function(response) {
+                                console.log(response);
+                               if (response != "existe")
+                                    alert(response);
+                                else{
+                                    if (confirm("El proyecto ya existe, desea sobreescribirlo?")){
+                                        $.ajax({
+                                            url: "{% url 'devson:sobreescribirproyecto'%}",
+                                            type: 'POST',
+                                            data: { proyecto: archivoguardar},
+                                            success: function(response2) {
+                                                alert(response2);
+                                            }
+                                        }).fail(function() {
+                                            alert( "error intentando guardar intente mas tarde" );
+                                        });
+                                    }
+                                }
+                               //window.location.href = response.redirect;
+                             }
+                });
+                console.log("ajax");
                 //$.redirectPost("{% url 'devson:guardarendb'%}",{ proyecto: archivoguardar});
 
             });

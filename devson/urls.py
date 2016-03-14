@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^abrir/$', views.abrir, name='abrir'),
     url(r'^abrirendb/$', views.abrirendb, name='abrirendb'),
     url(r'^guardarendb/$', views.guardarendb, name='guardarendb'),
+    url(r'^sobreescribirproyecto/$', views.sobreescribirproyecto, name='sobreescribirproyecto'),
     url(r'^guardar/$', views.guardar, name='guardar'),
     url(r'^exportar/$', views.exportar, name='exportar'),
     url(r'^propiedades/$', views.propiedades, name='propiedades'),

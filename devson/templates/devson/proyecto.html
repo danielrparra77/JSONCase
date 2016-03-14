@@ -733,6 +733,14 @@
             jsPlumb.connect({ uuids:[uuidpadre, uuidhijo] });
             }
             }
+            else{
+                if (jsonnodo["padre"] == '' && jsonnodo["caracteristica"]=='Hoja')
+                    var endpointhijo = agregarpuntosdefinanodo(
+                        jsonnodo["idnodo"], false);
+                if (jsonnodo["padre"] == '' && jsonnodo["caracteristica"]=='Nodo')
+                    var endpointhijo = agregarpuntosdefinanodo(
+                        jsonnodo["idnodo"], true);
+            }
             }
             actualizarimagen();
             });
