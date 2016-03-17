@@ -607,6 +607,7 @@
                         importarjson(archivoabrir);
                     }
                      catch(err) {
+                         console.log(err);
                          alert("Este archivo no se puede importar");
                      }
                 }, 700);
@@ -618,7 +619,8 @@
                 reiniciarnodos();
                 var x = 0;
                 $.each(json, function(PropName,PropValue) {
-                    if (typeof PropValue != 'string'){
+                    if (typeof PropValue == 'object' && PropValue != null
+                            && !$.isArray(PropValue)){
                         //if (typeof PropValue == 'string')
                             //PropValue = jQuery.parseJSON(PropValue);
                         console.log(PropValue + ' no es una hoja');
