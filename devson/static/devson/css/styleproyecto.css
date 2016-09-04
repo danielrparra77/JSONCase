@@ -1,0 +1,82 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 18/12/2015, 03:21:56 PM
+    Author     : User
+*/
+
+.ui-widget-contentsimple {
+    position: absolute;
+    width: 108px;
+    height: 75px;
+    padding: 0.5em;
+    color: black;
+    float: left;
+    margin: 0 10px 10px 0;
+    border: 1px solid black;
+}
+.ui-widget-contentsimple:hover { 
+    box-shadow: 2px 2px 19px #AAAAAA;
+    cursor: pointer;
+}
+.ui-widget-contentcomp {
+    position: absolute;
+    width: 108px;
+    height: 75px;
+    padding: 0.5em;
+    color: black;
+    float: left;
+    margin: 0 10px 10px 0;
+    border: 1px solid black;
+}
+.ui-widget-contentcomp:hover { 
+    box-shadow: 2px 2px 19px #AAAAAA;
+    cursor: pointer;
+}
+#containment-wrapper {
+    position: absolute;
+    border:2px solid #ccc;
+    width: 56000px;
+    height: 56000px;
+    padding: 10px;
+}
+#divscrollcontainment-wrapper {
+    position: absolute;
+    width: 58.1%;
+    height: 475px;
+    overflow: scroll;
+}
+.nombrenodo {
+    text-align: center;
+    left: 0;
+}
+
+.button_add, .button_remove {
+    background-color: deepskyblue;
+    text-align: center;
+    border: 1px solid;
+}
+
+#menuderecho{
+      list-style: none;
+      list-style-type: none;
+      list-style-position: outside;
+      background-color: white;
+      position:absolute;    
+}
+#menuderecho ul{
+      position:absolute;   
+      line-height: 30px;
+      font-size: 16px;
+      cursor:pointer;
+}
+#menuderecho ul li{
+      width:250px;     
+      border:1px solid black;
+      -moz-box-shadow: 0 0 5px #888;
+      -webkit-box-shadow: 0 0 5px#888;
+      box-shadow: 0 0 5px #888;
+}

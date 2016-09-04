@@ -1,0 +1,130 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Guardar Proyecto</title>
+        <meta charset="windows-1252">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+        <link type="image/x-icon" rel="shortcut icon" href="{% static 'devson/images/devsoni.ico' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'devson/css/style.css' %}"/>
+        <link rel="stylesheet" type="text/css" href="{% static 'devson/css/stylen.css' %}"/>
+        <script  type=text/javascript src="{% static 'devson/js/jsonoutput.js' %}"></script>
+    </head>
+    <body>
+        <form class="formu" method="POST">
+            {% csrf_token %}
+            <div>
+                <p align="center"><b>Nombre del proyecto: </b></p>
+            </div>
+            <div>
+                <p align="center"><b>Guardar en la base de datos</b></p>
+                <input type="hidden" name="proyecto" id="proyecto"/>
+                <input type="button" id="guardardb" class="submit" value="Guardar en BD"/>
+            </div>
+            <hr>
+        </form>
+        <form class="formu" method="POST">
+            {% csrf_token %}
+            <div>
+                <p align="center"><b>Guardar en el equipo</b></p>
+                <button id="guardarpc" class="submit">Guardar en PC</button>       
+            </div>
+        </form>
+    <script type="text/javascript">
+        var proyectoguardar = '{{nodoscreados|safe}}',nombreproyecto = '{{nombreproyecto}}',
+                usuarioconectado = '{{usuarioconectado}}',estilos = '{{estilo|safe}}',
+                parametrosproyecto, proyectocompleto;
+        if ( proyectoguardar.substr(proyectoguardar.length - 3)!='"}]')
+            proyectoguardar+='"}]';
+        console.log("proyecto "+proyectoguardar);
+        console.log("estilo "+estilos);
+        //JSON.parse(proyectoguardar.replace(/&quot;/g,'"')); 
+        //JSON.parse(proyectoguardar.replace(/&quot;/g,'"')); 
+        parametrosproyecto = new Array();
+        parametrosproyecto[0] = "nombre";
+        parametrosproyecto[1] = "usuario";
+        parametrosproyecto[2] = "proyecto";
+        parametrosproyecto[3] = "estilo";
+        proyectocompleto = new Object();
+        proyectocompleto.nombre = nombreproyecto;
+        proyectocompleto.usuario = usuarioconectado;
+        proyectocompleto.proyecto = proyectoguardar;
+        proyectocompleto.estilo = estilos;
+        $(document).ready(function(){
+            $("#guardarpc").click(function(){
+                var archivoguardar = JSON.stringify(proyectocompleto, parametrosproyecto, "\t"); 
+                nombreArchivo=nombreproyecto+".txt";
+                var reader = new FileReader();
+                reader.onload = function (event) {
+                    var save = document.createElement('a');
+                    save.href = event.target.result;
+                    save.target = '_blank';
+                    save.download = nombreArchivo || 'archivo.dat';
+                    var clicEvent = new MouseEvent('click', {
+                        'view': window,
+                            'bubbles': true,
+                            'cancelable': true
+                    });
+                    save.dispatchEvent(clicEvent);
+                    (window.URL || window.webkitURL).revokeObjectURL(save.href);
+                };
+                //alert(archivoguardar);
+                reader.readAsDataURL(new Blob([archivoguardar], {type: "application/json"}));
+            });
+            $("#guardardb").click(function(){
+                var archivoguardar = JSON.stringify(proyectocompleto, parametrosproyecto, "\t");
+                $("#proyecto").val(archivoguardar);
+                //alert($("#proyecto").val());
+                console.log(archivoguardar);
+                //return $.post( "{% url 'devson:guardarendb'%}", { proyecto: archivoguardar},
+                //function() {this.submit();});
+                $.ajax({
+                    url: "{% url 'devson:guardarendb'%}",
+                    type: 'POST',
+                    data: { proyecto: archivoguardar},
+                    success: function(response) {
+                                console.log(response);
+                               if (response != "existe")
+                                    alert(response);
+                                else{
+                                    if (confirm("El proyecto ya existe, desea sobreescribirlo?")){
+                                        $.ajax({
+                                            url: "{% url 'devson:sobreescribirproyecto'%}",
+                                            type: 'POST',
+                                            data: { proyecto: archivoguardar},
+                                            success: function(response2) {
+                                                alert(response2);
+                                            }
+                                        }).fail(function() {
+                                            alert( "error intentando guardar intente mas tarde" );
+                                        });
+                                    }
+                                }
+                               //window.location.href = response.redirect;
+                             }
+                });
+                console.log("ajax");
+                //$.redirectPost("{% url 'devson:guardarendb'%}",{ proyecto: archivoguardar});
+
+            });
+            // jquery extend function
+            $.extend(
+            {
+                redirectPost: function(location, args)
+                {
+                    var form = '';
+                    $.each( args, function( key, value ) {
+                        alert('redireccionando '+key+' con '+value);
+                        form += '<input type="hidden" name="'+key+'" value="'+value+'">';
+                    });
+                    $('<form action="'+location+'" method="POST">'+form+'</form>').appendTo('body').submit();
+                }
+            });
+        });
+    </script>
+    </body>    
+</html>

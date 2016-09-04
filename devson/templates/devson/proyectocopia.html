@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+{% load staticfiles %}
+
+<!doctype html>
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="windows-1252">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+        <link rel="stylesheet" href="{% static 'devson/css/styleproyecto.css' %}">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+        <script  src="{% static 'devson/js/bootstrap.min.js' %}"></script>
+        <script  src="{% static 'devson/js/formcontrol.js' %}"></script>
+        <script  src="{% static 'devson/js/jquery.jsPlumb-1.6.4-min.js' %}"></script>
+    </head>
+    <body>
+        <div>Proyecto: nombre del proyecto</div>
+        <div id="Botonesmapa">
+            <a onclick="insertarobject('Nodo')"><img alt="Nodo" src="{% static 'devson/images/proyecto/Nodo.png' %}"></a>
+            <a onclick="insertarobject('Hoja')"><img alt="Hoja" src="{% static 'devson/images/proyecto/Hoja.png' %}"></a>                
+            <a onclick="insertarobject('Relacion')"><img alt="Relacion" src="{% static 'devson/images/proyecto/Relacion.png' %}"></a>
+        </div>
+        <div id="containment-wrapper">
+            <div id="draggable3" class="ui-widget-content">
+                <span class="nombrenodo">nuevonodo</span>
+            </div>
+        </div>
+        <script type="text/javascript">
+        
+        
+        jsPlumb.ready(function() {
+            jsPlumb.draggable($(".ui-widget-content"));
+            agregarpuntosdefinanodo("draggable3");
+            jsPlumb.setContainer($("#containment-wrapper"));
+            $('#containment-wrapper').click(function(e){
+                //falta revisar como obtener las coordenadas correctas del evento
+                if (String(objetoseleccionado)=='Nodo' || String(objetoseleccionado)=='Hoja'){
+                newDiv = $("<div/>", {
+                    "class": "ui-widget-content",
+                     "id": String("nodo"+idnodocreado),
+                });
+                newDiv.css({
+		  'top': e.pageY,
+		  'left': e.pageX
+		});
+                newDiv.draggable()
+                .appendTo("#containment-wrapper");
+   //             newDiv.animate({ left: x+'px',top: y+'px' });
+    //            newImg = $("<img>", {
+    //                "class": "imagenFondo",
+    //                "src": "{% static 'devson/images/proyecto/"+String(objetoseleccionado)+".png' %}",
+    //            });
+    //            newImg.appendTo(newDiv);
+
+                nombrenodo = $("<span>", {
+                    "class": "nombrenodo",
+                }).html('nuevonodo');
+                nombrenodo.appendTo(newDiv);
+
+                jsPlumb.makeTarget(newState, {
+		  anchor: 'Continuous'
+		});
+		
+		jsPlumb.makeSource(connect, {
+		  parent: newState,
+		  anchor: 'Continuous'
+		});		
+		
+		jsPlumb.draggable(newState, {
+		  containment: 'parent'
+		});
+                    
+                agregarpuntosdefinanodo("nodo"+idnodocreado);
+                objetoseleccionado='';
+                idnodocreado=idnodocreado+1;
+            }
+        });
+            
+            function agregarpuntosdefinanodo(idnodo){
+
+                    var common = {
+                      isSource:true,
+                      isTarget:true,
+                      connector:"Straight",
+                      endpoint:"Rectangle",
+                      paintStyle:{ fillStyle:"white", outlineColor:"blue", outlineWidth:1 },
+                      hoverPaintStyle:{ fillStyle:"lightblue" },
+                      connectorStyle:{ strokeStyle:"blue", lineWidth:1 },
+                      connectorHoverStyle:{ lineWidth:2 }
+                    };
+
+                    jsPlumb.addEndpoint(String(idnodo), { 
+                      anchor:"Right"
+                    }, common);   
+                    jsPlumb.draggable(String(idnodo), {
+                        //x.draggable({
+                        containment: '#containment-wrapper',
+                        drop: function (event, ui) {	
+                            jsPlumb.repaintEverything();
+                        },
+                        drag: function (e, ui) {
+                            jsPlumb.repaintEverything();
+                        }
+                    });
+                    //jsPlumb.draggable($("#"+String(idnodo)));
+            }
+        });
+    </script> 
+    </body>
+</html>

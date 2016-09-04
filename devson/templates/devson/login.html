@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+    <head>
+        <title>DEVSON-UD</title>
+        <meta charset="windows-1252">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link type="image/x-icon" rel="shortcut icon" href="{% static 'devson/images/devsoni.ico' %}">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" type="text/css" href="{% static 'devson/css/style.css' %}" />	
+    </head>
+    <body>
+        <header id="page_header">
+            <h1><img src="{% static 'devson/images/devson.png' %}" width="160" height="120">Bienvenido a la herramienta CASE DEVSON-UD</h1>
+        </header>
+        <div id="header">
+            <ul class="nav">
+                <li><a href="{% url 'devson:register' %}">Registro</a></li>
+                <li><a href="{% static 'devson/images/Manual de usuario.pdf' %}" target="_blank">Manual de usuario</a></li>
+            </ul>  
+            <ul class="nav2">
+                <li><a href="{% url 'devson:autores' %}">Acerca de los autores</a></li>
+            </ul>
+        </div>
+        <section id="registro">
+            <h2>Inicie la sesi&oacute;n aqu&iacute;</h2>
+            <form class="formu" action="" method="post" role="form">
+                {% csrf_token %}
+                <ul>
+                    {% if form.errors %}
+                        <li>Usuario o la contrase&ntilde;a no coinciden</li>
+                    {% endif %}
+                    <li>
+                        <label class="lab">Nombre: </label>{{form.username}}
+                    </li>
+                    <li>
+                        <label class="lab">Contrase&ntilde;a: </label>{{form.password}}
+                    </li>   
+                    <li><button class="submit" type="submit">Ingresar</button></li>
+                    <li>&#191;No posee una cuenta&#63;  <a href="{% url 'devson:register' %}">Reg&iacute;strese aqu&iacute;</a></li>
+                </ul>
+            </form>
+        </section>
+        <footer id="page_footer">
+            <p>&copy; 2016 Derechos Reservados.</p>
+        </footer>
+    </body>
+</html>

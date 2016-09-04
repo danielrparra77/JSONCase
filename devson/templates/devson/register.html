@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+    <head>
+        <title>DEVSON-UD</title>
+        <meta charset="windows-1252">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link type="image/x-icon" rel="shortcut icon" href="{% static 'devson/images/devsoni.ico' %}">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" type="text/css" href="{% static 'devson/css/style.css' %}" />	
+    </head>
+    <body>
+        <header id="page_header">
+            <h1><img src="{% static 'devson/images/devson.png' %}" width="160" height="120">Bienvenido a la herramienta CASE DEVSON-UD</h1>
+        </header>
+        <div id="header">
+            <ul class="nav2">
+                <li><a href="{% url 'devson:login' %}">Volver</a></li>
+            </ul>
+        </div>
+        <section id="registro" style="overflow:scroll;height:395px;">
+            <h2>Complete los siguientes datos para registrarse</h2>
+            <form method="post" action="" class="formu" role="form">
+                {% csrf_token %}
+                <ul>
+                    {% if form.errors %}
+                        <li>Verifique sus datos</li>
+                    {% endif %}
+                    <li>
+                        <label class="lab">Nombre Completo: </label>{{form.first_name}}
+                    </li>
+                    <li>
+                        <label class="lab">Nombre: </label>{{form.username}}
+                    </li>
+                    <li>
+                        <label class="lab">Contrase&ntilde;a: </label>{{form.password1}}
+                    </li>  
+                    <li>
+                        <label class="lab">Vueva a escribir su contrase&ntilde;a: </label>{{form.password2}}
+                    </li>                    
+                    <li>
+                        <label class="lab">E-mail: </label>{{form.email}}<span class="ocul">Formato adecuado algo@algo.com</span>
+                    </li>
+                    <li>
+                        <label class="lab">Ocupaci&oacute;n: </label>{{form.last_name}}
+                    </li>
+                    <li><button class="submit" type="submit">Guardar Registro</button></li>
+                    <li>&#191Ya est&aacute; registrado&#63; <a href="{% url 'devson:login' %}">Inicia Sesi&oacute;n</a></li>
+                </ul>
+            </form>
+        </section>
+        <footer id="page_footer">
+            <p>&copy; 2016 Derechos Reservados.</p>
+        </footer>
+    </body>
+</html>

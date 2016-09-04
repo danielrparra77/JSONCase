@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+<head>
+    <title>Realtime Django</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+    <script src="http://localhost:8010/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io.connect('http://localhost:8010/');
+    var nodo;
+        socket.on('connect', function(){
+        console.log("connect");
+    });
+    
+    //Recibe los valores actuales del nodo
+    socket.on('enviar propiedades a cliente', function(node) {
+        var idnodo = $('#idnodo').val();
+        //alert("id "+idnodo+" "+node.idnodo);
+        if (idnodo == node.idnodo){   
+            //alert("tipo: "+node.tiponodo+" valor: "+node.valor);
+            nodo = node;
+            $(function(){
+                $('#tipo').val(node.tiponodo);
+                $('#valor').val(node.valor);
+            });
+        }
+    });
+        
+    //envia los nuevos valores al nodo    
+    $(document).ready(function(){
+        $("#enviar").click(function(){
+            nodo.tiponodo = $('#tipo').val();
+            nodo.valor = $('#valor').val();
+            socket.emit('propiedades actualizadas nodo', nodo);
+            //var msg = 'mi socket io con django';
+            //socket.emit('enviar sqlquery', msg);            
+        });
+        $("#cancelar").click(function(){
+            socket.emit('cancelar propiedades nodo',$('#idnodo').val());            
+        });
+    });
+  </script>
+</head>
+<body>
+    <h1>{{ nodo }}</h1>
+    <input type="hidden" id="idnodo" value="{{ nodo }}"/>
+    <p>Tipo:</p><input type="text" id="tipo"/>
+    <p>Valor:</p><input type="text" id="valor"/>
+    <input type="button" id="enviar" name="enviar" value="Aceptar"/>
+    <input type="button" id="cancelar" name="cancelar" value="Cancelar"/>
+</body>
+</html>
