@@ -10,21 +10,21 @@ import jsonproyect
 
 def crearcassandra(proyecto,nombreproyecto):
     jproyecto = {}
-    cassandratablas = 'CREATE KEYSPACE Keyspace '+nombreproyecto+"\r\n"
+    cassandratablas = 'CREATE KEYSPACE '+nombreproyecto+"\r\n"
     cassandratablas += "WITH replication = {'class': 'SimpleStrategy', 'replication_factor' : 3};"+"\r\n"
     for padre in proyecto:
         if padre['padre']=='':
             if padre['caracteristica'] == 'Hoja':
-                tabla = 'CREATE TABLE '+padre['tiponodo']+' ('
+                tabla = 'CREATE TABLE '+nombreproyecto+'.'+padre['tiponodo']+' ('
                 tabla += 'id uuid PRIMARY KEY, '
-                tabla += padre['tiponodo']+' '+padre['valor']+')'+"\r\n"
+                tabla += padre['tiponodo']+' '+padre['valor']+');'+"\r\n"
                 cassandratablas+=tabla
             else:
                 tiposhijos = [nodo["tiponodo"] for nodo in proyecto]
                 if len(tiposhijos)!=len(set(tiposhijos)):#si duplicado
                     return {'error':'columnas duplicadas'}
                 else:
-                    tablas = creartabla(padre['tiponodo'],padre['idhijos'],proyecto)
+                    tablas = creartabla(padre['tiponodo'],padre['idhijos'],proyecto,nombreproyecto)
                     print("mis tablas "+str(tablas))
                     #for tabla in tablas:
                         #while type(tabla) is not str:
@@ -36,10 +36,10 @@ def crearcassandra(proyecto,nombreproyecto):
     En este metodo se crearan todas las tablas que esten conetadas
     por llaves foraneas
 """
-def creartabla(nombre,columnas,proyecto):
+def creartabla(nombre,columnas,proyecto,nombreproyecto):
     tablas = ''
     foraneas = []
-    tabla = 'CREATE TABLE '+nombre+' ('+"\r\n"
+    tabla = 'CREATE TABLE '+nombreproyecto+'.'+nombre+' ('+"\r\n"
     tabla += 'id'+nombre+' uuid PRIMARY KEY'+"\r\n"
     for hijo in proyecto:
         if hijo['idnodo'] in columnas:
@@ -48,14 +48,14 @@ def creartabla(nombre,columnas,proyecto):
             else:
                 #tabla += ',K_'+hijo['tiponodo']+' uuid'+"\r\n"
                 foranea = ''
-                foranea += 'CREATE TABLE '+hijo['tiponodo']+'_'+nombre+' ('+"\r\n"
+                foranea += 'CREATE TABLE '+nombreproyecto+'.'+hijo['tiponodo']+'_'+nombre+' ('+"\r\n"
                 foranea += 'id'+nombre+' uuid'+"\r\n"
                 foranea += ',id'+hijo['tiponodo']+' uuid'+"\r\n"
                 foranea += ',PRIMARY KEY (id'+nombre+',id'+hijo['tiponodo']+")\r\n"
-                foranea += ')'+"\r\n"
+                foranea += ');'+"\r\n"
                 foraneas.append(foranea)
-                tablas+=creartabla(hijo['tiponodo'],hijo['idhijos'],proyecto)
-    tabla+=')'+"\r\n"
+                tablas+=creartabla(hijo['tiponodo'],hijo['idhijos'],proyecto,nombreproyecto)
+    tabla+=');'+"\r\n"
     tablas+=tabla
     for fora in foraneas:
         tablas+=str(fora)
