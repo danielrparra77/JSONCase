@@ -11,8 +11,8 @@ def crearneo4j(proyecto):
     for padre in proyecto:
         if padre['padre']=='':
             if padre['caracteristica'] == 'Hoja':
-                tabla = 'CREATE ('+padre['tiponodo']+':'
-                tabla += padre['valor']+')'
+                tabla = 'CREATE ('+padre['tiponodo']+":'"
+                tabla +="'"+ padre['valor']+"')"
                 grafo+=tabla
             else:
                 tiposhijos = [nodo["tiponodo"] for nodo in proyecto]
@@ -68,14 +68,14 @@ def crearnodohojasnodos(nombre,valor,columnas,proyecto):
     subgrafos = ''
     apuntadores = []
     nodosdentro = []#los nodos que est nodo tiene seran creados
-    subgrafos = 'CREATE ('+nombre+':'+valor+'{\r\n'
+    subgrafos = 'CREATE ('+nombre+":"+valor+"{\r\n"
     #nodo = 'CREATE ('+nombre+')-[:'+valor+" {\r\n"
     nodo = 'CREATE ('+nombre+')-[:'+valor
     for hijo in proyecto:
         if hijo['idnodo'] in columnas:
                 if hijo['caracteristica'] == 'Hoja':
-                    subgrafos += "\r\n"+hijo['tiponodo']+':'+hijo['valor']+","
-                    #nodo += "\r\n"+hijo['tiponodo']+':['+hijo['valor']+"],"
+                    subgrafos += "\r\n"+hijo['tiponodo']+":'"+hijo['valor']+"',"
+                    #nodo += "\r\n"+hijo['tiponodo']+'?'+hijo['valor']+"],"
                 else:
                     apuntadores.append('->('+hijo['tiponodo']+")\r\n") # a que nodos este nodo apunta
                     nodosdentro.append(crearnodo(hijo['tiponodo'],hijo['valor'],hijo['idhijos'],proyecto))
@@ -97,7 +97,7 @@ def crearnododenodos(nombre,valor,columnas,proyecto):
     subgrafos = ''
     apuntadores = []
     nodosdentro = []#los nodos que est nodo tiene seran creados
-    subgrafos = 'CREATE ('+nombre+':'+valor+')\r\n'
+    subgrafos = 'CREATE ('+nombre+":'"+valor+"')\r\n"
     nodo = 'CREATE ('+nombre+')-[:'+valor+"]->"
     for hijo in proyecto:
         if hijo['idnodo'] in columnas:
