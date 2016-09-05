@@ -12,7 +12,7 @@ def crearneo4j(proyecto):
         if padre['padre']=='':
             if padre['caracteristica'] == 'Hoja':
                 tabla = 'CREATE ('+padre['tiponodo']+":'"
-                tabla +="'"+ padre['valor']+"')"
+                tabla +="'"+ padre['valor']+"')\r\n"
                 grafo+=tabla
             else:
                 tiposhijos = [nodo["tiponodo"] for nodo in proyecto]
@@ -52,7 +52,7 @@ def crearnodohojas(nombre,valor,columnas,proyecto):
     for hijo in proyecto:
         if hijo['idnodo'] in columnas:
             nodo += hijo['tiponodo']+":'"+hijo['valor']+"',"#"\r\n"+
-            hojas.append('CREATE ('+hijo['tiponodo']+":'"+hijo['valor']+"')\r\n")
+            hojas.append('CREATE ('+hijo['tiponodo']+":'"+hijo['valor']+"')")
     nodo = nodo [:-1]#para eliminar la ultima coma
     nodo+='})'+"\r\n"
     #for hoja in hojas:
@@ -97,7 +97,7 @@ def crearnododenodos(nombre,valor,columnas,proyecto):
     subgrafos = ''
     apuntadores = []
     nodosdentro = []#los nodos que est nodo tiene seran creados
-    subgrafos = 'CREATE ('+nombre+":'"+nombre+"')"#\r\n"#valor+"')\r\n"
+    subgrafos = 'CREATE ('+nombre+":'"+nombre+"')\r\n"#valor+"')\r\n"
     nodo = 'CREATE ('+nombre+')-[:'+nombre+"]->"#valor+"]->"
     for hijo in proyecto:
         if hijo['idnodo'] in columnas:
