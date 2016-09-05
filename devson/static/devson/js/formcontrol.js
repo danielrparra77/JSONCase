@@ -195,7 +195,7 @@ function agregarnodo(idnodo, y, x, caracteristica, tiponodo, valor) {
     nuevonodo.valor = valor;
     nuevonodo.padre = '';
     nodoscreados.push(nuevonodo);
-    setTimeout(function(){
+    setTimeout(function () {
         $(function () {
             exportar('json').done(function (result) {
                 $('#jsonview').jsonView(result, {"status": "close"});
@@ -245,7 +245,7 @@ function eliminarnodo(idnodo) {
         }
         cont += 1;
     });
-    setTimeout(function(){
+    setTimeout(function () {
         $(function () {
             exportar('json').done(function (result) {
                 $('#jsonview').jsonView(result, {"status": "close"});
@@ -277,7 +277,7 @@ function unirpadreahijo(idpadre, idhijo) {
             nodo.padre = idpadre;
         }
     });
-    setTimeout(function(){
+    setTimeout(function () {
         $(function () {
             exportar('json').done(function (result) {
                 $('#jsonview').jsonView(result, {"status": "close"});
@@ -307,7 +307,7 @@ function separarpadrehijo(idpadre, idhijo) {
             nodo.padre = '';
         }
     });
-    setTimeout(function(){
+    setTimeout(function () {
         $(function () {
             exportar('json').done(function (result) {
                 $('#jsonview').jsonView(result, {"status": "close"});
@@ -340,7 +340,7 @@ function actualizarposicionnodo(idnodo, posx, posy) {
 //    });
 }
 
-function maxtamano(){
+function maxtamano() {
     var x = 0, y = 0;
     nodoscreados.forEach(function (nodo) {
         if (nodo.x > x)
@@ -348,7 +348,7 @@ function maxtamano(){
         if (nodo.y > y)
             y = nodo.y;
     });
-    return [x,y];
+    return [x, y];
 }
 
 function getnodo(idnodo) {
@@ -413,7 +413,7 @@ $(document).ready(function () {
     $("#enviar").click(function () {
         var idnodo = $('#idnodoeditando').val();
         //alert("enviando "+idnodo);
-        undoredopropiedadesnodo(idnodo,$('#tipo').val(),$('#valor').val());
+        undoredopropiedadesnodo(idnodo, $('#tipo').val(), $('#valor').val());
         nodoscreados.forEach(function (nodo) {
             if (nodo.idnodo == idnodo) {
                 nodo.tiponodo = $('#tipo').val();
@@ -421,7 +421,7 @@ $(document).ready(function () {
                 cambiarnombretiponodo(idnodo, nodo.tiponodo);
             }
         });
-        setTimeout(function(){
+        setTimeout(function () {
             $(function () {
                 exportar('json').done(function (result) {
                     $('#jsonview').jsonView(result, {"status": "close"});
@@ -443,7 +443,7 @@ $(document).ready(function () {
         //abrir archivo
         $("#jsonimportado").click();
     });
-    
+
     $('#postguardar').submit(function (e) {
         //if (!sintaxisnodos())
         //    return false;
@@ -614,21 +614,51 @@ $(document).ready(function () {
         });
 
     });
-    
+
+    $('#exportarproyectob').click(function () {
+        archivoguardar = '';
+        exportar('json').done(function (result) {
+            archivoguardar = JSON.stringify(result);
+            if (archivoguardar != '') {
+                console.log("se exportara el proyecto " + " en " + archivoguardar);
+                nombreArchivo = getnombreproyecto() + ".json";
+                var reader = new FileReader();
+                reader.onload = function (event) {
+                    var save = document.createElement('a');
+                    save.href = event.target.result;
+                    save.target = '_blank';
+                    save.download = nombreArchivo || 'archivo.dat';
+                    var clicEvent = new MouseEvent('click', {
+                        'view': window,
+                        'bubbles': true,
+                        'cancelable': true
+                    });
+                    save.dispatchEvent(clicEvent);
+                    (window.URL || window.webkitURL).revokeObjectURL(save.href);
+                };
+                reader.readAsDataURL(new Blob([archivoguardar], {type: "application/json"}));
+            }
+        }).fail(function () {
+            alert("no se pudo exportar el archivo a formato json, favor reviselo.");
+            return null;
+        });
+
+    });
+
     $('.deshacer').click(function () {
         getundoredo().undo();
     });
-    
+
     $('.rehacer').click(function () {
         getundoredo().redo();
     });
-    
-}); 
+
+});
 
 
 
-function undoredopropiedadesnodo(idnodo,nuevotipo,nuevovalor){
-    var viejotipo = '',viejovalor = '';
+function undoredopropiedadesnodo(idnodo, nuevotipo, nuevovalor) {
+    var viejotipo = '', viejovalor = '';
     nodoscreados.forEach(function (nodo) {
         if (nodo.idnodo == idnodo) {
             viejotipo = nodo.tiponodo;
@@ -638,7 +668,7 @@ function undoredopropiedadesnodo(idnodo,nuevotipo,nuevovalor){
     });
     $(function () {
         getundoredo().add({
-            undo: function() {
+            undo: function () {
                 nodoscreados.forEach(function (nodo) {
                     if (nodo.idnodo == idnodo) {
                         nodo.tiponodo = viejotipo;
@@ -647,7 +677,7 @@ function undoredopropiedadesnodo(idnodo,nuevotipo,nuevovalor){
                     }
                 });
             },
-            redo: function() {
+            redo: function () {
                 nodoscreados.forEach(function (nodo) {
                     if (nodo.idnodo == idnodo) {
                         nodo.tiponodo = nuevotipo;
@@ -671,7 +701,7 @@ function cambiarnombretiponodo(idnodo, tiponodo) {
 //        nombrenodo.appendTo($("#"+idnodo));
         //$('#nomproyectoderecha').text(nombreproyecto);
 
-        setTimeout(function(){
+        setTimeout(function () {
             $(function () {
                 exportar('json').done(function (result) {
                     $('#jsonview').jsonView(result, {"status": "close"});
