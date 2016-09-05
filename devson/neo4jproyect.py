@@ -48,10 +48,10 @@ CREATE (AndyW:Person {name:'Andy Wachowski', born:1967})
 def crearnodohojas(nombre,valor,columnas,proyecto):
     subgrafos = ''
     hojas = []
-    nodo = 'CREATE ('+nombre+':'+valor+"{"
+    nodo = 'CREATE ('+nombre+':'+nombre+"{"#valor+"{"
     for hijo in proyecto:
         if hijo['idnodo'] in columnas:
-            nodo += "\r\n"+hijo['tiponodo']+":'"+hijo['valor']+"',"
+            nodo += hijo['tiponodo']+":'"+hijo['valor']+"',"#"\r\n"+
             hojas.append('CREATE ('+hijo['tiponodo']+":'"+hijo['valor']+"')\r\n")
     nodo = nodo [:-1]#para eliminar la ultima coma
     nodo+='})'+"\r\n"
@@ -68,13 +68,13 @@ def crearnodohojasnodos(nombre,valor,columnas,proyecto):
     subgrafos = ''
     apuntadores = []
     nodosdentro = []#los nodos que est nodo tiene seran creados
-    subgrafos = 'CREATE ('+nombre+":"+valor+"{\r\n"
+    subgrafos = 'CREATE ('+nombre+":"+nombre+"{\r"#\rvalor+"{\r\n"
     #nodo = 'CREATE ('+nombre+')-[:'+valor+" {\r\n"
-    nodo = 'CREATE ('+nombre+')-[:'+valor
+    nodo = 'CREATE ('+nombre+')-[:'+nombre#valor
     for hijo in proyecto:
         if hijo['idnodo'] in columnas:
                 if hijo['caracteristica'] == 'Hoja':
-                    subgrafos += "\r\n"+hijo['tiponodo']+":'"+hijo['valor']+"',"
+                    subgrafos += hijo['tiponodo']+":'"+hijo['valor']+"',"#"\r\n"+
                     #nodo += "\r\n"+hijo['tiponodo']+'?'+hijo['valor']+"],"
                 else:
                     apuntadores.append('->('+hijo['tiponodo']+")\r\n") # a que nodos este nodo apunta
@@ -82,7 +82,7 @@ def crearnodohojasnodos(nombre,valor,columnas,proyecto):
     subgrafos = subgrafos [:-1]#para eliminar la ultima coma
     subgrafos+='})'+"\r\n"
     #nodo = nodo [:-1]#para eliminar la ultima coma de las hojas
-    nodo+=']'+"\r\n"
+    nodo+=']'#+"\r\n"
     for nodointerno in nodosdentro:
         subgrafos+=str(nodointerno)
     for apuntador in apuntadores:
@@ -97,8 +97,8 @@ def crearnododenodos(nombre,valor,columnas,proyecto):
     subgrafos = ''
     apuntadores = []
     nodosdentro = []#los nodos que est nodo tiene seran creados
-    subgrafos = 'CREATE ('+nombre+":'"+valor+"')\r\n"
-    nodo = 'CREATE ('+nombre+')-[:'+valor+"]->"
+    subgrafos = 'CREATE ('+nombre+":'"+nombre+"')"#\r\n"#valor+"')\r\n"
+    nodo = 'CREATE ('+nombre+')-[:'+nombre+"]->"#valor+"]->"
     for hijo in proyecto:
         if hijo['idnodo'] in columnas:
             apuntadores.append('('+hijo['tiponodo']+")\r\n") # a que nodos este nodo apunta
