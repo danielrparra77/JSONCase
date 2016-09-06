@@ -4,7 +4,7 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 */
 /* 
-    Created on : 18/12/2015, 03:21:56 PM
+    Created on : 18/12/2016, 03:21:56 PM
     Author     : User
 */
 
@@ -36,19 +36,6 @@ and open the template in the editor.
     box-shadow: 2px 2px 19px #AAAAAA;
     cursor: pointer;
 }
-#containment-wrapper {
-    position: absolute;
-    border:2px solid #ccc;
-    width: 56000px;
-    height: 56000px;
-    padding: 10px;
-}
-#divscrollcontainment-wrapper {
-    position: absolute;
-    width: 58.1%;
-    height: 475px;
-    overflow: scroll;
-}
 .nombrenodo {
     text-align: center;
     left: 0;
@@ -61,22 +48,38 @@ and open the template in the editor.
 }
 
 #menuderecho{
-      list-style: none;
-      list-style-type: none;
-      list-style-position: outside;
-      background-color: white;
-      position:absolute;    
+    list-style: none;
+    list-style-type: none;
+    list-style-position: outside;
+    background-color: white;
+    position:absolute;    
 }
 #menuderecho ul{
-      position:absolute;   
-      line-height: 30px;
-      font-size: 16px;
-      cursor:pointer;
+    position:absolute;   
+    line-height: 30px;
+    font-size: 16px;
+    cursor:pointer;
 }
 #menuderecho ul li{
-      width:250px;     
-      border:1px solid black;
-      -moz-box-shadow: 0 0 5px #888;
-      -webkit-box-shadow: 0 0 5px#888;
-      box-shadow: 0 0 5px #888;
+    width:250px;     
+    border:1px solid black;
+    -moz-box-shadow: 0 0 5px #888;
+    -webkit-box-shadow: 0 0 5px#888;
+    box-shadow: 0 0 5px #888;
 }
+
+#containment-wrapper {
+    position: absolute;
+    border:2px solid #ccc;
+    padding: 10px;
+    /**width: 56000px;
+    height: 56000px;**/
+    width: 56.3%;
+    height: 451px;
+}
+/**#divscrollcontainment-wrapper {
+    position: absolute;
+    width: 58.1%;
+    height: 475px;
+    overflow: scroll;
+}**/
