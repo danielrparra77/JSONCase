@@ -97,7 +97,7 @@ def crearnododenodos(nombre,valor,columnas,proyecto):
     subgrafos = ''
     apuntadores = []
     nodosdentro = []#los nodos que est nodo tiene seran creados
-    subgrafos = 'CREATE ('+nombre+":'"+nombre+"')\r\n"#valor+"')\r\n"
+    subgrafos = 'CREATE ('+nombre+":"+nombre+")\r\n"#valor+"')\r\n"
     nodo = 'CREATE ('+nombre+')-[:'+nombre+"]->"#valor+"]->"
     for hijo in proyecto:
         if hijo['idnodo'] in columnas:
