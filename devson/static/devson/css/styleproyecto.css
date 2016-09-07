@@ -67,19 +67,27 @@ and open the template in the editor.
     -webkit-box-shadow: 0 0 5px#888;
     box-shadow: 0 0 5px #888;
 }
+#divscrollcontainment-wrapper {
+    position: absolute;
+    width: 58.1%;
+    height: 475px;
+    overflow: scroll;
+}
+
 
 #containment-wrapper {
     position: absolute;
     border:2px solid #ccc;
     padding: 10px;
-    /**width: 56000px;
-    height: 56000px;**/
+    /** con este hay error
+    width: 56000px;
+    height: 56000px;
+    **/
+    /**con este solo hay error de la estructura
     width: 56.3%;
     height: 451px;
+    **/
+    /** COn este la imagen no se ve tan pequeña pero con error de estructura**/
+    width: 900px;
+    height: 900px; 
 }
-/**#divscrollcontainment-wrapper {
-    position: absolute;
-    width: 58.1%;
-    height: 475px;
-    overflow: scroll;
-}**/
