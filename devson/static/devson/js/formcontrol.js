@@ -450,6 +450,7 @@ $(document).ready(function () {
         //else{
         //setTimeout(function () {
         var stringproyecto = JSON.stringify(nodoscreados, paranodo);
+        stringproyecto = stringproyecto.replace(/ /g, "&#32;");
         var stringestilo = JSON.stringify(estilo, paraestilo);
         //alert('q pasa '+nodoscreados+" "+paranodo+" "+JSON.stringify(nodoscreados,paranodo));
         $(this).append('<input type="hidden" name="nodoscreados" value=' + stringproyecto + ' />');
