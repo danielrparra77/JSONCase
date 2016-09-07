@@ -1098,6 +1098,7 @@
             $('canvas').css('width', w + 1);
             $('canvas').css('height', h + 1);
                 var $el = $('#containment-wrapper')[0];
+            var canvaspos = $('#divscrollcontainment-wrapper').position();
             html2canvas($el, {
                 onrendered: function(canvas) {
                     $(this).css('width', w + 1);
@@ -1109,7 +1110,7 @@
                         $svg = $(this);
                         offset = $svg.position();
                         svgStr = this.outerHTML;
-                        ctx.drawSvg(svgStr, offset.left, offset.top);
+                        ctx.drawSvg(svgStr, offset.left - canvaspos.left, offset.top - canvaspos.top);
                     });
                     $endpoints = $('._jsPlumb_endpoint > svg', $el);
                     $endpoints.each(function() {
