@@ -1108,10 +1108,26 @@
                     //print("flows "+$flows);
                     $flows.each( function() {
                         $svg = $(this);
-                        offset = $svg.position();
+                        possvg = $svg.position();
+                        offset = $svg.offset();
+                        var svgNode = this.cloneNode(true);
+                        var top=svgNode.style.top;
+                        var left = svgNode.style.left;
+
+                        var div = document.createElement('div');
+                        div.appendChild(svgNode);
+                        var svgTag = div.innerHTML;
+                        ctx.drawSvg(svgTag, left, top)
+                        
+                        /*alert(leftPosition+" "+topPosition);
+                        var topIndex = svgMarkup.indexOf("top: "); 
+                        var endOfTop = svgMarkup.indexOf("px", topIndex);
+                        var topPosition = svgMarkup.substring(topIndex+5, endOfTop );
+                        var top = parseInt(topPosition); 
+                        //alert(possvg.left+" "+possvg.top+" "+offset.left+" "+offset.top+" "+canvaspos.left+" "+canvaspos.top);
                         svgStr = this.outerHTML;
                         ctx.drawSvg(svgStr, offset.left - canvaspos.left, offset.top - canvaspos.top);
-                    });
+                    */});
                     $endpoints = $('._jsPlumb_endpoint > svg', $el);
                     $endpoints.each(function() {
                         $svg = $(this);

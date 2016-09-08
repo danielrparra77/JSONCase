@@ -76,7 +76,7 @@ and open the template in the editor.
 
 
 #containment-wrapper {
-    position: absolute;
+    position: relative;
     border:2px solid #ccc;
     padding: 10px;
     /** con este hay error
