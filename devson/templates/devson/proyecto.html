@@ -417,6 +417,7 @@
             //Eliminar
             $(document).on("click", "#eliminar", function () {
             buscadooriginal = getnodo(nodoseleccionado);
+            window.borrandonodo=true;
             if (buscadooriginal != null){
             undoredoborrarnodo(buscadooriginal.idnodo, buscadooriginal.x,
                 buscadooriginal.y, buscadooriginal.tiponodo, buscadooriginal.valor,
@@ -424,13 +425,15 @@
             eliminarnodo(buscadooriginal.idnodo);
             desaparecernodo(buscadooriginal.idnodo);
             nodoseleccionado = "";
+            window.borrandonodo=false;
             }
             });
             });
             //Evento de conexion detectada para separar a un padre de su hijo
             jsPlumb.bind("beforeDetach", function(e) {
             console.log("separando " + e.sourceId + " " + e.targetId);
-            undoredoborrarconexion(e.sourceId, e.targetId);
+            if (!window.borrandonodo)
+                undoredoborrarconexion(e.sourceId, e.targetId);
             separarpadrehijo(e.sourceId, e.targetId);
             return true;
             });
